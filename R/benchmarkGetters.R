@@ -1,0 +1,31 @@
+getId <- function(){
+  exactTime <- format(Sys.time(), "%C%g%m%d.%H%M%S.")
+  randomNum <- sample(100000:999999, 1)
+  id <- paste0(exactTime,randomNum)
+  return(id)
+}
+
+getAllTimings <- function(){
+  # This function returns all records from ExecEnvironment$TIMINGS table
+  return(ExecEnvironment$TIMINGS)
+}
+
+getAllBenchmarks <- function(){
+  # Returns table with all recorded benchmarks
+  return(ExecEnvironment$BENCHMARKS)
+}
+
+getTiming <- function(indexCol, returnCol, selectValue){
+  # This function returns 'returnCol' from ExecEnvironment$TIMINGS
+  # where the value of 'indexCol' is identical to 'selectValue'
+  return(ExecEnvironment$TIMINGS[ExecEnvironment$TIMINGS[indexColumn] == selectValue, returnCol])
+}
+
+getTimeRun <- function(runId){
+  # subset TIMINGS table with 'runId'
+  return(subset(ExecEnvironment$TIMINGS, runId == runId))
+}
+
+# getSysId(){
+#
+# }

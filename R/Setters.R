@@ -1,29 +1,14 @@
-cleanTimings <- function(){
-  # removed all records in TIMINGS
-  ExecEnvironment$TIMINGS <- NULL
-}
+# All setter functions used in benchmaRk package
 
-cleanBenchmarks <- function(){
-  # removes all records in BENCHMARKS
-  ExecEnvironment$BENCHMARKS <- NULL
-}
-
-cleanMeta <- function(){
-  # removes all records in META
-  ExecEnvironment$META <- NULL
-}
-
-cleanWarnings <- function(){
-  # removes all records in WARNINGS
-  ExecEnvironment$WARNINGS <- NULL
-}
 
 setTiming <- function(process, start, end){
   # updates TIMINGS data.frame by addition of given proccess duration
+  systemId <- getSystemID()
   duration <- end - start
   ExecEnvironment$TIMINGS <- rbind(
     ExecEnvironment$TIMINGS,
     data.frame(runId = BenchmarkEnvironment$runId,
+               systemId = systemId,
                file = BenchmarkEnvironment$file,
                process,
                start,
@@ -37,18 +22,20 @@ calcComputeTime <- function(runId){
   # returns running time script minus running time reading/writing data for a given runId
   Timings <- getTimeRun(runId)
   runTime <- sum(subset(Timings, process == "BENCHMARK")$duration) -
-                   sum(subset(Timings, process != "BENCHMARK")$duration)
+    sum(subset(Timings, process != "BENCHMARK")$duration)
   return(runTime)
 }
 
 setBenchmark <- function(){
   # adds last benchmark to benchmark results
   runId <- BenchmarkEnvironment$runId
+  systemId <- getSystemID()
   file <- BenchmarkEnvironment$file
   time <- calcComputeTime(runId)
   ExecEnvironment$BENCHMARKS <- rbind(ExecEnvironment$BENCHMARKS,
                                       data.frame(
                                         runId = runId,          # unique runId
+                                        systemId = systemId,
                                         file = file,    # full script name being benchmarked
                                         time = time      # duration process
                                       )
@@ -78,4 +65,21 @@ checkSource <- function(file=BenchmarkEnvironment$file,runId=BenchmarkEnvironmen
     )
   }
   cat(sprintf("\nNumber of direct calls detected: %i\n",direct_call_detected))
+}
+
+
+setSystemID <- function(){
+  # Generats a unique ID for the system on which the benchmark  is runned ones
+  # on loading of package and stores system information with this ID.
+  #
+  systemId <- getId()
+  require(parallel)
+  attributes <- c(R.Version()[c("arch", "os", "major", "minor", "language", "version.string")],
+                  Sys.info()[c("sysname", "release", "version")],
+                  nphyscores=detectCores(logical = FALSE), nlogcores=detectCores(logical = TRUE))
+
+  for (i in 1:length(names(attributes))){
+    ExecEnvironment$META[i,] <- c(systemId, names(attributes)[i], attributes[[i]])
+  }
+
 }

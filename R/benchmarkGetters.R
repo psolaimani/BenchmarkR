@@ -26,6 +26,10 @@ getTimeRun <- function(runId){
   return(subset(ExecEnvironment$TIMINGS, runId == runId))
 }
 
+getWarnings <- function(){
+  return(ExecEnvironment$WARNINGS)
+}
+
 # getSysId(){
 #
 # }

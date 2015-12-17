@@ -1,20 +1,25 @@
 cleanTimings <- function(){
+  # removed all records in TIMINGS
   ExecEnvironment$TIMINGS <- NULL
 }
 
 cleanBenchmarks <- function(){
+  # removes all records in BENCHMARKS
   ExecEnvironment$BENCHMARKS <- NULL
 }
 
 cleanMeta <- function(){
+  # removes all records in META
   ExecEnvironment$META <- NULL
 }
 
 cleanWarnings <- function(){
+  # removes all records in WARNINGS
   ExecEnvironment$WARNINGS <- NULL
 }
 
 setTiming <- function(process, start, end){
+  # updates TIMINGS data.frame by addition of given proccess duration
   duration <- end - start
   ExecEnvironment$TIMINGS <- rbind(
     ExecEnvironment$TIMINGS,
@@ -29,6 +34,7 @@ setTiming <- function(process, start, end){
 }
 
 calcComputeTime <- function(runId){
+  # returns running time script minus running time reading/writing data for a given runId
   Timings <- getTimeRun(runId)
   runTime <- sum(subset(Timings, process == "BENCHMARK")$duration) -
                    sum(subset(Timings, process != "BENCHMARK")$duration)
@@ -36,6 +42,7 @@ calcComputeTime <- function(runId){
 }
 
 setBenchmark <- function(){
+  # adds last benchmark to benchmark results
   runId <- BenchmarkEnvironment$runId
   file <- BenchmarkEnvironment$file
   time <- calcComputeTime(runId)

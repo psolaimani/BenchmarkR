@@ -1,4 +1,6 @@
 getId <- function(){
+  # Generated a unique ID for each benchmark run using data, time, and a random number
+  # returns String '8 digit data + . + 6 digit time + . + 6 digit random number'
   exactTime <- format(Sys.time(), "%C%g%m%d.%H%M%S.")
   randomNum <- sample(100000:999999, 1)
   id <- paste0(exactTime,randomNum)
@@ -27,6 +29,7 @@ getTimeRun <- function(runId){
 }
 
 getWarnings <- function(){
+  # returns ExecEnvironment$WARNINGS data.frame containing all warnings recorded
   return(ExecEnvironment$WARNINGS)
 }
 

@@ -1,10 +1,10 @@
 Package: benchmaRk
 Type: Package
-Title: What the Package Does (Title Case)
+Title: benchmark R scripts
 Version: 0.1
 Date: 2015-12-11
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: Parham Solaimani, Maarten-Jan Kallen, Alexander Bertram
+Maintainer: Parham Solaimani <parham@bedatadriven.com>
+Description: A simple benchmarking and profiling tool for R scripts
+License: GPL-2
 LazyData: TRUE

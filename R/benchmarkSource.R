@@ -30,7 +30,7 @@ ExecEnvironment$META <- data.frame(
 ExecEnvironment$WARNINGS <- data.frame(
   runId = character(0),   # unique runId
   file = character(0),    # full script name being benchmarked
-  direct_call = character(0)   # duration process
+  lineOfDirectCall = integer(0)   # duration process
   , stringsAsFactors = F
 )
 
@@ -39,6 +39,8 @@ benchmarkSource <- function(file) {
   #systemId <- getSysId()
   assign("file", file, envir = BenchmarkEnvironment)
   assign("runId", runId, envir = BenchmarkEnvironment)
+
+  checkSource(file,runId)
 
   B_start <- as.numeric(Sys.time())
   source(file, local = ExecEnvironment)

@@ -59,14 +59,14 @@ checkSource <- function(file=BenchmarkEnvironment$file,runId=BenchmarkEnvironmen
   cat("\nChecking for direct calls in code...\n")
   direct_call_detected <- 0
   content <- readLines(file)
-  direct_calls <- grep("(::|:::)", content)
-  direct_call_detected <- length(direct_calls)
-  for(call in direct_calls){
-    ExecEnvironment$WARNINGS <- rbind(ExecEnvironment$BENCHMARKS,
+  lineOfDirectCalls <- grep("(::|:::)", content)
+  direct_call_detected <- length(lineOfDirectCalls)
+  for(call in lineOfDirectCalls){
+    ExecEnvironment$WARNINGS <- rbind(ExecEnvironment$WARNINGS,
                                       data.frame(
                                         runId = runId,          # unique runId
                                         file = file,    # full script name being benchmarked
-                                        direct_call = call      # detected direct function calls
+                                        lineOfDirectCall = call      # detected direct function calls
                                       )
     )
   }

@@ -1,7 +1,7 @@
 # functions for cleaning data.frame created by benchmaRk
 
 cleanTimings <- function(){
-  # removed all records in TIMINGS
+  # removes all records in TIMINGS
   ExecEnvironment$TIMINGS <- NULL
 }
 

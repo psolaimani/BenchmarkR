@@ -38,23 +38,23 @@ getSystemID <- function(){
   return(ExecEnvironment$META$systemId[1])
 }
 
-getUsedLibs <- function(file){
+getUsedPackages <- function(file){
   # Identifies all used libraries within input file/script
   # detect all library("package") or require("package"), and
   # extract the package names
   require(stringr)
-  lines <- readLines(file)
+  scriptLines <- readLines(file)
   # make a vector of lines with library( or require(
-  usedLibrary <- as.vector(
-    na.omit(str_extract(lines, "(library|require)\\(.*"))
+  usedPackages <- as.vector(
+    na.omit(str_extract(scriptLines, "(library|require)\\(.*"))
   )
-  extractLibrary <- c(character(0))
-  for(i in 1:length(usedLibrary)){
+  usedPackagesNames <- c(character(0))
+  for(i in 1:length(usedPackages)){
     # extract the package name from library(package) and remove
     # the optional ' or " characters around package name
-    currentLib <- sub("(library|require)\\({1}(\"|\')*([[:alnum:]]*)(\"|\')*\\){1}",
-                      "\\3", usedLibrary[i], perl = TRUE)
-    extractLibrary <- c(extractLibrary,currentLib)
+    currentPackageName <- sub("(library|require)\\({1}(\"|\')*([[:alnum:]]*)(\"|\')*\\){1}",
+                      "\\3", usedPackages[i], perl = TRUE)
+    usedPackagesNames <- c(usedPackagesNames,currentPackageName)
   }
-  return(extractLibrary)
+  return(usedPackagesNames)
 }

@@ -20,6 +20,7 @@ setTiming <- function(process, start, end){
 
 calcComputeTime <- function(runId){
   # returns running time script minus running time reading/writing data for a given runId
+  cat("\nComputing benchmark: subtracting I/O from total running time...\n")
   Timings <- getTimeRun(runId)
   runTime <- sum(subset(Timings, process == "BENCHMARK")$duration) -
     sum(subset(Timings, process != "BENCHMARK")$duration)
@@ -28,6 +29,7 @@ calcComputeTime <- function(runId){
 
 setBenchmark <- function(){
   # adds last benchmark to benchmark results
+  cat("\nWriting this benchmark results to ExecEnvironment$BENCHMARKS...\n")
   runId <- BenchmarkEnvironment$runId
   systemId <- getSystemID()
   file <- BenchmarkEnvironment$file
@@ -64,7 +66,7 @@ checkSource <- function(file=BenchmarkEnvironment$file,runId=BenchmarkEnvironmen
                                       )
     )
   }
-  cat(sprintf("\nNumber of direct calls detected: %i\n",direct_call_detected))
+  cat(sprintf("\nNumber of direct calls detected: %i\n\n",direct_call_detected))
 }
 
 
@@ -72,6 +74,7 @@ setSystemID <- function(){
   # Generats a unique ID for the system on which the benchmark  is runned ones
   # on loading of package and stores system information with this ID.
   #
+  cat("\nSaving system information to ExecEnvironment$META...\n")
   systemId <- getId()
   require(parallel)
   attributes <- c(R.Version()[c("arch", "os", "major", "minor", "language", "version.string")],

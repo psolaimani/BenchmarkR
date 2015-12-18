@@ -1,3 +1,5 @@
+.libPaths("~/R/libs")
+
 # Generate and store systemId and system information
 setSystemID()
 
@@ -41,6 +43,7 @@ benchmarkSource <- function(file) {
   benchmark <- getAllBenchmarks()
 
   # print all recorded benchmarks to console
+  cat("\n\nAll benchmark results:\n")
   benchmark
 
   return(benchmark)

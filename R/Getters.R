@@ -1,6 +1,7 @@
 getId <- function(){
   # Generated a unique ID for each benchmark run using date, time, and a random number
   # returns String '8 digit date + . + 6 digit time + . + 2 digit random number'
+  cat("\nGenerating a unique ID...\n")
   exactTime <- format(Sys.time(), "%Y%m%d.%H%M%S.")
   randomNum <- sample(10:99, 1)
   id <- paste0(exactTime,randomNum)
@@ -42,6 +43,7 @@ getUsedPackages <- function(file){
   # Identifies all used libraries within input file/script
   # detect all library("package") or require("package"), and
   # extract the package names
+  cat(sprintf("\nIdentifying used packages by: %s\n",file))
   require(stringr)
   scriptLines <- readLines(file)
   # make a vector of lines with library( or require(

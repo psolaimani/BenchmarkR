@@ -46,7 +46,13 @@ installUsedPackages <- function(file){
 
   # get used packages in input file
   usedPackages <- getUsedPackages(file)
-  cat("\nThese packages are used by input file:\n")
+
+  if(is.na(usedPackages)){
+    cat(sprintf("\nNo extra packages are used by: %s\nContinue with next step...\n",file))
+    return(NULL)
+  }
+
+  cat(sprintf("\nThese packages are used by: %s\n",file))
   print(usedPackages)
 
   # get names of already installed packages
@@ -72,10 +78,11 @@ installUsedPackages <- function(file){
   installed.packages(missingCranPackages)
 
   # install BioC installer to install packages from Bioconductor repo
-  source(http://bioconductor.org/biocLite.R)
+  source("http://bioconductor.org/biocLite.R")
 
   # try to install all missing packages that are not available through CRAN repo
   # from bioconductor repo
-  biocLite(missingOtherPackages)
+  biocLite(missingOtherPackages,suppressUpdates=TRUE, suppressAutoUpdate=TRUE,
+           ask=FALSE)
 
 }

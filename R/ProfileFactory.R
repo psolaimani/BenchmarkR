@@ -31,7 +31,7 @@ ProfileFactory <- function(timed_fun, package, category){
       "  start <- as.numeric(Sys.time())",
       paste0(package,"::",timed_fun,"(...)"),
       "  duration <- end - start",
-      "  setTiming(p="READ", s=start, e=end)",
+      paste0("  setTiming(p=",category,", s=start, e=end)"),
       "}",
       " "
     ),

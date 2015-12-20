@@ -27,9 +27,9 @@ ProfileFactory <- function(timed_fun, package, category){
 
   writeLines(
     c(
-      paste0("BenchmarkEnvironment$",timed_fun," <- function(...){",
+      paste0("BenchmarkEnvironment$",timed_fun," <- function(...){"),
       "  start <- as.numeric(Sys.time())",
-      paste0(package,"::",timed_fun,"(...)",
+      paste0(package,"::",timed_fun,"(...)"),
       "  duration <- end - start",
       "  setTiming(p="READ", s=start, e=end)",
       "}",
@@ -39,7 +39,7 @@ ProfileFactory <- function(timed_fun, package, category){
     con = con
   )
 
-  cat(sprintf("\nwrote timed function: %s\n"),paste0(package,"::",timed_fun,"(...)")
+  cat(sprintf("\nwrote timed function: %s\n",paste0(package,"::",timed_fun,"(...)")))
 
 }
 

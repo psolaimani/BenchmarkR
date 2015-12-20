@@ -19,3 +19,8 @@ cleanWarnings <- function(){
   # removes all records in WARNINGS
   ExecEnvironment$WARNINGS <- NULL
 }
+
+cleanTimedFunctionFile <- function(){
+  # removes timedFunctions.R file
+  file.remove("R/timedFunctions.R")
+}

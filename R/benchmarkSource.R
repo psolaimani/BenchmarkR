@@ -3,7 +3,7 @@
 # Generate and store systemId and system information
 setSystemID()
 
-benchmarkSource <- function(file) {
+benchmarkSource <- function(file,timed_functions=NULL) {
   # This script will benchmark the runningtime of the given input file
   # The time used by functions defined in timed.<...>.functions.R will
   # be subtracted from total running time.
@@ -13,8 +13,14 @@ benchmarkSource <- function(file) {
   # All benchmark specific warnings: getAllWarnings()
   #
 
+  # remove timedFunctions.R file
+  cleanTimedFunctionFile()
+
   # install all used packages not yet installed on the system
   installUsedPackages(file)
+
+  # load all timed functions in BenchmarkEnvironment
+  addProfiler(timed_functions)
 
   # get a unique ID to identify this benchmark
   runId <- getId()

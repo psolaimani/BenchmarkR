@@ -3,7 +3,7 @@
 
 setTiming <- function(process, start, end){
   # updates TIMINGS data.frame by addition of given proccess duration
-  systemId <- getSystemID()
+  systemId <- benchGetter("systemid")
   duration <- end - start
   ExecEnvironment$TIMINGS <- rbind(
     ExecEnvironment$TIMINGS,
@@ -21,7 +21,7 @@ setTiming <- function(process, start, end){
 calcComputeTime <- function(runId){
   # returns running time script minus running time reading/writing data for a given runId
   cat("\nComputing benchmark: subtracting I/O from total running time...\n")
-  Timings <- getTimeRun(runId)
+  Timings <- benchGetter("timerun",runId=runId)
   runTime <- sum(subset(Timings, process == "BENCHMARK")$duration) -
     sum(subset(Timings, process != "BENCHMARK")$duration)
   return(runTime)
@@ -31,7 +31,7 @@ setBenchmark <- function(){
   # adds last benchmark to benchmark results
   cat("\nWriting this benchmark results to ExecEnvironment$BENCHMARKS...\n")
   runId <- BenchmarkEnvironment$runId
-  systemId <- getSystemID()
+  systemId <- benchGetter("systemid")
   file <- BenchmarkEnvironment$file
   time <- calcComputeTime(runId)
   ExecEnvironment$BENCHMARKS <- rbind(ExecEnvironment$BENCHMARKS,
@@ -75,7 +75,7 @@ setSystemID <- function(){
   # on loading of package and stores system information with this ID.
   #
   cat("\nSaving system information to ExecEnvironment$META...\n")
-  systemId <- getId()
+  systemId <- benchGetter("id")
   require(parallel)
   attributes <- c(R.Version()[c("arch", "os", "major", "minor", "language", "version.string")],
                   Sys.info()[c("sysname", "release", "version")],

@@ -88,6 +88,3 @@ addProfiler <- function(timed_functions=NULL){
 
   source("R/timedFunctions.R")
 }
-
-
-

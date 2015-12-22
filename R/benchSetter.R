@@ -2,11 +2,11 @@
 
 
 setTiming <- function(process, start, end){
-  # updates TIMINGS data.frame by addition of given proccess duration
+  # updates PROFILES data.frame by addition of given proccess duration
   systemId <- benchGetter("systemid")
   duration <- end - start
-  ExecEnvironment$TIMINGS <- rbind(
-    ExecEnvironment$TIMINGS,
+  ExecEnvironment$PROFILES <- rbind(
+    ExecEnvironment$PROFILES,
     data.frame(runId = BenchmarkEnvironment$runId,
                systemId = systemId,
                file = BenchmarkEnvironment$file,
@@ -21,9 +21,9 @@ setTiming <- function(process, start, end){
 calcComputeTime <- function(runId){
   # returns running time script minus running time reading/writing data for a given runId
   cat("\nComputing benchmark: subtracting I/O from total running time...\n")
-  Timings <- benchGetter("timerun",runId=runId)
-  runTime <- sum(subset(Timings, process == "BENCHMARK")$duration) -
-    sum(subset(Timings, process != "BENCHMARK")$duration)
+  Profile <- benchGetter("profilerun",runId=runId)
+  runTime <- sum(subset(Profile, process == "BENCHMARK")$duration) -
+    sum(subset(Profile, process != "BENCHMARK")$duration)
   return(runTime)
 }
 

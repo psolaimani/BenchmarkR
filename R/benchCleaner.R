@@ -5,9 +5,9 @@ benchCleaner <- function(target){
 
   target <- tolower(target)
 
-  if(target == "timings"){
-    # removes all records in TIMINGS
-    ExecEnvironment$TIMINGS <- NULL
+  if(target == "profiles"){
+    # removes all records in PROFILES
+    ExecEnvironment$PROFILES <- NULL
   }
 
   if(target == "benchmarks"){

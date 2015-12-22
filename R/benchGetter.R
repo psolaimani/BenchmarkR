@@ -13,9 +13,9 @@ benchGetter <- function(type, indexCol = NULL, returnCol = NULL, selectValue = N
   }
 
 
-  if (type == "alltimings"){
-    # This function returns all records from ExecEnvironment$TIMINGS table
-    return(ExecEnvironment$TIMINGS)
+  if (type == "allprofiles"){
+    # This function returns all records from ExecEnvironment$PROFILES table
+    return(ExecEnvironment$PROFILES)
   }
 
 
@@ -25,26 +25,26 @@ benchGetter <- function(type, indexCol = NULL, returnCol = NULL, selectValue = N
   }
 
 
-  if (type == "timing"){
-    # This function returns 'returnCol' from ExecEnvironment$TIMINGS
+  if (type == "profile"){
+    # This function returns 'returnCol' from ExecEnvironment$PROFILES
     # where the value of 'indexCol' is identical to 'selectValue'
     if(is.null(indexCol) | is.na(indexCol) | is.nan(indexCol) |
        is.null(returnCol) | is.na(returnCol) | is.nan(returnCol) |
        is.null(selectValue) | is.na(selectValue) | is.nan(selectValue)){
-      cat("\nNo or empty indexCol/returnCol/selectValue provided for subsetting TIMINGS.\n")
+      cat("\nNo or empty indexCol/returnCol/selectValue provided for subsetting PROFILES.\n")
       return(NULL)
     }
-    return(ExecEnvironment$TIMINGS[ExecEnvironment$TIMINGS[indexColumn] == selectValue, returnCol])
+    return(ExecEnvironment$PROFILES[ExecEnvironment$PROFILES[indexColumn] == selectValue, returnCol])
   }
 
 
-  if(type == "timerun"){
-    # subset TIMINGS table with 'runId'
+  if(type == "profilerun"){
+    # subset PROFILES table with 'runId'
     if(is.null(runId) | is.na(runId) | is.nan(runId)){
       cat("\nNo or empty runId provided for calculating the running time.\n")
       return(NULL)
     }
-    return(subset(ExecEnvironment$TIMINGS, runId == runId))
+    return(subset(ExecEnvironment$PROFILES, runId == runId))
   }
 
 

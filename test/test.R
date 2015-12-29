@@ -7,6 +7,9 @@ library(utils)
 
 utils::read.table("/home/parham/workspace/benchmaRk/test/RNAseq2.txt",sep="\t",dec=".")
 
+library(data.table)
+fread("/home/parham/workspace/benchmaRk/test/RNAseq2.txt")
+
 library("parallel")
 
 for(i in 1:200){

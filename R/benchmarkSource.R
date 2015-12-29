@@ -1,5 +1,3 @@
-.libPaths("~/R/libs")
-
 # Generate and store systemId and system information
 setSystemID()
 
@@ -17,13 +15,13 @@ benchmarkSource <- function(file,timed_functions=NULL) {
   benchCleaner("TimedFunctionFile")
 
   # install all used packages not yet installed on the system
-  benchGetter("UsedPackages",file)
+  benchGetter(file = file,type = "UsedPackages")
 
   # load all timed functions in BenchmarkEnvironment
   addProfiler(timed_functions)
 
   # get a unique ID to identify this benchmark
-  runId <- benchGetter("Id")
+  runId <- benchGetter(type = "Id")
 
   # save file name and runId to BenchmarkEnvironment for use by
   # setter/getter/etc functions in that environment
@@ -46,11 +44,8 @@ benchmarkSource <- function(file,timed_functions=NULL) {
   setBenchmark()
 
   # get all recorded benchmarks
-  benchmark <- benchGetter("allbenchmarks")
+  benchmark <- benchGetter(type = "allbenchmarks")
 
-  # print all recorded benchmarks to console
-  cat("\n\nAll benchmark results:\n")
-  benchmark
-
-  return(benchmark)
+  # return the last benchmark result
+  return(benchmark[,]$time[nrow(benchmark)])
 }

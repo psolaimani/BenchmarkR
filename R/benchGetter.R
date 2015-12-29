@@ -1,4 +1,4 @@
-benchGetter <- function(type, indexCol = NULL, returnCol = NULL, selectValue = NULL, runId = NULL, file = NULL){
+benchGetter <- function(type, indexCol = NULL, returnCol = NULL, selectValue = NULL, selectedRunId = NULL, file = NULL){
 
   type = tolower(type)
 
@@ -34,17 +34,18 @@ benchGetter <- function(type, indexCol = NULL, returnCol = NULL, selectValue = N
       cat("\nNo or empty indexCol/returnCol/selectValue provided for subsetting PROFILES.\n")
       return(NULL)
     }
-    return(ExecEnvironment$PROFILES[ExecEnvironment$PROFILES[indexColumn] == selectValue, returnCol])
+    return(ExecEnvironment$PROFILES[ExecEnvironment$PROFILES[indexCol] == selectValue, returnCol])
   }
 
 
   if(type == "profilerun"){
     # subset PROFILES table with 'runId'
-    if(is.null(runId) | is.na(runId) | is.nan(runId)){
-      cat("\nNo or empty runId provided for calculating the running time.\n")
+    if(is.null(selectedRunId) | is.na(selectedRunId) | is.nan(selectedRunId)){
+      cat("\nNo or empty selectedRunId provided for calculating the running time.\n")
       return(NULL)
     }
-    return(subset(ExecEnvironment$PROFILES, runId == runId))
+    run <- subset(ExecEnvironment$PROFILES, runId == selectedRunId)
+    return(run)
   }
 
 
@@ -74,7 +75,7 @@ benchGetter <- function(type, indexCol = NULL, returnCol = NULL, selectValue = N
           return(NULL)
     }
 
-    cat(sprintf("\nIdentifying used packages by: %s\n",file))
+    cat(sprintf("\nIdentifying used packages in: %s\n",file))
     require(stringr)
     scriptLines <- readLines(file)
     # make a vector of lines with library( or require(

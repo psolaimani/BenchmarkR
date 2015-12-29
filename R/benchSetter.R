@@ -1,6 +1,5 @@
 # All setter functions used in benchmaRk package
 
-
 setTiming <- function(process, start, end){
   # updates PROFILES data.frame by addition of given proccess duration
   systemId <- benchGetter("systemid")
@@ -21,7 +20,7 @@ setTiming <- function(process, start, end){
 calcComputeTime <- function(runId){
   # returns running time script minus running time reading/writing data for a given runId
   cat("\nComputing benchmark: subtracting I/O from total running time...\n")
-  Profile <- benchGetter("profilerun",runId=runId)
+  Profile <- benchGetter("profilerun",selectedRunId=runId)
   runTime <- sum(subset(Profile, process == "BENCHMARK")$duration) -
     sum(subset(Profile, process != "BENCHMARK")$duration)
   return(runTime)
@@ -68,7 +67,6 @@ checkSource <- function(file=BenchmarkEnvironment$file,runId=BenchmarkEnvironmen
   }
   cat(sprintf("\nNumber of direct calls detected: %i\n\n",direct_call_detected))
 }
-
 
 setSystemID <- function(){
   # Generats a unique ID for the system on which the benchmark  is runned ones

@@ -21,21 +21,21 @@ ProfilerFactory <- function(timed_fun, package, category, type, con){
   #
 
   if (type == "IO"){
-  writeLines(
-    c(
-      paste0("BenchmarkEnvironment$",timed_fun," <- function(...){"),
-      "  start <- as.numeric(Sys.time())",
-      paste0("  ",package,"::",timed_fun,"(...)"),
-      "  end <- as.numeric(Sys.time())",
-      "  duration <- end - start",
-      paste0("  setTiming(p=\"",category,"\", s=start, e=end)"),
-      "}",
-      " "
-    ),
-    sep = "\n",
-    con = con
-  )
-  cat(sprintf("\nwrote timed function: %s\n",paste0(package,"::",timed_fun,"(...)")))
+    writeLines(
+      c(
+        paste0("BenchmarkEnvironment$",timed_fun," <- function(...){"),
+        "  start <- as.numeric(Sys.time())",
+        paste0("  ",package,"::",timed_fun,"(...)"),
+        "  end <- as.numeric(Sys.time())",
+        "  duration <- end - start",
+        paste0("  setTiming(p=\"",category,"\", s=start, e=end)"),
+        "}",
+        " "
+      ),
+      sep = "\n",
+      con = con
+    )
+    cat(sprintf("\nwrote timed function: %s\n",paste0(package,"::",timed_fun,"(...)")))
   }
 
   if (type == "DB"){
@@ -86,5 +86,5 @@ addProfiler <- function(timed_functions=NULL){
   }
   close(con)
 
-  source("R/timedFunctions.R")
+  source("R/timedFunctions.R", local = ExecEnvironment)
 }

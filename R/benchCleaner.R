@@ -28,6 +28,10 @@ benchCleaner <- function(target){
 
   if(target == "timedfunctionfile"){
     # removes timedFunctions.R file
-    file.remove("R/timedFunctions.R", showWarnings = FALSE)
+    if(file.exists("R/timedFunctions.R")){
+      cat("\nRemoving R/timedFunctions.R file...\n")
+      file.remove("R/timedFunctions.R")
+    }
   }
+
 }

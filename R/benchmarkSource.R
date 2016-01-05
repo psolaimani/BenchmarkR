@@ -13,6 +13,12 @@ benchmarkSource <- function(file,timed_functions=NULL) {
   # All benchmark specific warnings: getAllWarnings()
   #
 
+  # check if provided file exists
+  if(!file.exists(file)){
+    cat(sprintf("\nProvided file does not exist.\nFile: %s\n", file))
+    return(NULL)
+  }
+  
   # remove timedFunctions.R file
   benchCleaner("TimedFunctionFile")
 

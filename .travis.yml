@@ -2,4 +2,10 @@ language: r
 sudo: required
 # Used to extract name of packages used in scripts
 r_binary_packages:
- - RUnit
+ - stringr
+
+# Support codecov
+r_github_packages:
+  - jimhester/covr
+after_success:
+  - Rscript -e 'library(covr);codecov()'

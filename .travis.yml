@@ -7,5 +7,7 @@ r_binary_packages:
 # Support codecov
 r_github_packages:
   - jimhester/covr
+  - psolaimani/benchmaRk
+
 after_success:
   - Rscript -e 'library(covr);codecov()'

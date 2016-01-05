@@ -1,4 +1,5 @@
 # benchmaRk
+[![codecov.io](https://codecov.io/github/psolaimani/benchmaRk/coverage.svg?branch=master)](https://codecov.io/github/psolaimani/benchmaRk?branch=master)
 a simple benchmark/profiling tool for R scripts.
 
 **Usage:**

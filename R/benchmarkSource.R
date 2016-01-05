@@ -1,5 +1,7 @@
 # Generate and store systemId and system information
-setSystemID()
+.onLoad <- function(libname, pkgname){
+  setSystemID()
+}
 
 benchmarkSource <- function(file,timed_functions=NULL) {
   # This script will benchmark the runningtime of the given input file

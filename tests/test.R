@@ -20,15 +20,15 @@ require(plyr)
 
 require('cluster')
 
-read.table("tests/RNAseq2.txt",sep="\t",dec=".")
+read.table("RNAseq2.txt",sep="\t",dec=".")
 
-read.csv("tests/RNAseq2.txt")
+read.csv("RNAseq2.txt")
 
-read.csv2("tests/RNAseq2.txt")
+read.csv2("RNAseq2.txt")
 
-utils::read.delim("tests/RNAseq2.txt")
+utils::read.delim("RNAseq2.txt")
 
-read.delim2("tests/RNAseq2.txt")
+read.delim2("RNAseq2.txt")
 
 for(i in 1:1000){
   rnorm(500)

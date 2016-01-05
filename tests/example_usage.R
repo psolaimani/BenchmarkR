@@ -21,13 +21,13 @@ timed_functions <- data.frame(
   stringsAsFactors=FALSE
 )
 
-benchmarkSource(file = "test/test.R",timed_functions = timed_functions)
+benchmarkSource(file = "tests/test.R",timed_functions = timed_functions)
 
-benchmarkSource(file = "test/test2.R",timed_functions = timed_functions)
+benchmarkSource(file = "tests/test2.R",timed_functions = timed_functions)
 
-benchmarkSource(file = "test/test.R")
+benchmarkSource(file = "tests/test.R")
 
-benchmarkSource(file = "test/test2.R")
+benchmarkSource(file = "tests/test2.R")
 
 benchGetter("allprofiles")
 

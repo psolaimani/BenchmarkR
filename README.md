@@ -1,4 +1,5 @@
 # benchmaRk
+[![Build Status](https://travis-ci.org/psolaimani/benchmaRk.svg?branch=master)](https://travis-ci.org/psolaimani/benchmaRk)
 [![codecov.io](https://codecov.io/github/psolaimani/benchmaRk/coverage.svg?branch=master)](https://codecov.io/github/psolaimani/benchmaRk?branch=master)
 a simple benchmark/profiling tool for R scripts.
 

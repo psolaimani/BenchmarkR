@@ -5,10 +5,10 @@ for(i in 1:100){
 
 library(utils)
 
-utils::read.table("/home/parham/workspace/benchmaRk/test/RNAseq2.txt",sep="\t",dec=".")
+utils::read.table("tests/RNAseq2.txt",sep="\t",dec=".")
 
 library(data.table)
-fread("/home/parham/workspace/benchmaRk/test/RNAseq2.txt")
+fread("tests/RNAseq2.txt")
 
 library("parallel")
 
@@ -20,15 +20,15 @@ require(plyr)
 
 require('cluster')
 
-read.table("/home/parham/workspace/benchmaRk/test/RNAseq2.txt",sep="\t",dec=".")
+read.table("tests/RNAseq2.txt",sep="\t",dec=".")
 
-read.csv("/home/parham/workspace/benchmaRk/test/RNAseq2.txt")
+read.csv("tests/RNAseq2.txt")
 
-read.csv2("/home/parham/workspace/benchmaRk/test/RNAseq2.txt")
+read.csv2("tests/RNAseq2.txt")
 
-utils::read.delim("/home/parham/workspace/benchmaRk/test/RNAseq2.txt")
+utils::read.delim("tests/RNAseq2.txt")
 
-read.delim2("/home/parham/workspace/benchmaRk/test/RNAseq2.txt")
+read.delim2("tests/RNAseq2.txt")
 
 for(i in 1:1000){
   rnorm(500)

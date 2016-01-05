@@ -45,7 +45,7 @@ installUsedPackages <- function(file){
   # This scripts installs all the used packages that are not installed yet
 
   # get used packages in input file
-  usedPackages <- getUsedPackages(file)
+  usedPackages <- benchGetter(type = "UsedPackages", file = file)
 
   if(is.na(usedPackages)){
     cat(sprintf("\nNo extra packages are used by: %s\nContinue with next step...\n",file))

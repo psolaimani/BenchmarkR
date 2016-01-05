@@ -1,3 +1,4 @@
+library(stringr)
 library(benchmaRk)
 for(i in 1:100){
   rnorm(100)

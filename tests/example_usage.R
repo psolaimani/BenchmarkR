@@ -1,3 +1,4 @@
+library(stringr)
 library(benchmaRk)
 
 timed_functions <- data.frame(

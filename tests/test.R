@@ -1,3 +1,4 @@
+library(stringr)
 library(benchmaRk)
 for(i in 1:100){
   rnorm(100)
@@ -5,10 +6,10 @@ for(i in 1:100){
 
 library(utils)
 
-utils::read.table("tests/RNAseq2.txt",sep="\t",dec=".")
+utils::read.table("RNAseq2.txt",sep="\t",dec=".")
 
 library(data.table)
-fread("tests/RNAseq2.txt")
+fread("RNAseq2.txt")
 
 library("parallel")
 

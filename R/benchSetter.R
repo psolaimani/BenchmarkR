@@ -1,4 +1,4 @@
-# All setter functions used in benchmaRk package
+# All setter functions used in benchmarkR package
 
 setTiming <- function(process, start, end){
   # updates PROFILES data.frame by addition of given proccess duration
@@ -29,6 +29,7 @@ calcComputeTime <- function(runId){
 setBenchmark <- function(){
   # adds last benchmark to benchmark results
   cat("\nWriting this benchmark results to ExecEnvironment$BENCHMARKS...\n")
+  cat("You can get all the benchmark results using benchGetter('AllBenchmarks\n')")
   runId <- BenchmarkEnvironment$runId
   systemId <- benchGetter("systemid")
   file <- BenchmarkEnvironment$file

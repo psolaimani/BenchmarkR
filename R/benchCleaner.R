@@ -1,4 +1,4 @@
-# functions for cleaning data.frame created by benchmaRk
+# functions for cleaning data.frame created by benchmarkR
 
 benchCleaner <- function(target){
   # Cleans target data.frame/files
@@ -23,15 +23,5 @@ benchCleaner <- function(target){
   if(target == "warnings"){
     # removes all records in WARNINGS
     ExecEnvironment$WARNINGS <- NULL
-
   }
-
-  if(target == "timedfunctionfile"){
-    # removes timedFunctions.R file
-    if(file.exists("R/timedFunctions.R")){
-      cat("\nRemoving R/timedFunctions.R file...\n")
-      file.remove("R/timedFunctions.R")
-    }
-  }
-
 }

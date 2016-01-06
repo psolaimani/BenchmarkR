@@ -11,7 +11,6 @@ benchmarkSource <- function(file,timed_functions=NULL) {
   # Profile of all runned benchmarks: getAllTimings()
   # Benchmarks of all runned benchmarks: getAllBenchmarks()
   # All benchmark specific warnings: getAllWarnings()
-  #
 
   # check if provided file exists
   if(!file.exists(file)){
@@ -19,9 +18,6 @@ benchmarkSource <- function(file,timed_functions=NULL) {
     return(NULL)
   }
   
-  # remove timedFunctions.R file
-  benchCleaner("TimedFunctionFile")
-
   # install all used packages not yet installed on the system
   benchGetter(file = file,type = "UsedPackages")
 

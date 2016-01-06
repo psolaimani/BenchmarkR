@@ -6,103 +6,71 @@
 #   category:   name for process category that should be used in profile eg READ, WRITE, ...
 #   type:       type of function eg. IO, DB, GRAPH
 
-ProfilerFactory <- function(timed_fun, package, category, type, con){
-  # This function writes the necessary lines for timing a function to
-  # a R file that will be sources to override the functions locally.
-  # The added lines will be of format for IO types:
-  #
-  #   BenchmarkEnvironment$read.table <- function(...){
-  #     start <- as.numeric(Sys.time())
-  #     utils::read.table(...)
-  #     end <- as.numeric(Sys.time())
-  #     duration <- end - start
-  #     setTiming(p="READ", s=start, e=end)
-  #   }
-  #
-
-  if (type == "IO"){
-    writeLines(
-      c(
-        paste0("BenchmarkEnvironment$",timed_fun," <- function(...){"),
-        "  start <- as.numeric(Sys.time())",
-        paste0("  ",package,"::",timed_fun,"(...)"),
-        "  end <- as.numeric(Sys.time())",
-        "  duration <- end - start",
-        paste0("  setTiming(p=\"",category,"\", s=start, e=end)"),
-        "}",
-        " "
-      ),
-      sep = "\n",
-      con = con
-    )
-    
-    ExecEnvironment$PROFILERS[nrow(ExecEnvironment$PROFILERS)+1,] <-
-    paste0(
-        paste0("BenchmarkEnvironment$",timed_fun," <- function(...){"),
-        "  start <- as.numeric(Sys.time());",
-        paste0("  ",package,"::",timed_fun,"(...);"),
-        "  end <- as.numeric(Sys.time());",
-        "  duration <- end - start;",
-        paste0("  setTiming(p=\"",category,"\", s=start, e=end)"),
-        "}"
-      )
-    
-    
-    
-    cat(sprintf("\nwrote timed function: %s\n",paste0(package,"::",timed_fun,"(...)")))
+factorsAsStrings <- function(data_frame){
+  for (i in 1:ncol(data_frame)){
+    if (class(data_frame[,i]) == "factor"){
+      data_frame[,i] <- as.character(data_frame[,i])
+    }
   }
-
-  if (type == "DB"){
-    cat("\ntiming of DB functions not yet implemented.\n")
-  }
-
-  if (type == "GRAPH"){
-    cat("\ntiming of graph/plot functions not yet implemented.\n")
-  }
-
+  data_frame
 }
 
-addProfiler <- function(timed_functions=NULL){
-  # Generates profilers from dataframe and writes to timedFunctions.R
-  # timed_functions is a data.frame of format:
-  # data.frame(
-  #   timed_fun = character() # function to be timed
-  #   package = character()   # package containing this function
-  #   category = character()  # category name used in profile stats eg READ, WRITE,
-  # )
-  if(is.null(timed_functions)){
+ProfilerFactory <- function(fun, pkg, prc, typ) {
+  
+  if (typ == "IO"){
+    function(...) {
+      start <- as.numeric(Sys.time())
+      res <- withVisible(do.call(getExportedValue(pkg, fun), list(...)))
+      end <- as.numeric(Sys.time())
+      duration <- end - start
+      setTiming(process=prc, s=start, e=end)
+      if(res$visible) res$value else invisible(res$value)
+    }
+  }
+  
+}
+
+addProfiler <- function(timed_fun=NULL){
+  if(is.null(timed_fun)){
     cat("\ndata.frame with function to be timed not provided.\n")
     return(NULL)
-  } else if(class(timed_functions)!="data.frame" |
-            nrow(timed_functions) == 0 |
-                 ncol(timed_functions) != 4){
+  } else if(class(timed_fun)!="data.frame" |
+            nrow(timed_fun) == 0 |
+            ncol(timed_fun) != 4){
     cat("\nProvided functions to be timed are not in correct data.frame format!\n")
     cat("No profiling will be performed.\n")
     cat("To profile functions please provide a 4 column data.frame with:\n")
     cat("COLUMN1: name of function\n")
     cat("COLUMN2: package name\n")
-    cat("COLUMN3: category name to assign\n")
-    cat("COLUMN3: function type eg. IO, DB\n")
+    cat("COLUMN3: process name to assign\n")
+    cat("COLUMN4: process type (only 'IO' is implemented)\n")
     cat("structure provided data:\n\n")
-    str(timed_functions)
+    str(timed_fun)
     cat("\n\nclass provided data:\n\n")
-    print(class(timed_functions))
+    print(class(timed_fun))
+    return(NULL)
+  } else if (any(as.vector(sapply(timed_fun, function(x) class(x) )) != "character")){
+    cat("\nProvided data.frame with functions contains factors!\n")
+    cat("Trying to convert factor columns to character columns...\n\n")
+    timed_fun <- factorsAsStrings(timed_fun)
+  }
+  
+  if (any(as.vector(sapply(timed_fun, function(x) class(x) )) != "character")){
+    cat("\nProvided data.frame with functions to profile contains non-character columns.\n")
+    cat("Please correct and retry.\n\n")
     return(NULL)
   }
-
-  if(!file.exists("R/timedFunctions.R")){
-    file.create("R/timedFunctions.R")
-  }
-
-  con <- file("R/timedFunctions.R", "at")
-  for(i in 1:nrow(timed_functions)){
-    ProfilerFactory(timed_functions[i,1], timed_functions[i,2], timed_functions[i,3], timed_functions[i,4], con)
-  }
-  close(con)
-
-  source("R/timedFunctions.R", local = ExecEnvironment)
   
-  cat("\nStart save profilers:\n")
-  print(ExecEnvironment$PROFILERS)
-  cat("\nEnd saved profilers.\n")
+  for (i in 1:nrow(timed_fun)){
+    fun <- timed_fun[i,1]
+    pkg <- timed_fun[i,2]
+    prc <- timed_fun[i,3]
+    typ <- timed_fun[i,4]
+    
+    assign(
+      fun,
+      ProfilerFactory(fun, pkg, prc, typ),
+      envir = ExecEnvironment
+    )
+  }
 }

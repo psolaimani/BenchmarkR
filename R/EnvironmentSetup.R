@@ -40,12 +40,6 @@ ExecEnvironment$WARNINGS <- data.frame(
   , stringsAsFactors = F
 )
 
-ExecEnvironment$PROFILERS <- data.frame(
-  # Stores all warnings for each benchmarked script
-  Profiler = character(0),   # unique runId
-  , stringsAsFactors = F
-)
-
 
 installUsedPackages <- function(file){
   # This scripts installs all the used packages that are not installed yet

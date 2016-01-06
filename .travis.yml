@@ -7,7 +7,7 @@ sudo: required
 # Support codecov
 r_github_packages:
   - jimhester/covr
-  - hadley/stringr
+#  - hadley/stringr
   - psolaimani/benchmarkR
 
 after_success:

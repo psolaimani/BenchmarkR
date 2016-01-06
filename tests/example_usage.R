@@ -24,11 +24,7 @@ timed_functions <- data.frame(
 
 benchmarkSource(file = "./test.R",timed_functions = timed_functions)
 
-benchmarkSource(file = "./test2.R",timed_functions = timed_functions)
-
 benchmarkSource(file = "./test.R")
-
-benchmarkSource(file = "./test2.R")
 
 benchGetter("allprofiles")
 

@@ -5,8 +5,9 @@ for(i in 1:100){
 }
 
 
-utils::read.table("./RNAseq2.txt",sep="\t",dec=".")
-
+dt <- utils::read.table("./RNAseq2.txt",sep="\t",dec=".")
+head(dt)
+tail(dt)
 
 library("parallel")
 
@@ -15,15 +16,25 @@ for(i in 1:200){
 }
 
 
-read.table("./RNAseq2.txt",sep="\t",dec=".")
+dt <- read.table("./RNAseq2.txt",sep="\t",dec=".")
+head(dt)
+tail(dt)
 
-read.csv("./RNAseq2.txt")
+dt <- read.csv("./RNAseq2.txt")
+head(dt)
+tail(dt)
 
-read.csv2("./RNAseq2.txt")
+dt <- read.csv2("./RNAseq2.txt")
+head(dt)
+tail(dt)
 
-utils::read.delim("./RNAseq2.txt")
+dt <- utils::read.delim("./RNAseq2.txt")
+head(dt)
+tail(dt)
 
-read.delim2("./RNAseq2.txt")
+dt <- read.delim2("./RNAseq2.txt")
+head(dt)
+tail(dt)
 
 for(i in 1:1000){
   rnorm(500)

@@ -19,11 +19,11 @@ ProfilerFactory <- function(fun, pkg, prc, typ) {
   
   if (typ == "IO"){
     function(...) {
-      start <- as.numeric(Sys.time())
+      start_p <- as.numeric(Sys.time())
       res <- withVisible(do.call(getExportedValue(pkg, fun), list(...)))
-      end <- as.numeric(Sys.time())
-      duration <- end - start
-      setTiming(process=prc, s=start, e=end)
+      end_p <- as.numeric(Sys.time())
+      duration <- end_p - start_p
+      setTiming(process = prc, start = start_p, end = end_p)
       if(res$visible) res$value else invisible(res$value)
     }
   }

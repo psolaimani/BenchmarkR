@@ -42,7 +42,7 @@ benchmarkSource <- function(file,timed_functions=NULL) {
   B_end <- as.numeric(Sys.time())
 
   # add BENCHMARK timing to timings of the script (and its components)
-  setTiming(p="BENCHMARK", s=B_start, e=B_end)
+  setTiming(process ="BENCHMARK", start = B_start, end = B_end)
 
   # add BENCHMARK timing to all other benchmarks stored in ExecEnvironment$BENCHMARKS
   setBenchmark()

@@ -34,6 +34,11 @@ Parham Solaimani, Maarten-Jan Kallen, Alexander Bertram
 }
 
 \note{
+Undocumented code objects:
+  ‘BenchmarkEnvironment’ ‘ExecEnvironment’ ‘ProfilerFactory’
+  ‘addProfiler’ ‘benchCleaner’ ‘benchGetter’ ‘calcComputeTime’
+  ‘checkSource’ ‘factorsAsStrings’ ‘installUsedPackages’ ‘setBenchmark’
+  ‘setSystemID’ ‘setTiming’
 }
 
 \seealso{
@@ -44,22 +49,19 @@ benchmarkSource("test/test.R")
 replicate(10, benchmarkSource("test/test2.R"))
 
 ## The function is currently defined as
-function (file)
-{
-    runId <- getId()
-    assign("file", file, envir = BenchmarkEnvironment)
-    assign("runId", runId, envir = BenchmarkEnvironment)
-    checkSource(file, runId)
-    B_start <- as.numeric(Sys.time())
-    source(file, local = ExecEnvironment)
-    B_end <- as.numeric(Sys.time())
-    setTiming(p = "BENCHMARK", s = B_start, e = B_end)
-    setBenchmark()
-    benchmark <- getAllBenchmarks()
-    benchmark
-    return(benchmark)
-  }
+    function(...) {
+      start_p <- as.numeric(Sys.time())
+      res <- withVisible(do.call(getExportedValue(pkg, fun), list(...)))
+      end_p <- as.numeric(Sys.time())
+      duration <- end_p - start_p
+      setTiming(process = prc, start = start_p, end = end_p)
+      if(res$visible) res$value else invisible(res$value)
+    }
 }
 \keyword{ ~benchmark }
+\keyword{ ~benchmarking }
 \keyword{ ~profile }
+\keyword{ ~profiling }
 \keyword{ ~script }
+\keyword{ ~R }
+\keyword{ ~R script }

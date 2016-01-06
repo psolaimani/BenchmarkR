@@ -21,8 +21,9 @@ calcComputeTime <- function(runId){
   # returns running time script minus running time reading/writing data for a given runId
   cat("\nComputing benchmark: subtracting I/O from total running time...\n")
   Profile <- benchGetter("profilerun",selectedRunId=runId)
-  runTime <- sum(subset(Profile, process == "BENCHMARK")$duration) -
-    sum(subset(Profile, process != "BENCHMARK")$duration)
+  incl <- Profile[,grep("process",colnames(Profile))] == "BENCHMARK"
+  excl <- Profile[,grep("process",colnames(Profile))] != "BENCHMARK"
+  runTime <- sum(Profile[incl,]$duration) - sum(Profile[excl,]$duration)
   return(runTime)
 }
 
@@ -75,10 +76,9 @@ setSystemID <- function(){
   #
   cat("\nSaving system information to ExecEnvironment$META...\n")
   systemId <- benchGetter("id")
-  require(parallel)
   attributes <- c(R.Version()[c("arch", "os", "major", "minor", "language", "version.string")],
                   Sys.info()[c("sysname", "release", "version")],
-                  nphyscores=detectCores(logical = FALSE), nlogcores=detectCores(logical = TRUE))
+                  nphyscores=parallel::detectCores(logical = FALSE), nlogcores=parallel::detectCores(logical = TRUE))
 
   for (i in 1:length(names(attributes))){
     ExecEnvironment$META[i,] <- c(systemId, names(attributes)[i], attributes[[i]])

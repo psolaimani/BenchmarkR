@@ -44,7 +44,9 @@ benchGetter <- function(type, indexCol = NULL, returnCol = NULL, selectValue = N
       cat("\nNo or empty selectedRunId provided for calculating the running time.\n")
       return(NULL)
     }
-    run <- subset(ExecEnvironment$PROFILES, runId == selectedRunId)
+    
+    select_run <- ExecEnvironment$PROFILES[,grep('runId',colnames(ExecEnvironment$PROFILES))] == selectedRunId
+    run <- ExecEnvironment$PROFILES[select_run,]
     return(run)
   }
 
@@ -76,11 +78,10 @@ benchGetter <- function(type, indexCol = NULL, returnCol = NULL, selectValue = N
     }
 
     cat(sprintf("\nIdentifying used packages in: %s\n",file))
-    require(stringr)
     scriptLines <- readLines(file)
     # make a vector of lines with library( or require(
     usedPackages <- as.vector(
-      na.omit(str_extract(scriptLines, "(library|require)\\(.*"))
+      na.omit(stringr::str_extract(scriptLines, "(library|require)\\(.*"))
     )
     usedPackagesNames <- c(character(0))
     for(i in 1:length(usedPackages)){

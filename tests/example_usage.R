@@ -1,6 +1,3 @@
-library(stringr)
-library(benchmarkR)
-
 timed_functions <- data.frame(
   timed_fun = c(
     "write.table","write.csv","write.csv2","write.delim2",
@@ -22,7 +19,7 @@ timed_functions <- data.frame(
   stringsAsFactors=FALSE
 )
 
-benchmarkSource(file = "./test.R",timed_functions = timed_functions)
+benchmarkSource(file = "./test.R", timed_fun = timed_functions)
 
 benchmarkSource(file = "./test.R")
 

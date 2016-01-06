@@ -1,4 +1,5 @@
 exportPattern("^[[:alpha:]]+")
+import(stringr)
 export(benchmarkSource)
 export(benchCleaner)
 export(benchGetter)

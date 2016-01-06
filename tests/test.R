@@ -1,20 +1,14 @@
-library(stringr)
-library(benchmarkR)
 for(i in 1:100){
   rnorm(100)
 }
-
 
 dt <- utils::read.table("../data/RNAseq2.txt",sep="\t",dec=".")
 head(dt)[1,1]
 tail(dt)[1,1]
 
-library("parallel")
-
 for(i in 1:200){
   rnorm(200)
 }
-
 
 dt <- read.table("../data/RNAseq2.txt",sep="\t",dec=".")
 head(dt)[1,1]

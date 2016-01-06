@@ -1,10 +1,29 @@
-benchGetter <- function(type, indexCol = NULL, returnCol = NULL, selectValue = NULL, selectedRunId = NULL, file = NULL){
+#' benchGetter
+#' 
+#' Retrieve different saved records or benchmark information
+#' 
+#' 
+#' @param target which information to retrieve 
+#'    \code{id} generates a unique ID based on date/time and a random number. 
+#'    \code{allprofiles} returns all records from ExecEnvironment$PROFILES table. 
+#'    \code{allbenchmarks} returns table with all recorded benchmarks. 
+#'    \code{profile} returns 'returnCol' from ExecEnvironment$PROFILES where the value of 'indexCol' is identical to 'selectValue'. 
+#'    \code{profilerun} returns PROFILES table subsetted with \code{runId}. 
+#'    \code{warnings} returns ExecEnvironment$WARNINGS data.frame containing all warnings recorded. 
+#'    \code{systemid} returns the unique systemId that is used to identify this system. 
+#'    \code{usedpackages} returns names of all used/loaded packages within provided input file/script. 
+#' @param indexCol profiling records will be filtered based on content of this column
+#' @param returnCol content of this column will be returned after filtering
+#' @param selectValue this value will be compared to \code{indexCol} to filter profiling records
+#' @param selectedRunId which \code{runId} to use for filtering profiling records
+#' @param file packages used in this file will be extracted and installed
+#' 
+#' @export
+benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue = NULL, selectedRunId = NULL, file = NULL){
 
-  type = tolower(type)
+  target = tolower(target)
 
-  if (type == "id"){
-    # Generated a unique ID for each benchmark run using date, time, and a random number
-    # returns String '8 digit date + . + 6 digit time + . + 2 digit random number'
+  if (target == "id"){
     cat("\nGenerating a unique ID...\n")
     exactTime <- format(Sys.time(), "%Y%m%d.%H%M%S.")
     randomNum <- sample(10:99, 1)
@@ -12,22 +31,15 @@ benchGetter <- function(type, indexCol = NULL, returnCol = NULL, selectValue = N
     return(id)
   }
 
-
-  if (type == "allprofiles"){
-    # This function returns all records from ExecEnvironment$PROFILES table
+  if (target == "allprofiles"){
     return(ExecEnvironment$PROFILES)
   }
 
-
-  if (type == "allbenchmarks"){
-    # Returns table with all recorded benchmarks
+  if (target == "allbenchmarks"){
     return(ExecEnvironment$BENCHMARKS)
   }
 
-
-  if (type == "profile"){
-    # This function returns 'returnCol' from ExecEnvironment$PROFILES
-    # where the value of 'indexCol' is identical to 'selectValue'
+  if (target == "profile"){
     if(is.null(indexCol) | is.na(indexCol) | is.nan(indexCol) |
        is.null(returnCol) | is.na(returnCol) | is.nan(returnCol) |
        is.null(selectValue) | is.na(selectValue) | is.nan(selectValue)){
@@ -37,9 +49,7 @@ benchGetter <- function(type, indexCol = NULL, returnCol = NULL, selectValue = N
     return(ExecEnvironment$PROFILES[ExecEnvironment$PROFILES[indexCol] == selectValue, returnCol])
   }
 
-
-  if(type == "profilerun"){
-    # subset PROFILES table with 'runId'
+  if(target == "profilerun"){
     if(is.null(selectedRunId) | is.na(selectedRunId) | is.nan(selectedRunId)){
       cat("\nNo or empty selectedRunId provided for calculating the running time.\n")
       return(NULL)
@@ -50,23 +60,15 @@ benchGetter <- function(type, indexCol = NULL, returnCol = NULL, selectValue = N
     return(run)
   }
 
-
-  if (type == "warnings"){
-    # returns ExecEnvironment$WARNINGS data.frame containing all warnings recorded
+  if (target == "warnings"){
     return(ExecEnvironment$WARNINGS)
   }
 
-
-  if (type == "systemid"){
-    # get the unique systemId that is used to identify this system
+  if (target == "systemid"){
     return(ExecEnvironment$META$systemId[1])
   }
 
-
-  if (type == "usedpackages"){
-    # Identifies all used libraries within input file/script
-    # detect all library("package") or require("package"), and
-    # extract the package names
+  if (target == "usedpackages"){
     if(is.null(file)){
       cat("\nFile not provided, can't extract used packages.\n")
       return(NULL)

@@ -1,5 +1,5 @@
 library(stringr)
-library(benchmaRk)
+library(benchmarkR)
 
 timed_functions <- data.frame(
   timed_fun = c(

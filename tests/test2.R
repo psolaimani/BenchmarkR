@@ -4,7 +4,7 @@ for(i in 1:100){
   rnorm(100)
 }
 
-read.table("RNAseq2.txt",sep="\t",dec=".")
+dt <- read.table("RNAseq2.txt",sep="\t",dec=".")
 
 for(i in 1:200){
   rnorm(200)

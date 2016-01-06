@@ -9,11 +9,16 @@ Reports time used for computations within a script by substracting the
 reading/writing time from total running time.
 }
 \usage{
-benchmarkSource(file)
+benchmarkSource(file, timed_function = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{file }{name of the R script that needs to be benchmarked.}
+  \item{file }{a data.frame with four character columns (not factors!). 
+  column 1: function name; 
+  column 2: package name; 
+  column 3: one word description of function eg. READ or WRITE (dont use BENCHMARK); 
+  column 4: process type, currently only IO is implemented}
 }
 
 \details{
@@ -35,10 +40,10 @@ Parham Solaimani, Maarten-Jan Kallen, Alexander Bertram
 
 \note{
 Undocumented code objects:
-  ‘BenchmarkEnvironment’ ‘ExecEnvironment’ ‘ProfilerFactory’
-  ‘addProfiler’ ‘benchCleaner’ ‘benchGetter’ ‘calcComputeTime’
-  ‘checkSource’ ‘factorsAsStrings’ ‘installUsedPackages’ ‘setBenchmark’
-  ‘setSystemID’ ‘setTiming’
+  'BenchmarkEnvironment' 'ExecEnvironment' 'ProfilerFactory'
+  'addProfiler' 'benchCleaner' 'benchGetter' 'calcComputeTime'
+  'checkSource' 'factorsAsStrings' 'installUsedPackages' 'setBenchmark'
+  'setSystemID' 'setTiming'
 }
 
 \seealso{

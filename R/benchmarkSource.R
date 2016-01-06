@@ -3,14 +3,20 @@
   setSystemID()
 }
 
-benchmarkSource <- function(file,timed_functions=NULL) {
-  # This script will benchmark the runningtime of the given input file
-  # The time used by functions defined in timed.<...>.functions.R will
-  # be subtracted from total running time.
-  #
-  # Profile of all runned benchmarks: getAllTimings()
-  # Benchmarks of all runned benchmarks: getAllBenchmarks()
-  # All benchmark specific warnings: getAllWarnings()
+#' benchmarkSource
+#' 
+#' This script will benchmark the running time of the given input file. 
+#' Time used by functions defined in timed_fun data.frame will be subtracted from total running time.
+#' 
+#' @example tests/example_usage.R
+#' 
+#' @param file R script to benchmark
+#' @param timed_fun a data.frame whith 4 columns. Column 1: function; column 2: package; column 3: process category eg. READ/WRITE but never BENCHMARK; column 4: function type, currently only 'IO'.
+#' 
+#' @return returns a dubble with running time of last benchmark and prints all session benchmark records to console
+#' 
+#' @export 
+benchmarkSource <- function(file,timed_fun = NULL) {
 
   # check if provided file exists
   if(!file.exists(file)){

@@ -2,11 +2,11 @@
 #'
 #' functions for cleaning data.frame created by benchmarkR
 #' 
-#' @param target define what to clean
-#' \code{profiles} clears all profiling records (ExecEnvironment$PROFILES)
-#' \code{benchmarks} clears all benchmark records (ExecEnvironment$BENCHMARKS)
-#' \code{meta} clears all records about the system (ExecEnvironment$META)
-#' \code{warnings} clears all recorded warnings (ExecEnvironment$WARNINGS)
+#' @param target define what to clean. 
+#' \code{profiles}: clears all profiling records. 
+#' \code{benchmarks}: clears all benchmark records. 
+#' \code{meta}: clears all records about the system. 
+#' \code{warnings}: clears all recorded warnings. 
 #' 
 #' @export
 benchCleaner <- function(target){

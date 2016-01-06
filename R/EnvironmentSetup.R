@@ -41,6 +41,14 @@ ExecEnvironment$WARNINGS <- data.frame(
 )
 
 
+#' installUsedPackages
+#'
+#' @param file path to a R script.
+#'
+#' @return packages loaded within input R script using library() or require() will be installed
+#' @export
+#'
+#' @examples installUsedPackages("/tests/test.R")
 installUsedPackages <- function(file){
   # This scripts installs all the used packages that are not installed yet
 

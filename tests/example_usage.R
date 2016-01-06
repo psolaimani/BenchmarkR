@@ -1,3 +1,4 @@
+library("benchmarkR")
 timed_functions <- data.frame(
   timed_fun = c(
     "write.table","write.csv","write.csv2","write.delim2",

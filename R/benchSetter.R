@@ -1,7 +1,13 @@
-# All setter functions used in benchmarkR package
-
+#' setTiming
+#' @description updates PROFILES data.frame by addition of given proccess duration
+#'
+#' @param process name for the type of function (eg. READ, WRITE). 
+#' @param start start time process
+#' @param end end time process
+#'
+#' @return adds a record to ExecEnvironment$PROFILES data.frame
+#' @export
 setTiming <- function(process, start, end){
-  # updates PROFILES data.frame by addition of given proccess duration
   systemId <- benchGetter("systemid")
   duration <- end - start
   ExecEnvironment$PROFILES <- rbind(
@@ -17,6 +23,12 @@ setTiming <- function(process, start, end){
   )
 }
 
+
+#' calcComputeTime
+#' @description calculates process running time.
+#' @param runId runId of the benchmark/profiling for which running time is to be calculated.
+#' @return Running time of the benchmark minus time used by functions provided for profiling.
+#' @export
 calcComputeTime <- function(runId){
   # returns running time script minus running time reading/writing data for a given runId
   cat("\nComputing benchmark: subtracting I/O from total running time...\n")
@@ -27,6 +39,10 @@ calcComputeTime <- function(runId){
   return(runTime)
 }
 
+#' setBenchmark
+#' @description adds last benchmark to benchmark results.
+#' @return Adds the running time of the whole script as a record to ExecEnvironment$BENCHMARKS data.frame
+#' @export
 setBenchmark <- function(){
   # adds last benchmark to benchmark results
   cat("\nWriting this benchmark results to ExecEnvironment$BENCHMARKS...\n")
@@ -45,19 +61,21 @@ setBenchmark <- function(){
   )
 }
 
+#' checkSource
+#' @description benchmarkR only read/write commands that are provided to benchmarkSource() are timed. 
+#' Direct calls used by input script (package::function) are not timed and won't be substracted from the total run time. 
+#' This function, therefore, checks if inside input script direct function calls are made using ::/::: notation. 
+#' If this is the case, this function will print warnings for each direct call.
+#' @param file name of the file being benchmarked (BenchmarkEnvironment$file)
+#' @param runId runId of the current benchmark (BenchmarkEnvironment$runId)
+#' @return number of direct calls detected (invisble), warning with number of direct calls is printed to console
+#' @export
 checkSource <- function(file=BenchmarkEnvironment$file,runId=BenchmarkEnvironment$runId){
-  # This benchmark/profiling package can only distinguish read/write
-  # commands that are used from this package. If in the input source
-  # read/write operations are directly called using package::read.function()
-  # then they wont be timed and substracted from the total run time. This
-  # function, therefor, checks if functions within packages are directly called
-  # using ::/::: notation. If this is the case, this function will print
-  # warnings for each direct call.
   cat("\nChecking for direct calls in code...\n")
-  direct_call_detected <- 0
+  direct_calls_detected <- 0
   content <- readLines(file)
   lineOfDirectCalls <- grep("(::|:::)", content)
-  direct_call_detected <- length(lineOfDirectCalls)
+  direct_calls_detected <- length(lineOfDirectCalls)
   for(call in lineOfDirectCalls){
     ExecEnvironment$WARNINGS <- rbind(ExecEnvironment$WARNINGS,
                                       data.frame(
@@ -67,12 +85,18 @@ checkSource <- function(file=BenchmarkEnvironment$file,runId=BenchmarkEnvironmen
                                       )
     )
   }
-  cat(sprintf("\nNumber of direct calls detected: %i\n\n",direct_call_detected))
+  cat(sprintf("\nNumber of direct calls detected: %i\n\n",direct_calls_detected))
+  return(invisible(direct_call_detected))
 }
 
+#' setSystemID
+#' @description Generats a unique ID for the system on which the benchmark  is runned ones
+#' on loading of package and stores system information with this ID.
+#' @return unique id as character vector and system information are added as record to ExecEnvironment$META data.frame
+#' @importFrom parallel detectCores
+#' @export
 setSystemID <- function(){
-  # Generats a unique ID for the system on which the benchmark  is runned ones
-  # on loading of package and stores system information with this ID.
+  # 
   #
   cat("\nSaving system information to ExecEnvironment$META...\n")
   systemId <- benchGetter("id")

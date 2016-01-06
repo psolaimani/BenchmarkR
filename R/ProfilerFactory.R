@@ -1,11 +1,9 @@
-# Profiler Factory
-# This allows easy addition of functions to be timed by command
-# addProfiler(data.frame(timed_fun, package, category,type))
-#   timed_fun:  function to be timed
-#   package:    name of the package that contains this timer
-#   category:   name for process category that should be used in profile eg READ, WRITE, ...
-#   type:       type of function eg. IO, DB, GRAPH
-
+#' factorsAsStrings
+#' @description converts all Factor columns within input data.frame to Character columns
+#' @param data_frame input data.frame
+#' @return data.frame with all factor columns converted to character columns
+#' @export
+#' @examples factorsAsStrings(data.frame(a=c(1,2),b=c("AA","BB")))
 factorsAsStrings <- function(data_frame){
   for (i in 1:ncol(data_frame)){
     if (class(data_frame[,i]) == "factor"){
@@ -15,8 +13,16 @@ factorsAsStrings <- function(data_frame){
   data_frame
 }
 
+#' ProfilerFactory
+#' @description creates a new function by encapsulating input function with code neccessary for timing.
+#' @param fun function to encapsulate with timing
+#' @param pkg name of the package that contains this function
+#' @param prc name for process category that should be used in profile eg. READ or WRITE.
+#' @param typ type of function eg. IO, DB, or GRAPH. Only IO is currently implemented
+#' @return new timed function based on input function
+#' @export
+#' @usage ProfilerFactory("read.table","utils","READ","IO")
 ProfilerFactory <- function(fun, pkg, prc, typ) {
-  
   if (typ == "IO"){
     function(...) {
       start_p <- as.numeric(Sys.time())
@@ -30,6 +36,12 @@ ProfilerFactory <- function(fun, pkg, prc, typ) {
   
 }
 
+#' addProfiler
+#' @description This function loops through a data.frame with functions that need to be timed and overrides these function with a timed version of the function in ExecEnvironment.
+#' @param timed_fun a data.frame containing all functions that should be timed. If empty returns NULL
+#' @usage addProfiler(data.frame(fun=c("read.table"),pkg=c("utils"),prc=c("READ"),typ=c("IO")))
+#' @return override input functions in environment(ExecEnvironment)
+#' @export
 addProfiler <- function(timed_fun=NULL){
   if(is.null(timed_fun)){
     cat("\ndata.frame with function to be timed not provided.\n")

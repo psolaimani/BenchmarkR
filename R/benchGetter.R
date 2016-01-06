@@ -4,20 +4,20 @@
 #' 
 #' 
 #' @param target which information to retrieve 
-#'    \code{id} generates a unique ID based on date/time and a random number. 
-#'    \code{allprofiles} returns all records from ExecEnvironment$PROFILES table. 
-#'    \code{allbenchmarks} returns table with all recorded benchmarks. 
-#'    \code{profile} returns 'returnCol' from ExecEnvironment$PROFILES where the value of 'indexCol' is identical to 'selectValue'. 
-#'    \code{profilerun} returns PROFILES table subsetted with \code{runId}. 
-#'    \code{warnings} returns ExecEnvironment$WARNINGS data.frame containing all warnings recorded. 
-#'    \code{systemid} returns the unique systemId that is used to identify this system. 
-#'    \code{usedpackages} returns names of all used/loaded packages within provided input file/script. 
+#'    \code{id}: generates a unique ID based on date/time and a random number. 
+#'    \code{allprofiles}: returns all records from ExecEnvironment$PROFILES table. 
+#'    \code{allbenchmarks}: returns table with all recorded benchmarks. 
+#'    \code{profile}: returns 'returnCol' from ExecEnvironment$PROFILES where the value of 'indexCol' is identical to 'selectValue'. 
+#'    \code{profilerun}: returns PROFILES table subsetted with \code{runId}. 
+#'    \code{warnings}: returns ExecEnvironment$WARNINGS data.frame containing all warnings recorded. 
+#'    \code{systemid}: returns the unique systemId that is used to identify this system. 
+#'    \code{usedpackages}: returns names of all used/loaded packages within provided input file/script. 
 #' @param indexCol profiling records will be filtered based on content of this column
 #' @param returnCol content of this column will be returned after filtering
 #' @param selectValue this value will be compared to \code{indexCol} to filter profiling records
 #' @param selectedRunId which \code{runId} to use for filtering profiling records
 #' @param file packages used in this file will be extracted and installed
-#' 
+#' @importFrom stringr str_extract
 #' @export
 benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue = NULL, selectedRunId = NULL, file = NULL){
 

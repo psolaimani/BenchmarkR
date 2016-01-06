@@ -35,6 +35,20 @@ ProfilerFactory <- function(timed_fun, package, category, type, con){
       sep = "\n",
       con = con
     )
+    
+    ExecEnvironment$PROFILERS[nrow(ExecEnvironment$PROFILERS)+1,] <-
+    paste0(
+        paste0("BenchmarkEnvironment$",timed_fun," <- function(...){"),
+        "  start <- as.numeric(Sys.time());",
+        paste0("  ",package,"::",timed_fun,"(...);"),
+        "  end <- as.numeric(Sys.time());",
+        "  duration <- end - start;",
+        paste0("  setTiming(p=\"",category,"\", s=start, e=end)"),
+        "}"
+      )
+    
+    
+    
     cat(sprintf("\nwrote timed function: %s\n",paste0(package,"::",timed_fun,"(...)")))
   }
 
@@ -87,4 +101,8 @@ addProfiler <- function(timed_functions=NULL){
   close(con)
 
   source("R/timedFunctions.R", local = ExecEnvironment)
+  
+  cat("\nStart save profilers:\n")
+  print(ExecEnvironment$PROFILERS)
+  cat("\nEnd saved profilers.\n")
 }

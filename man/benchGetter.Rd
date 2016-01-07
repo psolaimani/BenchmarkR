@@ -31,7 +31,4 @@ benchGetter(target, indexCol = NULL, returnCol = NULL, selectValue = NULL,
 \description{
 Retrieve different saved records or benchmark information
 }
-\details{
-benchGetter
-}
 

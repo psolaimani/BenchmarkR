@@ -4,7 +4,7 @@
 \alias{benchmarkSource}
 \title{Simple Benchmark/Profiling Tool For R Scripts}
 \usage{
-benchmarkSource("tests/example_usage.R")
+benchmarkSource(file,timed_fun)
 }
 \arguments{
 \item{file}{R script to benchmark}

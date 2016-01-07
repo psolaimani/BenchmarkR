@@ -46,6 +46,8 @@ ExecEnvironment$WARNINGS <- data.frame(
 #' @param file path to a R script.
 #' @return installs packages loaded within input script.
 #' @usage  installUsedPackages(file)
+#' @importFrom BiocInstaller biocLite 
+#' @importFrom utils install.packages available.packages installed.packages
 #' @export
 installUsedPackages <- function(file){
   # get used packages in input file
@@ -60,7 +62,7 @@ installUsedPackages <- function(file){
   print(usedPackages)
   
   # get names of already installed packages
-  localPackages <- installed.packages()[,1]
+  localPackages <- utils::installed.packages()[,1]
   
   # select used packages that are not yet installed on local machine
   missingPackages <- usedPackages[!is.element(usedPackages,localPackages)]
@@ -86,6 +88,6 @@ installUsedPackages <- function(file){
   
   # try to install all missing packages that are not available through CRAN repo
   # from bioconductor repo
-  biocLite(missingOtherPackages,suppressUpdates=TRUE, suppressAutoUpdate=TRUE,
+  BiocInstaller::biocLite(missingOtherPackages,suppressUpdates=TRUE, suppressAutoUpdate=TRUE,
            ask=FALSE)
 }

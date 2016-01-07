@@ -1,5 +1,4 @@
 #' benchGetter
-#' @title benchGetter
 #' @description Retrieve different saved records or benchmark information
 #' @param target which information to retrieve 
 #'    \code{id}: generates a unique ID based on date/time and a random number. 

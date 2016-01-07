@@ -7,6 +7,7 @@ sudo: required
 # Support codecov
 r_github_packages:
   - jimhester/covr
+  - Bioconductor-mirror/BiocInstaller
 #  - hadley/stringr
   - psolaimani/benchmarkR
 

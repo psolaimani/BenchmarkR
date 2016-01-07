@@ -2,7 +2,7 @@
 #' @description converts all Factor columns within input data.frame to Character columns
 #' @param data_frame input data.frame
 #' @return data.frame with all factor columns converted to character columns
-#' @usage factorsAsStrings(data_frame = data.frame(a=c(1,2),b=c("AA","BB")))
+#' @usage factorsAsStrings(data_frame)
 #' @export
 factorsAsStrings <- function(data_frame){
   for (i in 1:ncol(data_frame)){
@@ -21,7 +21,7 @@ factorsAsStrings <- function(data_frame){
 #' @param typ type of function eg. IO, DB, or GRAPH. Only IO is currently implemented
 #' @return new timed function based on input function
 #' @export
-#' @usage ProfilerFactory(fun="read.table",pkg="utils",prc="READ",typ="IO")
+#' @usage ProfilerFactory(fun, pkg, prc, typ)
 ProfilerFactory <- function(fun, pkg, prc, typ) {
   if (typ == "IO"){
     function(...) {
@@ -39,7 +39,7 @@ ProfilerFactory <- function(fun, pkg, prc, typ) {
 #' addProfiler
 #' @description This function loops through a data.frame with functions that need to be timed and overrides these function with a timed version of the function in ExecEnvironment.
 #' @param timed_fun a data.frame containing all functions that should be timed. If empty returns NULL
-#' @usage addProfiler(timed_fun = data.frame(fun=c("read.table"),pkg=c("utils"),prc=c("READ"),typ=c("IO")))
+#' @usage addProfiler(timed_fun)
 #' @return override input functions in environment(ExecEnvironment)
 #' @export
 addProfiler <- function(timed_fun=NULL){

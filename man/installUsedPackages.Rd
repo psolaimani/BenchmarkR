@@ -4,7 +4,7 @@
 \alias{installUsedPackages}
 \title{installUsedPackages}
 \usage{
-installUsedPackages(file = "/tests/test.R")
+installUsedPackages(file)
 }
 \arguments{
 \item{file}{path to a R script.}

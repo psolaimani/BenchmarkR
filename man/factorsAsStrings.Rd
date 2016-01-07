@@ -4,7 +4,7 @@
 \alias{factorsAsStrings}
 \title{factorsAsStrings}
 \usage{
-factorsAsStrings(data_frame = data.frame(a=c(1,2),b=c("AA","BB")))
+factorsAsStrings(data_frame)
 }
 \arguments{
 \item{data_frame}{input data.frame}

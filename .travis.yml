@@ -4,10 +4,17 @@ sudo: required
 #r_binary_packages:
 # - stringr
 
+env:
+ global:
+   - CRAN: http://cran.rstudio.com
+   - WARNINGS_ARE_ERRORS=1
+   - R_BUILD_ARGS=--no-manual
+   - R_CHECK_ARGS=--no-manual --as-cran
+   
 # Support codecov
 r_github_packages:
   - jimhester/covr
-  - Bioconductor-mirror/BiocInstaller
+  - psolaimani/BiocInstaller
 #  - hadley/stringr
   - psolaimani/benchmarkR
 

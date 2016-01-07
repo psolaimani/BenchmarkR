@@ -46,7 +46,7 @@ ExecEnvironment$WARNINGS <- data.frame(
 #' @param file path to a R script.
 #' @return installs packages loaded within input script.
 #' @usage  installUsedPackages(file)
-#' @importFrom BiocInstaller biocLite 
+#' @import BiocInstaller
 #' @importFrom utils install.packages available.packages installed.packages
 #' @export
 installUsedPackages <- function(file){

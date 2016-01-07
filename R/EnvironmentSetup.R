@@ -49,7 +49,7 @@ ExecEnvironment$WARNINGS <- data.frame(
 #' @export
 installUsedPackages <- function(file){
   # get used packages in input file
-  usedPackages <- benchGetter(type = "UsedPackages", file = file)
+  usedPackages <- benchGetter(target = "UsedPackages", file = file)
   
   if(is.na(usedPackages)){
     cat(sprintf("\nNo extra packages are used by: %s\nContinue with next step...\n",file))

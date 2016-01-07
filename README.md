@@ -6,6 +6,7 @@ a simple benchmark/profiling tool for R scripts.
 **Usage:**
 
 	benchmarkSource("/location/of/R/script.R")
+	benchmarkSource("/location/of/R/script.R",timed_fun = data.frame(fun,pkg,prc,typ))
 
 installs all packages used by the script
 
@@ -15,13 +16,13 @@ prints the benchmarking details to the console
 
 	benchmarkSource("/location/of/R/script.R", dt)
 	# dt is a data.frame that contains packages/functions that should be profiled
-	# columns: timed_function, package_name, category, type
+	# columns: fun, pkg, process, type
 	# example: 
 	#	dt <-	data.frame(
-	#				timed_function = c("fread"), 
-	#				package_name = c("data.table"), 
-	#				category = c("READ"), 
-	#				type = c("IO")
+	#				fun = c("fread"), 
+	#				pkg = c("data.table"), 
+	#				prc = c("READ"), 
+	#				typ = c("IO")
 	#		)
 
 functions as previous example but times the provided functions and outputs/returns runningtime of the

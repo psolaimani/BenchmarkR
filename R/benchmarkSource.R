@@ -24,13 +24,13 @@ benchmarkSource <- function(file,timed_fun = NULL) {
   }
   
   # install all used packages not yet installed on the system
-  benchGetter(file = file, type = "UsedPackages")
+  benchGetter(file = file, target = "UsedPackages")
 
   # load all timed functions in BenchmarkEnvironment
   addProfiler(timed_fun)
 
   # get a unique ID to identify this benchmark
-  runId <- benchGetter(type = "Id")
+  runId <- benchGetter(target = "Id")
 
   # save file name and runId to BenchmarkEnvironment for use by
   # setter/getter/etc functions in that environment
@@ -53,7 +53,7 @@ benchmarkSource <- function(file,timed_fun = NULL) {
   setBenchmark()
 
   # get all recorded benchmarks
-  benchmark <- benchGetter(type = "allbenchmarks")
+  benchmark <- benchGetter(target = "allbenchmarks")
 
   # return the last benchmark result
   return(benchmark[,]$time[nrow(benchmark)])

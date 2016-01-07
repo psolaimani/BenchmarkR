@@ -1,17 +1,13 @@
 #' benchCleaner
-#'
-#' functions for cleaning data.frame created by benchmarkR
-#' 
+#' @description functions for cleaning data.frame created by benchmarkR
 #' @param target define what to clean. 
 #' \code{profiles}: clears all profiling records. 
 #' \code{benchmarks}: clears all benchmark records. 
 #' \code{meta}: clears all records about the system. 
 #' \code{warnings}: clears all recorded warnings. 
-#' 
 #' @export
 benchCleaner <- function(target){
   # Cleans target data.frame/files
-
   target <- tolower(target)
 
   if(target == "profiles"){

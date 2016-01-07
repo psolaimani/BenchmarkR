@@ -42,55 +42,50 @@ ExecEnvironment$WARNINGS <- data.frame(
 
 
 #' installUsedPackages
-#'
+#' @description Installs all packages loaded within a R script using library/require function. This scripts installs all the used packages that are not installed yet
 #' @param file path to a R script.
-#'
-#' @return packages loaded within input R script using library() or require() will be installed
+#' @return installs packages loaded within input script.
+#' @usage  installUsedPackages(file = "/tests/test.R")
 #' @export
-#'
-#' @examples installUsedPackages("/tests/test.R")
 installUsedPackages <- function(file){
-  # This scripts installs all the used packages that are not installed yet
-
   # get used packages in input file
   usedPackages <- benchGetter(type = "UsedPackages", file = file)
-
+  
   if(is.na(usedPackages)){
     cat(sprintf("\nNo extra packages are used by: %s\nContinue with next step...\n",file))
     return(NULL)
   }
-
+  
   cat(sprintf("\nThese packages are used by: %s\n",file))
   print(usedPackages)
-
+  
   # get names of already installed packages
   localPackages <- installed.packages()[,1]
-
+  
   # select used packages that are not yet installed on local machine
   missingPackages <- usedPackages[!is.element(usedPackages,localPackages)]
-
+  
   # get names of all packages available through CRAN repository
   cranPackages <- available.packages()[,1]
-
+  
   # select package names used by input script that are available through CRAN repo
   missingCranPackages <- missingPackages[is.element(missingPackages,cranPackages)]
   cat("\nThese packages will be installed from CRAN repo:\n")
   print(missingCranPackages)
-
+  
   # names of packages used by input script which are not available through CRAN repo
   missingOtherPackages <- missingPackages[!is.element(missingPackages,missingCranPackages)]
   cat("\nThese packages will be installed from Bioconductor repo:\n")
   print(missingOtherPackages)
-
+  
   # install all missing CRAN packages
   installed.packages(missingCranPackages)
-
+  
   # install BioC installer to install packages from Bioconductor repo
   source("http://bioconductor.org/biocLite.R")
-
+  
   # try to install all missing packages that are not available through CRAN repo
   # from bioconductor repo
   biocLite(missingOtherPackages,suppressUpdates=TRUE, suppressAutoUpdate=TRUE,
            ask=FALSE)
-
 }

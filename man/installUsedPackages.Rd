@@ -4,18 +4,15 @@
 \alias{installUsedPackages}
 \title{installUsedPackages}
 \usage{
-installUsedPackages(file)
+installUsedPackages(file = "/tests/test.R")
 }
 \arguments{
 \item{file}{path to a R script.}
 }
 \value{
-packages loaded within input R script using library() or require() will be installed
+installs packages loaded within input script.
 }
 \description{
-installUsedPackages
-}
-\examples{
-installUsedPackages("/tests/test.R")
+Installs all packages loaded within a R script using library/require function. This scripts installs all the used packages that are not installed yet
 }
 

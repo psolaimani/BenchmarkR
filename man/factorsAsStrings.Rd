@@ -4,7 +4,7 @@
 \alias{factorsAsStrings}
 \title{factorsAsStrings}
 \usage{
-factorsAsStrings(data_frame)
+factorsAsStrings(data_frame = data.frame(a=c(1,2),b=c("AA","BB")))
 }
 \arguments{
 \item{data_frame}{input data.frame}
@@ -14,8 +14,5 @@ data.frame with all factor columns converted to character columns
 }
 \description{
 converts all Factor columns within input data.frame to Character columns
-}
-\examples{
-factorsAsStrings(data.frame(a=c(1,2),b=c("AA","BB")))
 }
 

@@ -4,7 +4,7 @@
 \alias{ProfilerFactory}
 \title{ProfilerFactory}
 \usage{
-ProfilerFactory("read.table","utils","READ","IO")
+ProfilerFactory(fun="read.table",pkg="utils",prc="READ",typ="IO")
 }
 \arguments{
 \item{fun}{function to encapsulate with timing}

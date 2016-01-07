@@ -2,9 +2,9 @@
 % Please edit documentation in R/benchmarkSource.R
 \name{benchmarkSource}
 \alias{benchmarkSource}
-\title{benchmarkSource}
+\title{Simple Benchmark/Profiling Tool For R Scripts}
 \usage{
-benchmarkSource(file, timed_fun = NULL)
+benchSource("tests/example_usage.R")
 }
 \arguments{
 \item{file}{R script to benchmark}
@@ -15,38 +15,23 @@ benchmarkSource(file, timed_fun = NULL)
 returns a dubble with running time of last benchmark and prints all session benchmark records to console
 }
 \description{
-This script will benchmark the running time of the given input file. 
-Time used by functions defined in timed_fun data.frame will be subtracted from total running time.
+This script will benchmark the running time of the given input file. Time used by functions defined in timed_fun data.frame will be subtracted from total running time.
 }
-\examples{
-library("benchmarkR")
-timed_functions <- data.frame(
-  timed_fun = c(
-    "write.table","write.csv","write.csv2","write.delim2",
-    "read.table","read.csv","read.csv2","read.delim","read.delim2",
-    "download.file","curlGetHeaders", "fread"
-    ),
-  package = c(
-    "utils","utils","utils","utils","utils","utils",
-    "utils","utils","utils", "utils", "base", "data.table"
-    ),
-  category = c(
-    "WRITE","WRITE","WRITE","WRITE","READ","READ",
-    "READ","READ","READ", "DOWNLOAD", "DOWNLOAD", "READ"
-    ),
-  type = c(
-    "IO", "IO", "IO", "IO", "IO", "IO",
-    "IO", "IO", "IO", "IO", "IO", "IO"
-  ),
-  stringsAsFactors=FALSE
-)
-
-benchmarkSource(file = "./test.R", timed_fun = timed_functions)
-
-benchmarkSource(file = "./test.R")
-
-benchGetter("allprofiles")
-
-benchGetter("allbenchmarks")
+\details{
+benchmarkSource
 }
+\author{
+Parham Solaimani
+
+Maarten-Jan Kallen
+
+Alexander Bertram
+}
+\keyword{benchmark}
+\keyword{benchmarking}
+\keyword{file}
+\keyword{profiling}
+\keyword{r}
+\keyword{script}
+\keyword{timing}
 

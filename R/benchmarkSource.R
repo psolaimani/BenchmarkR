@@ -4,17 +4,16 @@
 }
 
 #' benchmarkSource
-#' 
-#' This script will benchmark the running time of the given input file. 
-#' Time used by functions defined in timed_fun data.frame will be subtracted from total running time.
-#' 
-#' @example tests/example_usage.R
-#' 
+#' @title Simple Benchmark/Profiling Tool For R Scripts
+#' @author Parham Solaimani
+#' @author Maarten-Jan Kallen
+#' @author Alexander Bertram
+#' @keywords benchmark benchmarking profiling timing r script file
+#' @description This script will benchmark the running time of the given input file. Time used by functions defined in timed_fun data.frame will be subtracted from total running time.
+#' @usage benchSource("tests/example_usage.R")
 #' @param file R script to benchmark
 #' @param timed_fun a data.frame whith 4 columns. Column 1: function; column 2: package; column 3: process category eg. READ/WRITE but never BENCHMARK; column 4: function type, currently only 'IO'.
-#' 
 #' @return returns a dubble with running time of last benchmark and prints all session benchmark records to console
-#' 
 #' @export 
 benchmarkSource <- function(file,timed_fun = NULL) {
 
@@ -25,10 +24,10 @@ benchmarkSource <- function(file,timed_fun = NULL) {
   }
   
   # install all used packages not yet installed on the system
-  benchGetter(file = file,type = "UsedPackages")
+  benchGetter(file = file, type = "UsedPackages")
 
   # load all timed functions in BenchmarkEnvironment
-  addProfiler(timed_functions)
+  addProfiler(timed_fun)
 
   # get a unique ID to identify this benchmark
   runId <- benchGetter(type = "Id")
@@ -40,7 +39,7 @@ benchmarkSource <- function(file,timed_fun = NULL) {
 
   # Check content input file for use of direct calling of functions from packages
   # by package::function() annotation.
-  checkSource(file,runId)
+  checkSource(file = file, runId = runId)
 
   # start timing benchmark
   B_start <- as.numeric(Sys.time())

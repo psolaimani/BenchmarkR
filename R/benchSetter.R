@@ -1,14 +1,12 @@
 #' setTiming
 #' @description updates PROFILES data.frame by addition of given proccess duration
-#'
 #' @param process name for the type of function (eg. READ, WRITE). 
 #' @param start start time process
 #' @param end end time process
-#'
 #' @return adds a record to ExecEnvironment$PROFILES data.frame
 #' @export
 setTiming <- function(process, start, end){
-  systemId <- benchGetter("systemid")
+  systemId <- benchGetter(target = "systemid")
   duration <- end - start
   ExecEnvironment$PROFILES <- rbind(
     ExecEnvironment$PROFILES,
@@ -32,7 +30,7 @@ setTiming <- function(process, start, end){
 calcComputeTime <- function(runId){
   # returns running time script minus running time reading/writing data for a given runId
   cat("\nComputing benchmark: subtracting I/O from total running time...\n")
-  Profile <- benchGetter("profilerun",selectedRunId=runId)
+  Profile <- benchGetter(target = "profilerun", selectedRunId = runId)
   incl <- Profile[,grep("process",colnames(Profile))] == "BENCHMARK"
   excl <- Profile[,grep("process",colnames(Profile))] != "BENCHMARK"
   runTime <- sum(Profile[incl,]$duration) - sum(Profile[excl,]$duration)
@@ -48,9 +46,9 @@ setBenchmark <- function(){
   cat("\nWriting this benchmark results to ExecEnvironment$BENCHMARKS...\n")
   cat("You can get all the benchmark results using benchGetter('AllBenchmarks\n')")
   runId <- BenchmarkEnvironment$runId
-  systemId <- benchGetter("systemid")
+  systemId <- benchGetter(target = "systemid")
   file <- BenchmarkEnvironment$file
-  time <- calcComputeTime(runId)
+  time <- calcComputeTime(runId = runId)
   ExecEnvironment$BENCHMARKS <- rbind(ExecEnvironment$BENCHMARKS,
                                       data.frame(
                                         runId = runId,          # unique runId
@@ -99,7 +97,7 @@ setSystemID <- function(){
   # 
   #
   cat("\nSaving system information to ExecEnvironment$META...\n")
-  systemId <- benchGetter("id")
+  systemId <- benchGetter(target = "id")
   attributes <- c(R.Version()[c("arch", "os", "major", "minor", "language", "version.string")],
                   Sys.info()[c("sysname", "release", "version")],
                   nphyscores=parallel::detectCores(logical = FALSE), nlogcores=parallel::detectCores(logical = TRUE))

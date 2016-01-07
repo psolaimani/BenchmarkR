@@ -4,7 +4,7 @@
 \alias{addProfiler}
 \title{addProfiler}
 \usage{
-addProfiler(data.frame(fun=c("read.table"),pkg=c("utils"),prc=c("READ"),typ=c("IO")))
+addProfiler(timed_fun = data.frame(fun=c("read.table"),pkg=c("utils"),prc=c("READ"),typ=c("IO")))
 }
 \arguments{
 \item{timed_fun}{a data.frame containing all functions that should be timed. If empty returns NULL}

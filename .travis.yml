@@ -14,7 +14,7 @@ env:
 # Support codecov
 r_github_packages:
   - jimhester/covr
-  - psolaimani/BiocInstaller
+#  - psolaimani/BiocInstaller
 #  - hadley/stringr
   - psolaimani/benchmarkR
 

@@ -84,7 +84,7 @@ checkSource <- function(file=BenchmarkEnvironment$file,runId=BenchmarkEnvironmen
     )
   }
   cat(sprintf("\nNumber of direct calls detected: %i\n\n",direct_calls_detected))
-  return(invisible(direct_call_detected))
+  return(invisible(direct_calls_detected))
 }
 
 #' setSystemID

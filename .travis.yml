@@ -14,6 +14,7 @@ env:
    - CRAN: http://cran.rstudio.com
    - R_BUILD_ARGS=--no-manual
    - R_CHECK_ARGS=--no-manual --as-cran
+   - R_CHECK_FORCE_SUGGESTS_=FALSE
    
 # Support codecov
 r_github_packages:

@@ -19,6 +19,8 @@ benchmarkSource(file = "./test.R", timed_fun = timed_functions)
 
 benchmarkSource(file = "./test.R")
 
+benchmarkSource(file = "./test_kshjhgdhsagjh.R")
+
 benchGetter("allprofiles")
 
 benchGetter("allbenchmarks")

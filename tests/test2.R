@@ -28,3 +28,7 @@ assertThat(class(benchGetter(target = "warning")), "data.frame")
 assertThat(benchGetter(target = "usedpackages"), NULL)
 assertThat(benchGetter(target = "usedpackages", file ="jahkjad/kjasdksd.R"), NULL)
 
+assertTrue(setSystemID(), NULL)
+benchCleaner(target = "meta")
+assertFalse(setSystemID(), NULL)
+

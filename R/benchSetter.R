@@ -94,16 +94,18 @@ checkSource <- function(file=BenchmarkEnvironment$file,runId=BenchmarkEnvironmen
 #' @importFrom parallel detectCores
 #' @export
 setSystemID <- function(){
-  # 
-  #
-  cat("\nSaving system information to ExecEnvironment$META...\n")
-  systemId <- benchGetter(target = "id")
-  attributes <- c(R.Version()[c("arch", "os", "major", "minor", "language", "version.string")],
-                  Sys.info()[c("sysname", "release", "version")],
-                  nphyscores=parallel::detectCores(logical = FALSE), nlogcores=parallel::detectCores(logical = TRUE))
-
-  for (i in 1:length(names(attributes))){
-    ExecEnvironment$META[i,] <- c(systemId, names(attributes)[i], attributes[[i]])
+  if(is.null(ExecEnvironment$META)){
+    cat("\nSaving system information to ExecEnvironment$META...\n")
+    systemId <- benchGetter(target = "id")
+    attributes <- c(R.Version()[c("arch", "os", "major", "minor", "language", "version.string")],
+                    Sys.info()[c("sysname", "release", "version")],
+                    nphyscores=parallel::detectCores(logical = FALSE), nlogcores=parallel::detectCores(logical = TRUE))
+    
+    for (i in 1:length(names(attributes))){
+      ExecEnvironment$META[i,] <- c(systemId, names(attributes)[i], attributes[[i]])
+    }
+    return(invisible(systemId))
+  } else {
+    return(invisible(NULL))
   }
-
 }

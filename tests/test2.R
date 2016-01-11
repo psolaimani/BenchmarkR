@@ -20,3 +20,11 @@ dt <- data.frame(a=c(1,2),b=c(1,2))
 assertThat(addProfiler(dt), NULL)
 dt <- data.frame(a=c(1,2),b=c(1,2),c=c(1,2),d=c(1,2))
 assertThat(addProfiler(dt), NULL)
+
+
+assertThat(benchGetter(target = "profile"), NULL)
+assertThat(benchGetter(target = "profilerun"), NULL)
+assertThat(class(benchGetter(target = "warning")), "data.frame")
+assertThat(benchGetter(target = "usedpackages"), NULL)
+assertThat(benchGetter(target = "usedpackages", file ="jahkjad/kjasdksd.R"), NULL)
+

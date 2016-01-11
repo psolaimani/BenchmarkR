@@ -1,5 +1,4 @@
 library("hamcrest")
-library("benchmarkR")
 
 
 assertThat(class(benchmarkR:::BenchmarkEnvironment), "environment")

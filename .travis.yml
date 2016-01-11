@@ -1,6 +1,14 @@
 language: r
 sudo: required
 
+before_install:
+  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+  - chmod 755 ./travis-tool.sh
+
+install:
+  - ./travis-tool.sh install_github jimhester/covr
+  - ./travis-tool.sh install_deps
+
 env:
  global:
    - CRAN: http://cran.rstudio.com
@@ -9,7 +17,7 @@ env:
    
 # Support codecov
 r_github_packages:
-  - jimhester/covr
+#  - jimhester/covr
   - psolaimani/benchmarkR
 
 after_success:

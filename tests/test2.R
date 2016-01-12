@@ -28,7 +28,9 @@ assertThat(class(benchGetter(target = "warning")), equalTo("data.frame"))
 assertThat(benchGetter(target = "usedpackages"), equalTo(NULL))
 assertThat(benchGetter(target = "usedpackages", file ="jahkjad/kjasdksd.R"), equalTo(NULL))
 
-assertTrue(setSystemID(), equalTo(NULL))
+sysId = setSystemID()
+assertTrue(is.null(sysId))
 benchCleaner(target = "meta")
-assertFalse(setSystemID(), equalTo(NULL))
+sysId = setSystemID()
+assertFalse(is.null(sysId))
 

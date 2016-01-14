@@ -88,4 +88,5 @@ installUsedPackages <- function(file){
   # try to install all missing packages that are not available through CRAN repo
   # from bioconductor repo
   #biocLite(missingOtherPackages,suppressUpdates=TRUE, suppressAutoUpdate=TRUE, ask=FALSE)
+  return(invisible("pkg_install_complete"))
 }

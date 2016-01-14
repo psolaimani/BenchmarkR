@@ -57,13 +57,14 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
   }
 
   if (target == "warnings"){
-    cat(sprintf("nrow(WARNINGS): %i\n",nrow(ExecEnvironment$WARNINGS)))
-    cat(sprintf("class(WARNINGS): %s\n",class(ExecEnvironment$WARNINGS)))
-    print(ls(envir = ExecEnvironment))
     return(ExecEnvironment$WARNINGS)
   }
-
+  
   if (target == "systemid"){
+    return(ExecEnvironment$META$systemId[1])
+  }
+  
+  if (target == "meta"){
     return(ExecEnvironment$META$systemId[1])
   }
 

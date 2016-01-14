@@ -19,8 +19,6 @@ install:
    
 # Support codecov
 r_github_packages:
-#  - jimhester/covr
-#  - bedatadriven/hamcrest
   - psolaimani/benchmarkR
 
 after_success:

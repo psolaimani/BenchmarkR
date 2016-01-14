@@ -1,4 +1,5 @@
 library("hamcrest")
+require("benchmarkR")
 
 assertThat(class(benchmarkR:::BenchmarkEnvironment), equalTo("environment"))
 assertThat(class(benchmarkR:::ExecEnvironment), equalTo("environment"))

@@ -1,4 +1,5 @@
 library("hamcrest")
+require("benchmarkR")
 
 timed_functions <- data.frame(
   timed_fun = c(

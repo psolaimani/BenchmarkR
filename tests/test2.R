@@ -25,7 +25,9 @@ assertTrue(is.null(addP))
 
 pkg_installation <- installUsedPackages()
 assertTrue(is.null(pkg_installation))
-pkg_installation <- installUsedPackages("./test.R")
+pkg_installation <- installUsedPackages(file = "./tests/test.R")
+assertTrue(is.null(pkg_installation))
+pkg_installation <- installUsedPackages(file = "./tests/test3.R")
 assertFalse(is.null(pkg_installation))
 
 

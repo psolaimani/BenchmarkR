@@ -65,7 +65,7 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
   }
   
   if (target == "meta"){
-    return(ExecEnvironment$META$systemId[1])
+    return(ExecEnvironment$META)
   }
 
   if (target == "usedpackages"){

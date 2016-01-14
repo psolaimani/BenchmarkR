@@ -2,8 +2,8 @@
 #' @description Retrieve different saved records or benchmark information
 #' @param target which information to retrieve 
 #'    \code{*id*}: generates a unique ID based on date/time and a random number. 
-#'    \code{*allprofiles*}: returns all records of PROFILES table. 
-#'    \code{*allbenchmarks*}: returns table with all recorded benchmarks. 
+#'    \code{*profiles*}: returns all records of PROFILES table. 
+#'    \code{*benchmarks*}: returns table with all recorded benchmarks. 
 #'    \code{profile}: returns 'returnCol' from PROFILES where 'indexCol' == 'selectValue'. 
 #'    \code{profilerun}: returns PROFILES table subsetted with \code{runId}. 
 #'    \code{warnings}: returns ExecEnvironment$WARNINGS data.frame containing all warnings recorded. 
@@ -29,11 +29,11 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
     return(id)
   }
 
-  if (target == "allprofiles"){
+  if (target == "profiles"){
     return(ExecEnvironment$PROFILES)
   }
 
-  if (target == "allbenchmarks"){
+  if (target == "benchmarks"){
     return(ExecEnvironment$BENCHMARKS)
   }
 

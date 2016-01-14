@@ -2,14 +2,14 @@ library("hamcrest")
 
 assertThat(class(benchmarkR:::BenchmarkEnvironment), equalTo("environment"))
 assertThat(class(benchmarkR:::ExecEnvironment), equalTo("environment"))
-assertThat(class(benchGetter(target = 'allprofiles')), equalTo("data.frame"))
-assertThat(class(benchGetter(target = 'allbenchmarks')), equalTo("data.frame"))
+assertThat(class(benchGetter(target = 'profiles')), equalTo("data.frame"))
+assertThat(class(benchGetter(target = 'benchmarks')), equalTo("data.frame"))
 assertThat(class(benchGetter(target = 'meta')), equalTo("data.frame"))
 assertThat(class(benchGetter(target = 'warnings')), equalTo("data.frame"))
 
 
-assertThat(ncol(benchGetter(target = 'allprofiles')), equalTo(7))
-assertThat(ncol(benchGetter(target = 'allbenchmarks')), equalTo(4))
+assertThat(ncol(benchGetter(target = 'profiles')), equalTo(7))
+assertThat(ncol(benchGetter(target = 'benchmarks')), equalTo(4))
 assertThat(ncol(benchGetter(target = 'meta')), equalTo(3))
 assertThat(ncol(benchGetter(target = 'warnings')), equalTo(3))
 

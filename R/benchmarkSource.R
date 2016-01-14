@@ -54,7 +54,7 @@ benchmarkSource <- function(file,timed_fun = NULL) {
   # add BENCHMARK timing to all other benchmarks stored in ExecEnvironment$BENCHMARKS
   setBenchmark()
   # get all recorded benchmarks
-  benchmark <- benchGetter(target = "allbenchmarks")
+  benchmark <- benchGetter(target = "benchmarks")
 
   # return the last benchmark result
   return(benchmark[,]$time[nrow(benchmark)])

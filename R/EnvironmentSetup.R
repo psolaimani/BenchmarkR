@@ -48,7 +48,18 @@ ExecEnvironment$WARNINGS <- data.frame(
 #' @usage  installUsedPackages(file)
 #' @import utils
 #' @export
-installUsedPackages <- function(file){
+installUsedPackages <- function(file = NULL){
+  # validate input
+  if(is.null(file)){
+    cat("\nFile not provided, can't extract used packages.\n")
+    return(NULL)
+  }
+  
+  if(!file.exists(file)){
+    cat(sprintf("\nProvided file '%s' does not exist!\n",file))
+    return(NULL)
+  }
+  
   # get used packages in input file
   usedPackages <- benchGetter(target = "UsedPackages", file = file)
   

@@ -23,9 +23,9 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
 
   if (target == "id"){
     cat("\nGenerating a unique ID...\n")
-    exactTime <- format(Sys.time(), "%Y%m%d.%H%M%S.")
-    randomNum <- sample(10:99, 1)
-    id <- paste0(exactTime,randomNum)
+    exactTime <- format(Sys.time(), "%y%m%d%H%M%S")
+    randomNum <- sample(100000:999999, 1)
+    id <- as.numeric(paste0(exactTime,randomNum))
     return(id)
   }
 
@@ -46,7 +46,7 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
   }
 
   if(target == "profilerun"){
-    if(is.null(selectedRunId) | is.na(selectedRunId) | is.nan(selectedRunId)){
+    if(is.null(selectedRunId)){
       cat("\nNo or empty selectedRunId provided for calculating the running time.\n")
       return(NULL)
     }
@@ -57,6 +57,9 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
   }
 
   if (target == "warnings"){
+    cat(sprintf("nrow(WARNINGS): %i\n",nrow(ExecEnvironment$WARNINGS)))
+    cat(sprintf("class(WARNINGS): %s\n",class(ExecEnvironment$WARNINGS)))
+    print(ls(envir = ExecEnvironment))
     return(ExecEnvironment$WARNINGS)
   }
 

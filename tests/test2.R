@@ -1,6 +1,4 @@
 library("hamcrest")
-require("benchmarkR")
-benchGetter(target = 'meta')
 
 assertThat(class(benchmarkR:::BenchmarkEnvironment), equalTo("environment"))
 assertThat(class(benchmarkR:::ExecEnvironment), equalTo("environment"))
@@ -28,8 +26,6 @@ pkg_installation <- installUsedPackages()
 assertTrue(is.null(pkg_installation))
 pkg_installation <- installUsedPackages("./test.R")
 assertFalse(is.null(pkg_installation))
-
-
 
 
 getterReturn <- benchGetter(target = "profile")

@@ -46,7 +46,7 @@ setBenchmark <- function(){
   cat("\nWriting this benchmark results to ExecEnvironment$BENCHMARKS...\n")
   cat("You can get all the benchmark results using benchGetter('AllBenchmarks\n')")
   runId <- BenchmarkEnvironment$runId
-  systemId <- benchGetter(target = "systemid")
+  systemId <- ExecEnvironment$systemId
   file <- BenchmarkEnvironment$file
   time <- calcComputeTime(runId = runId)
   ExecEnvironment$BENCHMARKS <- rbind(ExecEnvironment$BENCHMARKS,
@@ -83,7 +83,7 @@ checkSource <- function(file=BenchmarkEnvironment$file,runId=BenchmarkEnvironmen
                                       )
     )
   }
-  cat(sprintf("\nNumber of direct calls detected: %i\n\n",direct_calls_detected))
+  cat(sprintf("Number of direct calls detected: %i\n\n",direct_calls_detected))
   return(invisible(direct_calls_detected))
 }
 
@@ -94,18 +94,42 @@ checkSource <- function(file=BenchmarkEnvironment$file,runId=BenchmarkEnvironmen
 #' @importFrom parallel detectCores
 #' @export
 setSystemID <- function(){
-  if(is.null(ExecEnvironment$META)){
-    cat("\nSaving system information to ExecEnvironment$META...\n")
-    systemId <- benchGetter(target = "id")
+  
+  systemId <- benchGetter(target = "id")
+  
+  if(class(try(exists(ExecEnvironment$systemId),TRUE))=="try-error") {
+    needSysId <- TRUE
+  } else {
+    needSysId <- FALSE
+  }
+                      
+                      
+  if (needSysId == FALSE) {
+    lengthSysId <- nchar(ExecEnvironment$systemId)
+    classSysId <- class(ExecEnvironment$systemId)
+  }
+  #if (is.null(lenSystemId)){ lenSystemId <- 0L}
+  # | is.null( ExecEnvironment$systemId )  |  !exists("ExecEnvironment$systemId")
+  if (needSysId == TRUE) {
+    
+    assign("systemId", systemId, envir = ExecEnvironment)
+    
+    cat(sprintf("Generated system ID: %s\n", ExecEnvironment$systemId))
     attributes <- c(R.Version()[c("arch", "os", "major", "minor", "language", "version.string")],
                     Sys.info()[c("sysname", "release", "version")],
-                    nphyscores=parallel::detectCores(logical = FALSE), nlogcores=parallel::detectCores(logical = TRUE))
+                    nphyscores=parallel::detectCores(logical = FALSE), 
+                    nlogcores=parallel::detectCores(logical = TRUE))
     
+    cat("Saving system information to ExecEnvironment$META...\n")
     for (i in 1:length(names(attributes))){
-      ExecEnvironment$META[i,] <- c(systemId, names(attributes)[i], attributes[[i]])
+      ExecEnvironment$META[i,] <- c(ExecEnvironment$systemId, names(attributes)[i], attributes[[i]])
     }
-    return(invisible(systemId))
+    
+    return(invisible(ExecEnvironment$systemId))
+    
   } else {
-    return(invisible(NULL))
+    
+    return(invisible(ExecEnvironment$systemId))
   }
+  
 }

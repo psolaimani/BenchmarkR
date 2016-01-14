@@ -1,14 +1,15 @@
 #' benchGetter
 #' @description Retrieve different saved records or benchmark information
 #' @param target which information to retrieve 
-#'    \code{id}: generates a unique ID based on date/time and a random number. 
-#'    \code{allprofiles}: returns all records from ExecEnvironment$PROFILES table. 
-#'    \code{allbenchmarks}: returns table with all recorded benchmarks. 
-#'    \code{profile}: returns 'returnCol' from ExecEnvironment$PROFILES where the value of 'indexCol' is identical to 'selectValue'. 
+#'    \code{*id*}: generates a unique ID based on date/time and a random number. 
+#'    \code{*allprofiles*}: returns all records of PROFILES table. 
+#'    \code{*allbenchmarks*}: returns table with all recorded benchmarks. 
+#'    \code{profile}: returns 'returnCol' from PROFILES where 'indexCol' == 'selectValue'. 
 #'    \code{profilerun}: returns PROFILES table subsetted with \code{runId}. 
 #'    \code{warnings}: returns ExecEnvironment$WARNINGS data.frame containing all warnings recorded. 
 #'    \code{systemid}: returns the unique systemId that is used to identify this system. 
 #'    \code{usedpackages}: returns names of all used/loaded packages within provided input file/script. 
+#'    \code{allpackageversions}: returns a dataframe with packages names and version installed on current system. 
 #' @param indexCol profiling records will be filtered based on content of this column
 #' @param returnCol content of this column will be returned after filtering
 #' @param selectValue this value will be compared to \code{indexCol} to filter profiling records
@@ -37,10 +38,8 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
   }
 
   if (target == "profile"){
-    if(is.null(indexCol) | is.na(indexCol) | is.nan(indexCol) |
-       is.null(returnCol) | is.na(returnCol) | is.nan(returnCol) |
-       is.null(selectValue) | is.na(selectValue) | is.nan(selectValue)){
-      cat("\nNo or empty indexCol/returnCol/selectValue provided for subsetting PROFILES.\n")
+    if(is.null(indexCol)  | is.null(returnCol) |  is.null(selectValue) ){
+      cat("\nRowname, columnname, or condition for subsetting Profiling data.frame is not provided.\n")
       return(NULL)
     }
     return(ExecEnvironment$PROFILES[ExecEnvironment$PROFILES[indexCol] == selectValue, returnCol])
@@ -91,5 +90,12 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
       usedPackagesNames <- c(usedPackagesNames,currentPackageName)
     }
     return(usedPackagesNames)
+  }
+  
+  if (target == "allpackageversions"){
+    systemPackages <- data.frame(character(0),character(0))
+    systemPackages <- rbind(systemPackages, utils::installed.packages()[,c(1,3)], make.row.names=F, deparse.level = 2)
+    colnames(systemPackages) <- c("component", "comp_value")
+    return(systemPackages)
   }
 }

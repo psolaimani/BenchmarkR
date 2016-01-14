@@ -16,13 +16,16 @@
 #' @return returns a dubble with running time of last benchmark and prints all session benchmark records to console
 #' @export 
 benchmarkSource <- function(file,timed_fun = NULL) {
-
+  
   # check if provided file exists
   if(!file.exists(file)){
     cat(sprintf("\nProvided file does not exist.\nFile: %s\n", file))
     return(NULL)
   }
   
+  # generate and set system id if its not generated 
+  setSystemID()
+
   # install all used packages not yet installed on the system
   benchGetter(file = file, target = "UsedPackages")
 
@@ -48,10 +51,8 @@ benchmarkSource <- function(file,timed_fun = NULL) {
 
   # add BENCHMARK timing to timings of the script (and its components)
   setTiming(process ="BENCHMARK", start = B_start, end = B_end)
-
   # add BENCHMARK timing to all other benchmarks stored in ExecEnvironment$BENCHMARKS
   setBenchmark()
-
   # get all recorded benchmarks
   benchmark <- benchGetter(target = "allbenchmarks")
 

@@ -144,7 +144,7 @@ setSystemID <- function(){
         ExecEnvironment$META[i,] <- c(ExecEnvironment$systemId, names(attributes)[i], attributes[[i]])
       }
       
-    return(invisible(ExecEnvironment$systemId))
+    return(invisible("systemId_refreshed"))
   } else {
     return(invisible(ExecEnvironment$systemId))
   }

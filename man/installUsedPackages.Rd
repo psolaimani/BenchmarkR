@@ -13,6 +13,8 @@ installUsedPackages(file)
 installs packages loaded within input script.
 }
 \description{
-Installs all packages loaded within a R script using library/require function. This scripts installs all the used packages that are not installed yet
+Installs all packages loaded within a R script using 
+library/require function. This scripts installs all the used packages 
+that are not installed yet
 }
 

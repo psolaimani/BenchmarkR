@@ -32,8 +32,9 @@ assertTrue(is.null(pkg_installation))
 pkg_installation <- installUsedPackages(file = "./test3.R")
 assertFalse(is.null(pkg_installation))
 
-
+benchGetter(target = "systemId")
 sysId <- benchGetter(target = "systemId")
+benchGetter( target = "profiles")
 sysId_prf <- benchGetter(target = "profile", indexCol = "process", selectValue = "BENCHMARK", returnCol = "systemId")[1]
 assertTrue(sysId == sysId_prf)
 

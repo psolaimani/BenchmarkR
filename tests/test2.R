@@ -67,7 +67,7 @@ benchCleaner(target = "meta")
 assertTrue(nrow(benchGetter(target = "meta")) == 0)
 
 old_sysId <- benchGetter(target = "systemid")
-assign("systemId", 666, envir = benchmarkR::ExecEnvironment)
+assign("systemId", 666, envir = ExecEnvironment)
 setSystemID()
 new_sysId <- benchGetter(target = "systemid")
 assertTrue(nchar(new_sysId) == 18)

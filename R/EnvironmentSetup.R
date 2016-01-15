@@ -42,7 +42,9 @@ ExecEnvironment$WARNINGS <- data.frame(
 
 
 #' installUsedPackages
-#' @description Installs all packages loaded within a R script using library/require function. This scripts installs all the used packages that are not installed yet
+#' @description Installs all packages loaded within a R script using 
+#' library/require function. This scripts installs all the used packages 
+#' that are not installed yet
 #' @param file path to a R script.
 #' @return installs packages loaded within input script.
 #' @usage  installUsedPackages(file)
@@ -63,7 +65,7 @@ installUsedPackages <- function(file = NULL){
   # get used packages in input file
   usedPackages <- benchGetter(target = "UsedPackages", file = file)
   
-  if(is.na(usedPackages)){
+  if(is.null(usedPackages)){
     cat(sprintf("\nNo extra packages are used by: %s\nContinue with next step...\n",file))
     return(NULL)
   }
@@ -78,7 +80,7 @@ installUsedPackages <- function(file = NULL){
   missingPackages <- usedPackages[!is.element(usedPackages,localPackages)]
   
   # get names of all packages available through CRAN repository
-  cranPackages <- available.packages()[,1]
+  cranPackages <- available.packages(repos="http://cran.rstudio.com/")[,1]
   
   # select package names used by input script that are available through CRAN repo
   missingCranPackages <- missingPackages[is.element(missingPackages,cranPackages)]

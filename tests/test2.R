@@ -38,6 +38,10 @@ benchGetter(target = "systemId")
 sysId <- benchGetter(target = "systemId")
 benchGetter( target = "profiles")
 sysId_prf <- benchGetter(target = "profile", indexCol = "process", selectValue = "BENCHMARK", returnCol = "systemId")[1]
+print(sysId_prf)
+print(class(sysId))
+print(class(sysId_prf))
+isSame <- sysId == sysId_prf
 assertTrue(sysId == sysId_prf)
 
 

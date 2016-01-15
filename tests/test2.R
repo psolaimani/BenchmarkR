@@ -47,5 +47,5 @@ assertTrue(is.null(getterReturn))
 sysId = setSystemID()
 assertFalse(is.null(sysId))
 benchCleaner(target = "meta")
-assertTrue(is.null(benchGetter(target = "meta")))
+assertTrue(nrow(benchGetter(target = "meta")) == 0)
 

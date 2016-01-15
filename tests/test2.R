@@ -32,6 +32,8 @@ assertTrue(is.null(pkg_installation))
 pkg_installation <- installUsedPackages(file = "./test3.R")
 assertFalse(is.null(pkg_installation))
 
+
+replicate(3, benchmarkSource(file = "./test3.R") )
 benchGetter(target = "systemId")
 sysId <- benchGetter(target = "systemId")
 benchGetter( target = "profiles")

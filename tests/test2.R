@@ -69,4 +69,4 @@ assertTrue(old_sysId != new_sysId)
 assertTrue(new_sysId != 666)
 
 assertThat(nrow(utils::installed.packages()[,c(1,3)]), 
-           equalTo(nrow(benchGetter(target == "allpackageversions"))))
+           equalTo(nrow(benchGetter(target = "allpackageversions"))))

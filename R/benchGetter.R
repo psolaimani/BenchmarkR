@@ -16,6 +16,7 @@
 #' @param selectedRunId which \code{runId} to use for filtering profiling records
 #' @param file packages used in this file will be extracted and installed
 #' @importFrom stringr str_extract
+#' @importFrom utils installed.packages
 #' @export
 benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue = NULL, selectedRunId = NULL, file = NULL){
 

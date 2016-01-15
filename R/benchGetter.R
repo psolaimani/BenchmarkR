@@ -95,11 +95,6 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
       usedPackagesNames <- c(usedPackagesNames,currentPackageName)
     }
     
-    if (length(usedPackagesNames) == 0){
-      cat(sprintf("No packages found in: %s\n", file))
-      return(NULL)
-    }
-    
     if (is.na(usedPackagesNames)){
       cat(sprintf("No packages found in: %s\n", file))
       return(NULL)

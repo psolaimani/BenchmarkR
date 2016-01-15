@@ -18,6 +18,7 @@ timed_functions <- data.frame(
 )
 
 benchmarkSource(file = "./test.R", timed_fun = timed_functions)
+benchmarkSource(file = "./test3.R", timed_fun = timed_functions)
 
 benchmarkSource(file = "./test.R")
 

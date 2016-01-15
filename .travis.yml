@@ -10,12 +10,12 @@ install:
   - ./travis-tool.sh install_github bedatadriven/hamcrest
   - ./travis-tool.sh install_deps
 
-#env:
-# global:
-#   - CRAN: http://cran.rstudio.com
-#   - R_BUILD_ARGS=--no-manual
-#   - R_CHECK_ARGS=--no-manual --as-cran
-#   - R_CHECK_FORCE_SUGGESTS_=FALSE
+env:
+ global:
+   - CRAN: http://cran.rstudio.com
+   - R_BUILD_ARGS=--no-manual
+   - R_CHECK_ARGS=--no-manual --as-cran
+   - R_CHECK_FORCE_SUGGESTS_=FALSE
    
 # Support codecov
 r_github_packages:

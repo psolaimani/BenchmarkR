@@ -98,11 +98,15 @@ setSystemID <- function(){
   
   systemId <- as.character(benchGetter(target = "id"))
   
-  if(class(try(exists(ExecEnvironment$systemId),TRUE)) == "try-error" | 
-     lengthSysId != 18 | 
-     classSysId != "character") {
+  if(class(try(exists(ExecEnvironment$systemId),TRUE)) == "try-error" ) {
+    cat(sprintf("systemId doesn't exist. New systemId: %s\n", systemId))
+    needSysId <- TRUE
+  } else if (nchar(ExecEnvironment$systemId) != 18 | 
+             class(ExecEnvironment$systemId) != "character") {
+    cat(sprintf("systemId has incorrect format. New systemId: %s\n", systemId))
     needSysId <- TRUE
   } else {
+    cat(sprintf("systemId exists: %s\n", ExecEnvironment$systemId))
     needSysId <- FALSE
   }
   

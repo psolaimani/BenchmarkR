@@ -49,3 +49,12 @@ assertFalse(is.null(sysId))
 benchCleaner(target = "meta")
 assertTrue(nrow(benchGetter(target = "meta")) == 0)
 
+old_sysId <- benchGetter(target = "systemid")
+assign("systemId", 666, envir = ExecEnvironment)
+setSystemID()
+new_sysId <- benchGetter(target = "systemid")
+assertTrue(nchar(new_sysId) == 18)
+assertTrue(old_sysId != new_sysId)
+assertTrue(new_sysId != 666)
+
+

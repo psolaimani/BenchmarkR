@@ -61,7 +61,7 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
   }
   
   if (target == "systemid"){
-    return(ExecEnvironment$META$systemId[1])
+    return(ExecEnvironment$systemId)
   }
   
   if (target == "meta"){

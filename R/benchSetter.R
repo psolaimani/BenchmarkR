@@ -98,16 +98,12 @@ setSystemID <- function(){
   
   systemId <- as.character(benchGetter(target = "id"))
   
-  if(class(try(exists(ExecEnvironment$systemId),TRUE))=="try-error") {
+  if(class(try(exists(ExecEnvironment$systemId),TRUE)) == "try-error" | 
+     lengthSysId != 18 | 
+     classSysId != "character") {
     needSysId <- TRUE
   } else {
     needSysId <- FALSE
-  }
-                      
-                      
-  if (needSysId == FALSE) {
-    lengthSysId <- nchar(ExecEnvironment$systemId)
-    classSysId <- class(ExecEnvironment$systemId)
   }
   
   if (needSysId == TRUE) {
@@ -128,23 +124,6 @@ setSystemID <- function(){
     
     return(invisible(ExecEnvironment$systemId))
     
-  } else if (lengthSysId != 18 | classSysId != "character") {
-      assign("systemId", systemId, envir = ExecEnvironment)
-      cat(sprintf("Generated and assigned new system ID: %s\n", ExecEnvironment$systemId))
-      
-      attributes <- c(
-        R.Version()[c("arch", "os", "major", "minor", "language", "version.string")],
-        Sys.info()[c("sysname", "release", "version")],
-        nphyscores=parallel::detectCores(logical = FALSE), 
-        nlogcores=parallel::detectCores(logical = TRUE)
-      )
-      
-      cat("Saving system information to ExecEnvironment$META...\n")
-      for (i in 1:length(names(attributes))){
-        ExecEnvironment$META[i,] <- c(ExecEnvironment$systemId, names(attributes)[i], attributes[[i]])
-      }
-      
-    return(invisible("systemId_refreshed"))
   } else {
     return(invisible(ExecEnvironment$systemId))
   }

@@ -62,10 +62,13 @@ assertTrue(nrow(benchGetter(target = "meta")) == 0)
 
 old_sysId <- benchGetter(target = "systemid")
 assertTrue(nchar(old_sysId) == 18)
-assign("systemId", 666, envir = ExecEnvironment)
+assign("systemId", 666, envir = benchmarkR::ExecEnvironment)
 setSystemID()
 new_sysId <- benchGetter(target = "systemid")
 assertTrue(new_sysId != 666)
 
 assertThat(nrow(utils::installed.packages()[,c(1,3)]), 
            equalTo(nrow(benchGetter(target = "allpackageversions"))))
+
+nopkgs <- benchGetter( target = "usedpackages", file = "./test4.R")
+assertTrue(is.null(nopkgs))

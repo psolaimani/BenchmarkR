@@ -33,7 +33,7 @@ benchmarkSource <- function(file,timed_fun = NULL) {
   addProfiler(timed_fun)
 
   # get a unique ID to identify this benchmark
-  runId <- benchGetter(target = "Id")
+  runId <- as.character( benchGetter(target = "Id") )
 
   # save file name and runId to BenchmarkEnvironment for use by
   # setter/getter/etc functions in that environment

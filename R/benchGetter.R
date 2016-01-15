@@ -26,7 +26,7 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
     cat("\nGenerating a unique ID...\n")
     exactTime <- format(Sys.time(), "%y%m%d%H%M%S")
     randomNum <- sample(100000:999999, 1)
-    id <- as.numeric(paste0(exactTime,randomNum))
+    id <- as.character(paste0(exactTime,randomNum))
     return(id)
   }
 

@@ -50,7 +50,9 @@ benchCleaner(target = "meta")
 assertTrue(nrow(benchGetter(target = "meta")) == 0)
 
 sysId <- benchGetter(target = "systemId")
-sysId_prf <- benchGetter(target = "profile", indexCol = "process", selectValue = "BENCHMARK", returnCol = "systemId")[1]
+print(sysId)
+print(str(benchGetter(target = "profile", indexCol = "process", selectValue = "BENCHMARK", returnCol = "systemId")))
+sysId_prf <- benchGetter(target = "profile", indexCol = "process", selectValue = "BENCHMARK", returnCol = "systemId")[1,1]
 assertTrue(sysId == sysId_prf)
 
 old_sysId <- benchGetter(target = "systemid")

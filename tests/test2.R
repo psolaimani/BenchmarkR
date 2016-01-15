@@ -22,6 +22,10 @@ assertTrue(is.null(addP))
 dt <- data.frame(a=c(1,2),b=c(1,2),c=c(1,2),d=c(1,2))
 addP <- addProfiler(dt)
 assertTrue(is.null(addP))
+dt <- data.frame(a=c("A","B"),b=c("C","D"),c=c(1,2),d=c(1,2))
+dt2 <- factorsAsStrings(dt)
+assertThat(class(dt$a), equalTo("factor"))
+assertThat(class(dt2$a), equalTo("character"))
 
 pkg_installation <- installUsedPackages()
 assertTrue(is.null(pkg_installation))
@@ -32,21 +36,11 @@ assertTrue(is.null(pkg_installation))
 pkg_installation <- installUsedPackages(file = "./test3.R")
 assertFalse(is.null(pkg_installation))
 
-
 replicate(3, benchmarkSource(file = "./test3.R") )
-benchGetter(target = "systemId")
 sysId <- benchGetter(target = "systemId")
-benchGetter( target = "profiles")
 sysId_prf <- benchGetter(target = "profile", indexCol = "process", selectValue = "BENCHMARK", returnCol = "systemId")[1]
-print(sysId_prf)
-print(class(sysId))
-print(class(sysId_prf))
-print(as.character(sysId))
-print(as.character(sysId_prf))
 isSame <- sysId == sysId_prf
-print(isSame)
 assertTrue(isSame)
-
 
 getterReturn <- benchGetter(target = "profile")
 assertTrue(is.null(getterReturn))
@@ -73,7 +67,6 @@ new_sysId <- benchGetter(target = "systemid")
 assertTrue(nchar(new_sysId) == 18)
 assertTrue(old_sysId != new_sysId)
 assertTrue(new_sysId != 666)
-
 
 assertThat(nrow(utils::installed.packages()[,c(1,3)]), 
            equalTo(nrow(benchGetter(target == "allpackageversions"))))

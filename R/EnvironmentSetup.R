@@ -48,15 +48,15 @@ ExecEnvironment$WARNINGS <- data.frame(
 #' @param file path to a R script.
 #' @return installs packages loaded within input script.
 #' @usage  installUsedPackages(file)
-#' @import utils
+#' @import pacman
 #' @export
 installUsedPackages <- function(file = NULL){
+  options(repos = c(CRAN = "http://cran.at.r-project.org"))
   # validate input
   if(is.null(file)){
     cat("\nFile not provided, can't extract used packages.\n")
     return(NULL)
-  }
-  
+  } 
   if(!file.exists(file)){
     cat(sprintf("\nProvided file '%s' does not exist!\n",file))
     return(NULL)
@@ -73,33 +73,26 @@ installUsedPackages <- function(file = NULL){
   cat(sprintf("\nThese packages are used by: %s\n",file))
   print(usedPackages)
   
-  # get names of already installed packages
-  localPackages <- utils::installed.packages()[,1]
+  # are packages already installed or not?
+  # which are available on CRAN
+  # install if available on CRAN and not installed
+  statePackages <- pacman::p_isinstalled(usedPackages)
+  isCran <- pacman::p_iscran(usedPackages)
+  toInstall <- statePackages == FALSE & isCran == TRUE
+  pacman::p_install(usedPackages[toInstall])
   
-  # select used packages that are not yet installed on local machine
-  missingPackages <- usedPackages[!is.element(usedPackages,localPackages)]
-  
-  # get names of all packages available through CRAN repository
-  cranPackages <- available.packages(repos="http://cran.rstudio.com/")[,1]
-  
-  # select package names used by input script that are available through CRAN repo
-  missingCranPackages <- missingPackages[is.element(missingPackages,cranPackages)]
-  cat("\nThese packages will be installed from CRAN repo:\n")
-  print(missingCranPackages)
-  
-  # names of packages used by input script which are not available through CRAN repo
-  missingOtherPackages <- missingPackages[!is.element(missingPackages,missingCranPackages)]
-  cat("\nThese packages will be installed from Bioconductor repo:\n")
-  print(missingOtherPackages)
-  
-  # install all missing CRAN packages
-  installed.packages(missingCranPackages)
-  
-  # install BioC installer to install packages from Bioconductor repo
-  #source("http://bioconductor.org/biocLite.R")
-  
-  # try to install all missing packages that are not available through CRAN repo
-  # from bioconductor repo
-  #biocLite(missingOtherPackages,suppressUpdates=TRUE, suppressAutoUpdate=TRUE, ask=FALSE)
+  # are there any packages missing which are not from CRAN
+  missingPackages <- !pacman::p_isinstalled(usedPackages)
+  if(any(missingPackages)){
+    if(p_loaded(BiocInstaller)){ # if biocLite is installed and loaded then install
+      cat("BiocInstaller is already loaded. Start installing packages...\n")
+      biocLite(usedPackages[missingPackages],suppressUpdates=TRUE, suppressAutoUpdate=TRUE, ask=FALSE)
+    } else { # if biocLite is not loaded then first source then install
+      cat("BiocInstaller is not yet loaded. Sourcing biocLite.R...\n")
+      source("http://bioconductor.org/biocLite.R")
+      cat("BiocInstaller is now loaded. Start installing packages...\n")
+      biocLite(usedPackages[missingPackages],suppressUpdates=TRUE, suppressAutoUpdate=TRUE, ask=FALSE)
+    }
+  }
   return(invisible("pkg_install_complete"))
 }

@@ -69,6 +69,3 @@ assertTrue(new_sysId != 666)
 
 assertThat(nrow(utils::installed.packages()[,c(1,3)]), 
            equalTo(nrow(benchGetter(target = "allpackageversions"))))
-
-testLoad <- .onLoad(1,2)
-assertFalse(is.null(testLoad))

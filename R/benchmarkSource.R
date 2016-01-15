@@ -1,8 +1,3 @@
-# Generate and store systemId and system information
-.onLoad <- function(libname, pkgname){
-  setSystemID()
-}
-
 #' benchmarkSource
 #' @title Simple Benchmark/Profiling Tool For R Scripts
 #' @author Parham Solaimani

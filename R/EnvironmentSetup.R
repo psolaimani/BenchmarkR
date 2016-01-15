@@ -51,7 +51,7 @@ ExecEnvironment$WARNINGS <- data.frame(
 #' @import pacman
 #' @export
 installUsedPackages <- function(file = NULL){
-  options(repos = c(CRAN = "http://cran.at.r-project.org"))
+  options(repos = c(CRAN = "http://cran.rstudio.com/"))
   # validate input
   if(is.null(file)){
     cat("\nFile not provided, can't extract used packages.\n")

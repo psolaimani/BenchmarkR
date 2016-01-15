@@ -8,7 +8,6 @@ before_install:
 install:
   - ./travis-tool.sh install_github jimhester/covr
   - ./travis-tool.sh install_github bedatadriven/hamcrest
-  - ./travis-tool.sh install_github psolaimani/BiocInstaller
   - ./travis-tool.sh install_r pacman
   - ./travis-tool.sh install_deps
 
@@ -24,4 +23,5 @@ r_github_packages:
   - psolaimani/benchmarkR
 
 after_success:
-  - Rscript -e 'library(covr);codecov()'
+  - Rscript -e "library(covr);codecov()"
+  - Rscript -e "source('http://bioconductor.org/biocLite.R')"

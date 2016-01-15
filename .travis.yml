@@ -24,4 +24,5 @@ r_github_packages:
 
 after_success:
   - Rscript -e "library(covr);codecov()"
+  - Rscript -e "print(.libPaths())"
   - Rscript -e "source('http://bioconductor.org/biocLite.R')"

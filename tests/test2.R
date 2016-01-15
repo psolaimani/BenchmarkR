@@ -54,7 +54,7 @@ sysId_prf <- benchGetter(target = "profile", indexCol = "process", selectValue =
 assertTrue(sysId == sysId_prf)
 
 old_sysId <- benchGetter(target = "systemid")
-assign("systemId", 666, envir = ExecEnvironment)
+assign("systemId", 666, envir = benchmarkR::ExecEnvironment)
 setSystemID()
 new_sysId <- benchGetter(target = "systemid")
 assertTrue(nchar(new_sysId) == 18)

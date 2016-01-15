@@ -42,7 +42,7 @@ print(sysId_prf)
 print(class(sysId))
 print(class(sysId_prf))
 isSame <- sysId == sysId_prf
-assertTrue(sysId == sysId_prf)
+assertTrue(isSame)
 
 
 getterReturn <- benchGetter(target = "profile")

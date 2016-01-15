@@ -85,10 +85,11 @@ installUsedPackages <- function(file = NULL){
   missingPackages <- !pacman::p_isinstalled(usedPackages)
   if(any(missingPackages)){
       # install BioC packages
-      BiocInstaller::biocLite(usedPackages[missingPackages],
+      try(BiocInstaller::biocLite(usedPackages[missingPackages],
                               suppressUpdates=TRUE, 
                               suppressAutoUpdate=TRUE, 
                               ask=FALSE)
+      , TRUE) 
   }
   return(invisible("pkg_install_complete"))
 }

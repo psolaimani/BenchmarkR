@@ -33,6 +33,11 @@ pkg_installation <- installUsedPackages(file = "./test3.R")
 assertFalse(is.null(pkg_installation))
 
 
+sysId <- benchGetter(target = "systemId")
+sysId_prf <- benchGetter(target = "profile", indexCol = "process", selectValue = "BENCHMARK", returnCol = "systemId")[1]
+assertTrue(sysId == sysId_prf)
+
+
 getterReturn <- benchGetter(target = "profile")
 assertTrue(is.null(getterReturn))
 getterReturn <- benchGetter(target = "profilerun")
@@ -50,12 +55,6 @@ sysId = setSystemID()
 assertFalse(is.null(sysId))
 benchCleaner(target = "meta")
 assertTrue(nrow(benchGetter(target = "meta")) == 0)
-
-sysId <- benchGetter(target = "systemId")
-print(sysId)
-print(str(benchGetter(target = "profile", indexCol = "process", selectValue = "BENCHMARK", returnCol = "systemId")))
-sysId_prf <- benchGetter(target = "profile", indexCol = "process", selectValue = "BENCHMARK", returnCol = "systemId")[1,1]
-assertTrue(sysId == sysId_prf)
 
 old_sysId <- benchGetter(target = "systemid")
 assign("systemId", 666, envir = benchmarkR::ExecEnvironment)

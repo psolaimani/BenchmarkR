@@ -84,15 +84,11 @@ installUsedPackages <- function(file = NULL){
   # are there any packages missing which are not from CRAN
   missingPackages <- !pacman::p_isinstalled(usedPackages)
   if(any(missingPackages)){
-    if(p_loaded(BiocInstaller)){ # if biocLite is installed and loaded then install
-      cat("BiocInstaller is already loaded. Start installing packages...\n")
-      biocLite(usedPackages[missingPackages],suppressUpdates=TRUE, suppressAutoUpdate=TRUE, ask=FALSE)
-    } else { # if biocLite is not loaded then first source then install
-      cat("BiocInstaller is not yet loaded. Sourcing biocLite.R...\n")
-      source("http://bioconductor.org/biocLite.R")
-      cat("BiocInstaller is now loaded. Start installing packages...\n")
-      biocLite(usedPackages[missingPackages],suppressUpdates=TRUE, suppressAutoUpdate=TRUE, ask=FALSE)
-    }
+      # install BioC packages
+      BiocInstaller::biocLite(usedPackages[missingPackages],
+                              suppressUpdates=TRUE, 
+                              suppressAutoUpdate=TRUE, 
+                              ask=FALSE)
   }
   return(invisible("pkg_install_complete"))
 }

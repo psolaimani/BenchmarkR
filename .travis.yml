@@ -8,6 +8,7 @@ before_install:
 install:
   - ./travis-tool.sh install_github jimhester/covr
   - ./travis-tool.sh install_github bedatadriven/hamcrest
+  - ./travis-tool.sh install_github psolaimani/BiocInstaller
   - ./travis-tool.sh install_r pacman
   - ./travis-tool.sh install_deps
 

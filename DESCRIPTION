@@ -5,7 +5,7 @@ Version: 0.1
 Date: 2015-12-11
 Author: Parham Solaimani, Maarten-Jan Kallen, Alexander Bertram
 Maintainer: Parham Solaimani <parham@bedatadriven.com>
-Imports: stringr, parallel, utils, hamcrest, pacman
+Imports: stringr, parallel, utils, hamcrest, pacman, rJava, RJDBC
 Description: A simple benchmarking and profiling tool for R scripts.
 License: GPL-2
 LazyData: TRUE

@@ -72,3 +72,11 @@ assertThat(nrow(utils::installed.packages()[,c(1,3)]),
 
 nopkgs <- benchGetter( target = "usedpackages", file = "./test4.R")
 assertTrue(is.null(nopkgs))
+
+
+update <- benchDBReport()
+assertTrue(is.null(update))
+update <- benchDBReport(usr = "usr", psw = "psw", con_str = "jdbc:mysql:location/database/table")
+assertThat(update, equalTo("DB_UPDATED"))
+update <- benchDBReport(usr = "usr", psw = "psw", con_str = "jdbc:other:location/database/table")
+assertTrue(is.null(update))

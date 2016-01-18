@@ -2,11 +2,9 @@ for(i in 1:100){
   rnorm(100)
 }
 
-cat("1st data read\n")
 dt <- utils::read.table(system.file("extdata", "RNAseq2.txt", package = "benchmarkR"),sep="\t",dec=".")
 head(dt)[1,1]
 tail(dt)[1,1]
-cat("end 1st data read\n")
 
 for(i in 1:100){
   rnorm(100)

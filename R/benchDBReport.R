@@ -1,17 +1,17 @@
 #' benchDBReport
 #' @description Uploads benchmarking/profiling results tp database
-#' @usage benchDBReport(usr, psw, con_str)
+#' @usage benchDBReport(usr, pwd, con_str)
 #' @param usr database usrname
 #' @param psw database password
 #' @param con_str database connection string jdbc:mysql:location/database/table
 #' @import rJava RJDBC
 #' @export
-benchDBReport <- function(usr=NULL, psw=NULL, con_str=NULL){
+benchDBReport <- function(usr=NULL, pwd=NULL, con_str=NULL){
   require("rJava")
   require("RJDBC")
   
   # check if con info is provided
-  if(is.null(usr) | is.null(psw) | is.null(con_str)){
+  if(is.null(usr) | is.null(pwd) | is.null(con_str)){
     cat("Can't write results to database. Missing connection information.\n")
     return(NULL)
   }
@@ -20,26 +20,57 @@ benchDBReport <- function(usr=NULL, psw=NULL, con_str=NULL){
   con_type <- unlist(strsplit(con_str, ":"))[2]
   con_type <- tolower(con_type)
   
-  updateRecord <- function(conn, table, data, var_nr){
-
-  }
+  # Get benchmarking/profiling data
+  cur_bmrk <- benchGetter(target = "benchmarks" )
+  cur_prfl <- benchGetter( target = "profiles" )
+  cur_meta <- benchGetter( target = "meta" )
+  
+  # No connection to database has been made
+  CONNECTED <- FALSE
+  
   
   if (con_type == "mysql"){
+    # Connect to MySQL
     cat("Connecting to MySQL database.\n")
     drv <- JDBC("com.mysql.jdbc.Driver", "./inst/java/mysql.jar")
-    conn <- dbConnect(drv, con_str, user=usr, password=psw)
+    conn <- dbConnect(drv, con_str, user=usr, password=pwd)
+    CONNECTED <- TRUE
     cat("Connection to database established.\n")
-    cur_bmrk <- benchGetter(target = "benchmarks" )
-    cur_prfl <- benchGetter( target = "profiles" )
-    cur_meta <- benchGetter( target = "meta" )
     
+  } else if (con_type == "hsqldb") {
+    # Connect to HSQLDb
+    cat("Connecting to HSQLDB database.\n")
+    drv <- JDBC("org.hsqldb.jdbc.JDBCDriver", "./inst/java/hsqldb.jar")
+    conn <- dbConnect(drv, con_str, user=usr, password=pwd)
+    CONNECTED <- TRUE
+    cat("Connection to database established.\n")
+    
+  } else if (con_type == "oracle") {
+    # Connect to PostgreSQL
+    cat("Connecting to PostgreSQL database.\n")
+    drv <- JDBC("org.postgresql.Driver", "./inst/java/ojdbc.jar", identifier.quote=NA )
+    conn <- dbConnect(drv, con_str, user=usr, password=pwd)
+    CONNECTED <- TRUE
+    cat("Connection to database established.\n")
+    
+  } else{
+    
+    cat(sprintf("Database of type %s is not yet supported", con_type))
+    CONNECTED <- FALSE
+    return(NULL)
+    
+  }
+  
+  if (CONNECTED == TRUE) {
     cat("Start adding records to BENCHMARKS table\n")
     for (i in 1:nrow(cur_bmrk)){
       try(
         dbSendUpdate(conn,
                      sprintf(
-                       "INSERT INTO BENCHMARKS VALUES ( \'%s\', \'%s\', \'%s\', \'%s\' );",
-                       cur_bmrk[i,1], cur_bmrk[i,2], cur_bmrk[i,3], cur_bmrk[i,4]
+                       "INSERT INTO BENCHMARKS VALUES 
+                       ( \'%s\', \'%s\', \'%s\', \'%s\' );",
+                       cur_bmrk[i,1], cur_bmrk[i,2], 
+                       cur_bmrk[i,3], cur_bmrk[i,4]
                      )
         )
         , TRUE)
@@ -50,8 +81,12 @@ benchDBReport <- function(usr=NULL, psw=NULL, con_str=NULL){
       try(
         dbSendUpdate(conn,
                      sprintf(
-                       "INSERT INTO PROFILES VALUES ( \'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\', \'%s\' );",
-                       cur_prfl[i,1], cur_prfl[i,2], cur_prfl[i,3], cur_prfl[i,4], cur_prfl[i,5], cur_prfl[i,6], cur_prfl[i,7]
+                       "INSERT INTO PROFILES VALUES 
+                       ( \'%s\', \'%s\', \'%s\', \'%s\', 
+                       \'%s\', \'%s\', \'%s\' );",
+                       cur_prfl[i,1], cur_prfl[i,2], 
+                       cur_prfl[i,3], cur_prfl[i,4], 
+                       cur_prfl[i,5], cur_prfl[i,6], cur_prfl[i,7]
                      )
         )
         , TRUE)
@@ -62,19 +97,17 @@ benchDBReport <- function(usr=NULL, psw=NULL, con_str=NULL){
       try(
         dbSendUpdate(conn,
                      sprintf(
-                       "INSERT INTO META VALUES ( \'%s\', \'%s\', \'%s\' );",
+                       "INSERT INTO META VALUES 
+                       ( \'%s\', \'%s\', \'%s\' );",
                        cur_meta[i,1], cur_meta[i,2], cur_meta[i,3]
                      )
         )
         , TRUE)
     }
     
-  } else {
-    cat(sprintf("Database of type %s is not yet supported", con_type))
-    return(NULL)
-  }
+    cat("Database updated!\nClosing database connection\n")
+  } 
   
-  cat("Database updated!\nClosing database connection\n")
   dbDisconnect(conn)
   return(invisible("DB_UPDATED"))
 }

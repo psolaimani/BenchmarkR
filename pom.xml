@@ -1,0 +1,196 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.github.psolaimani</groupId>
+    <artifactId>benchmarkr</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <!-- general information about your package -->
+    <name>benchmarkr</name>
+    <description>A simple benchmarking/profiling tool for R scripts</description>
+    <url>http://github.com/psolaimani/BenchmarkR</url>
+    <licenses>
+        <!-- add one or more licenses under which the package is released -->
+        <license>
+            <name>Apache License version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+        </license>
+    </licenses>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <renjin.version>0.7.0-RC8-SNAPSHOT</renjin.version>
+    </properties>
+
+    <dependencies>
+        <!-- the script engine is convenient even if you do not use it explicitly -->
+        <dependency>
+            <groupId>org.renjin</groupId>
+            <artifactId>renjin-script-engine</artifactId>
+            <version>${renjin.version}</version>
+        </dependency>
+
+        <!-- the hamcrest package is only required if you use it for unit tests -->
+        <dependency>
+            <groupId>org.renjin</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>${renjin.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.renjin.cran</groupId>
+            <artifactId>BiocGenerics</artifactId>
+            <version>${renjin.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.renjin.cran</groupId>
+            <artifactId>GenomicRanges</artifactId>
+            <version>${renjin.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.renjin</groupId>
+            <artifactId>IRanges</artifactId>
+            <version>${renjin.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.renjin.cran</groupId>
+            <artifactId>Rsamtools</artifactId>
+            <version>${renjin.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.renjin.cran</groupId>
+            <artifactId>parallel</artifactId>
+            <version>${renjin.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.renjin</groupId>
+            <artifactId>RMySQL</artifactId>
+            <version>${renjin.version}</version>
+            <!--<scope>test</scope> -->
+        </dependency>
+
+        <dependency>
+            <groupId>org.renjin</groupId>
+            <artifactId>MonetDB.R</artifactId>
+            <version>${renjin.version}</version>
+            <!--<scope>test</scope> -->
+        </dependency>
+
+        <dependency>
+            <groupId>org.renjin</groupId>
+            <artifactId>ROrcale</artifactId>
+            <version>${renjin.version}</version>
+            <!--<scope>test</scope> -->
+        </dependency>
+
+        <dependency>
+            <groupId>org.renjin</groupId>
+            <artifactId>RPostgreSQL</artifactId>
+            <version>${renjin.version}</version>
+            <!--<scope>test</scope> -->
+        </dependency>
+
+        <dependency>
+            <groupId>org.renjin</groupId>
+            <artifactId>pacman</artifactId>
+            <version>${renjin.version}</version>
+            <!--<scope>test</scope> -->
+        </dependency>
+
+        <dependency>
+            <groupId>org.renjin</groupId>
+            <artifactId>stringr</artifactId>
+            <version>${renjin.version}</version>
+            <!--<scope>test</scope> -->
+        </dependency>
+
+        <dependency>
+            <groupId>org.renjin</groupId>
+            <artifactId>utils</artifactId>
+            <version>${renjin.version}</version>
+            <!--<scope>test</scope> -->
+        </dependency>
+
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>bedatadriven</id>
+            <name>bedatadriven public repo</name>
+            <url>http://nexus.bedatadriven.com/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>renjin</id>
+            <name>Renjin CI Builds</name>
+            <url>http://ci.repo.renjin.org/</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>bedatadriven</id>
+            <name>bedatadriven public repo</name>
+            <url>http://nexus.bedatadriven.com/content/groups/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.renjin</groupId>
+                <artifactId>renjin-maven-plugin</artifactId>
+                <version>${renjin.version}</version>
+                <executions>
+                    <execution>
+                        <id>renjin-compile</id>
+                        <goals>
+                            <goal>namespace-compile</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirectory>${basedir}/R</sourceDirectory>
+                            <dataDirectory>${basedir}/inst/extdata</dataDirectory>
+                        </configuration>
+                    </execution>
+                    <!--<execution>-->
+                        <!--<id>gnur-compile</id>-->
+                        <!--<goals>-->
+                            <!--<goal>gnur-sources-compile</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<sourceDirectories>-->
+                                <!--<sourceDirectory>${basedir}/src</sourceDirectory>-->
+                            <!--</sourceDirectories>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                    <execution>
+                        <id>renjin-test</id>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <testSourceDirectory>${basedir}/tests</testSourceDirectory>
+                            <defaultPackages>
+                                <package>methods</package>
+                                <package>stats</package>
+                                <package>utils</package>
+                                <package>grDevices</package>
+                                <package>graphics</package>
+                                <package>datasets</package>
+                            </defaultPackages>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

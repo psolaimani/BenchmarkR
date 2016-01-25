@@ -4,11 +4,9 @@
 #' @param usr database usrname
 #' @param psw database password
 #' @param con_str database connection string jdbc:mysql:location/database/table
-#' @import rJava RJDBC
+#' @import RMySQL RPostgreSQL MonetDB.R ROracle
 #' @export
 benchDBReport <- function(usr=NULL, pwd=NULL, con_str=NULL){
-  require("rJava")
-  require("RJDBC")
   
   # check if con info is provided
   if(is.null(usr) | is.null(pwd) | is.null(con_str)){
@@ -32,28 +30,36 @@ benchDBReport <- function(usr=NULL, pwd=NULL, con_str=NULL){
   if (con_type == "mysql"){
     # Connect to MySQL
     cat("Connecting to MySQL database.\n")
-    drv <- JDBC("com.mysql.jdbc.Driver", "./inst/java/mysql.jar")
-    conn <- dbConnect(drv, con_str, user=usr, password=pwd)
+    require(RMySQL)
+    conn <- dbConnect(RMySQL(), con_str, usr, pwd)
     CONNECTED <- TRUE
     cat("Connection to database established.\n")
     
-  } else if (con_type == "hsqldb") {
-    # Connect to HSQLDb
-    cat("Connecting to HSQLDB database.\n")
-    drv <- JDBC("org.hsqldb.jdbc.JDBCDriver", "./inst/java/hsqldb.jar")
-    conn <- dbConnect(drv, con_str, user=usr, password=pwd)
-    CONNECTED <- TRUE
-    cat("Connection to database established.\n")
-    
-  } else if (con_type == "oracle") {
+  } else if (con_type == "postgresql") {
     # Connect to PostgreSQL
     cat("Connecting to PostgreSQL database.\n")
-    drv <- JDBC("org.postgresql.Driver", "./inst/java/ojdbc.jar", identifier.quote=NA )
-    conn <- dbConnect(drv, con_str, user=usr, password=pwd)
+    require(RPostgreSQL)
+    conn <- dbConnect(RPostgreSQL(), con_str, usr, pwd)
     CONNECTED <- TRUE
     cat("Connection to database established.\n")
     
-  } else{
+  } else if (con_type == "monetdb") {
+    # Connect to PostgreSQL
+    cat("Connecting to MonetDB database.\n")
+    require(MonetDB.R)
+    conn <- dbConnect(MonetDB.R(), con_str, usr, pwd)
+    CONNECTED <- TRUE
+    cat("Connection to database established.\n")
+    
+  } else if (con_type == "oracle"){
+    # Connect to Oracle
+    cat("Connecting to Oracle database.\n")
+    require(ROracle)
+    conn <- dbConnect(ROracle(), url=con_str, username=usr, password=pwd)
+    CONNECTED <- TRUE
+    cat("Connection to database established.\n")
+    
+  } else {
     
     cat(sprintf("Database of type %s is not yet supported", con_type))
     CONNECTED <- FALSE

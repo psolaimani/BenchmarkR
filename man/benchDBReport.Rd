@@ -4,14 +4,14 @@
 \alias{benchDBReport}
 \title{benchDBReport}
 \usage{
-benchDBReport(usr, psw, con_str)
+benchDBReport(usr, pwd, con_str)
 }
 \arguments{
 \item{usr}{database usrname}
 
-\item{psw}{database password}
-
 \item{con_str}{database connection string jdbc:mysql:location/database/table}
+
+\item{psw}{database password}
 }
 \description{
 Uploads benchmarking/profiling results tp database

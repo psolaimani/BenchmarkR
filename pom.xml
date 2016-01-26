@@ -50,31 +50,31 @@
         <dependency>
             <groupId>org.renjin.cran</groupId>
             <artifactId>RMySQL</artifactId>
-            <version>[1.0,)</version>
+            <version>1.0.48</version>
         </dependency>
 
         <dependency>
             <groupId>org.renjin.cran</groupId>
             <artifactId>MonetDB.R</artifactId>
-            <version>[1.0,)</version>
+            <version>1.0.48</version>
         </dependency>
 
         <dependency>
             <groupId>org.renjin.cran</groupId>
             <artifactId>ROracle</artifactId>
-            <version>[1.0,)</version>
+            <version>1.0.48</version>
         </dependency>
 
         <dependency>
             <groupId>org.renjin.cran</groupId>
             <artifactId>RPostgreSQL</artifactId>
-            <version>[1.0,)</version>
+            <version>1.0.48</version>
         </dependency>
 
         <dependency>
             <groupId>org.renjin.cran</groupId>
             <artifactId>stringr</artifactId>
-            <version>[0.6,)</version>
+            <version>1.0.0-b210</version>
         </dependency>
 
          <dependency>

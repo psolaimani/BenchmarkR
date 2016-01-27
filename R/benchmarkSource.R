@@ -30,31 +30,30 @@ benchmarkSource <- function(file,timed_fun = NULL) {
   # get a unique ID to identify this benchmark
   runId <- as.character( benchGetter(target = "Id") )
 
-  # save file name and runId to BenchmarkEnvironment for use by
+  # save file name and runId to ExEnv for use by
   # setter/getter/etc functions in that environment
-  assign("file", file, envir = BenchmarkEnvironment)
-  assign("runId", runId, envir = BenchmarkEnvironment)
+  assign( "file", file, envir = ExEnv )
+  assign( "runId", runId, envir = ExEnv )
 
   # Check content input file for use of direct calling of functions from packages
   # by package::function() annotation.
-  checkSource(file = file, runId = runId)
-  
-  file_dir <- dirname(file)
-  filename <- basename(file)
-  setwd(file_dir)
+  checkSource( file = file, runId = runId )
   
   # start timing benchmark
-  B_start <- as.numeric(Sys.time())
-  source(filename, local = ExecEnvironment)
-  B_end <- as.numeric(Sys.time())
-
+  B_start <- as.numeric( Sys.time() )
+  try( source( filename, local = ExEnv ) )
+  B_end <- as.numeric( Sys.time() )
+  
   # add BENCHMARK timing to timings of the script (and its components)
   setTiming(process ="BENCHMARK", start = B_start, end = B_end)
+  setTiming( process ="BENCHMARK", start = B_start, end = B_end )
+  
   # add BENCHMARK timing to all other benchmarks stored in ExecEnvironment$BENCHMARKS
   setBenchmark()
+  
   # get all recorded benchmarks
-  benchmark <- benchGetter(target = "benchmarks")
-
+  benchmark <- benchGetter( target = "benchmarks" )
+  
   # return the last benchmark result
-  return(benchmark[,]$time[nrow(benchmark)])
+  return( benchmark$time[ nrow(benchmark) ] )
 }

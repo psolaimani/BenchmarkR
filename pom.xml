@@ -61,20 +61,8 @@
 
         <dependency>
             <groupId>org.renjin.cran</groupId>
-            <artifactId>ROracle</artifactId>
-            <version>1.0.48</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.renjin.cran</groupId>
             <artifactId>RPostgreSQL</artifactId>
             <version>1.0.48</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.renjin.cran</groupId>
-            <artifactId>stringr</artifactId>
-            <version>1.0.0-b210</version>
         </dependency>
 
          <dependency>
@@ -126,9 +114,7 @@
                           <defaultPackages>
                             <package>utils</package>
                             <package>hamcrest</package>
-                            <pkg>stringr</pkg>
                             <pkg>RMySQL</pkg>
-                            <pkg>ROracle</pkg>
                             <pkg>RPostgreSQL</pkg>
                             <pkg>MonetDB.R</pkg>
                           </defaultPackages>

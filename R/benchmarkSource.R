@@ -38,10 +38,14 @@ benchmarkSource <- function(file,timed_fun = NULL) {
   # Check content input file for use of direct calling of functions from packages
   # by package::function() annotation.
   checkSource(file = file, runId = runId)
-
+  
+  file_dir <- dirname(file)
+  filename <- basename(file)
+  setwd(file_dir)
+  
   # start timing benchmark
   B_start <- as.numeric(Sys.time())
-  source(file, local = ExecEnvironment)
+  source(filename, local = ExecEnvironment)
   B_end <- as.numeric(Sys.time())
 
   # add BENCHMARK timing to timings of the script (and its components)

@@ -35,14 +35,14 @@ benchDBReport <- function(usr=NULL, pwd=NULL, con_str=NULL){
     CONNECTED <- TRUE
     cat("Connection to database established.\n")
     
-  } else if (con_type == "postgresql") {
-    # Connect to PostgreSQL
-    cat("Connecting to PostgreSQL database.\n")
-    require(RPostgreSQL)
-    conn <- dbConnect(RPostgreSQL(), con_str, usr, pwd)
-    CONNECTED <- TRUE
-    cat("Connection to database established.\n")
-    
+#  } else if (con_type == "postgresql") {
+#    # Connect to PostgreSQL
+#    cat("Connecting to PostgreSQL database.\n")
+#    require(RPostgreSQL)
+#    conn <- dbConnect(RPostgreSQL(), con_str, usr, pwd)
+#    CONNECTED <- TRUE
+#    cat("Connection to database established.\n")
+#    
   } else if (con_type == "monetdb") {
     # Connect to PostgreSQL
     cat("Connecting to MonetDB database.\n")

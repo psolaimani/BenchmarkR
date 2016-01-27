@@ -101,7 +101,7 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
       pkgs
     }
     
-    usedPackagesNames <- as.vector(na.omit(parse.one(scriptLines, parsed)))
+    usedPackagesNames <- as.vector(na.omit(extr_pkg(scriptLines, parsed)))
       
     return(usedPackagesNames)
   }

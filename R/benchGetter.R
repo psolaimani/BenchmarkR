@@ -102,6 +102,10 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
     }
     
     usedPackagesNames <- as.vector(na.omit(extr_pkg(scriptLines, parsed)))
+    
+    if(class(usedPackagesNames) == "logical") {
+      return(NULL)
+      }
       
     return(usedPackagesNames)
   }

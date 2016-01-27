@@ -69,7 +69,7 @@ installUsedPackages <- function(file = NULL){
     return(NULL)
   }
   
-  cat(sprintf("\nThese packages are used by: %s\n",file))
+  cat(sprintf("\nPackages used by '%s' are:\n",file))
   print(usedPackages)
   
 #  # are packages already installed or not?

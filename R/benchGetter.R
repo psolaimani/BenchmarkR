@@ -15,7 +15,6 @@
 #' @param selectValue this value will be compared to \code{indexCol} to filter profiling records
 #' @param selectedRunId which \code{runId} to use for filtering profiling records
 #' @param file packages used in this file will be extracted and installed
-#' @importFrom stringr str_extract
 #' @importFrom utils installed.packages
 #' @export
 benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue = NULL, selectedRunId = NULL, file = NULL){
@@ -83,22 +82,26 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
     cat(sprintf("\nIdentifying used packages in: %s\n",file))
     scriptLines <- readLines(file)
     # make a vector of lines with library( or require(
-    usedPackages <- as.vector(
-      na.omit(stringr::str_extract(scriptLines, "(library|require)\\(.*"))
-    )
-    usedPackagesNames <- c(character(0))
-    for(i in 1:length(usedPackages)){
-      # extract the package name from library(package) and remove
-      # the optional ' or " characters around package name
-      currentPackageName <- sub("(library|require)\\({1}(\"|\')*([[:alnum:]]*)(\"|\')*\\){1}",
-                                "\\3", usedPackages[i], perl = TRUE)
-      usedPackagesNames <- c(usedPackagesNames,currentPackageName)
+    
+    pkg_regexp <- "(library|require)\\({1}(\"|\')*([[:alnum:]]*)(\"|\')*\\){1}"
+    parsed <- regexpr(pkg_regexp, scriptLines, perl = TRUE)
+    
+    extr_pkg <- function(res, result) {
+      pkgs <- do.call(
+        rbind, 
+        lapply(seq_along(res), 
+               function(i) {
+                 if(result[i] == -1) return(NA)
+                 str_name <- attr(result, "capture.start")[i, 3]
+                 end_name <- attr(result, "capture.length")[i, 3] - 1
+                 substring(res[i], str_name, str_name + end_name)
+               }
+        )
+      )
+      pkgs
     }
     
-    #if (is.na(usedPackagesNames)){
-    #  cat(sprintf("No packages found in: %s\n", file))
-    #  return(NULL)
-    #}
+    usedPackagesNames <- as.vector(na.omit(parse.one(scriptLines, parsed)))
       
     return(usedPackagesNames)
   }

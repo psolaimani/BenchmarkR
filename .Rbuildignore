@@ -8,4 +8,4 @@
 ^.RData$
 ^.Rhistory$
 ^.*\.sh$
-pom.xml
+pom.xml$

@@ -48,7 +48,6 @@ ExecEnvironment$WARNINGS <- data.frame(
 #' @param file path to a R script.
 #' @return installs packages loaded within input script.
 #' @usage  installUsedPackages(file)
-#' @import pacman
 #' @export
 installUsedPackages <- function(file = NULL){
   options(repos = c(CRAN = "http://cran.rstudio.com/"))
@@ -73,23 +72,23 @@ installUsedPackages <- function(file = NULL){
   cat(sprintf("\nThese packages are used by: %s\n",file))
   print(usedPackages)
   
-  # are packages already installed or not?
-  # which are available on CRAN
-  # install if available on CRAN and not installed
-  statePackages <- pacman::p_isinstalled(usedPackages)
-  isCran <- pacman::p_iscran(usedPackages)
-  toInstall <- statePackages == FALSE & isCran == TRUE
-  pacman::p_install(usedPackages[toInstall])
-  
-  # are there any packages missing which are not from CRAN
-  missingPackages <- !pacman::p_isinstalled(usedPackages)
-  if(any(missingPackages)){
-      # install BioC packages
-      try(BiocInstaller::biocLite(usedPackages[missingPackages],
-                              suppressUpdates=TRUE, 
-                              suppressAutoUpdate=TRUE, 
-                              ask=FALSE)
-      , TRUE) 
-  }
+#  # are packages already installed or not?
+#  # which are available on CRAN
+#  # install if available on CRAN and not installed
+#  statePackages <- pacman::p_isinstalled(usedPackages)
+#  isCran <- pacman::p_iscran(usedPackages)
+#  toInstall <- statePackages == FALSE & isCran == TRUE
+#  pacman::p_install(usedPackages[toInstall])
+#  
+#  # are there any packages missing which are not from CRAN
+#  missingPackages <- !pacman::p_isinstalled(usedPackages)
+#  if(any(missingPackages)){
+#     # install BioC packages
+#      try(BiocInstaller::biocLite(usedPackages[missingPackages],
+#                              suppressUpdates=TRUE, 
+#                              suppressAutoUpdate=TRUE, 
+#                              ask=FALSE)
+#      , TRUE) 
+#  }
   return(invisible("pkg_install_complete"))
 }

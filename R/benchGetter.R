@@ -92,9 +92,9 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
         lapply(seq_along(res), 
                function(i) {
                  if(result[i] == -1) return(NA)
-                 str_name <- attr(result, "capture.start")[i, 3]
-                 end_name <- attr(result, "capture.length")[i, 3] - 1
-                 substring(res[i], str_name, str_name + end_name)
+                 str <- attr(result, "capture.start")[i, 3]
+                 end <- attr(result, "capture.length")[i, 3] - 1
+                 substring(res[i], str, str + end)
                }
         )
       )

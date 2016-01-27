@@ -4,7 +4,7 @@
 #' @param usr database usrname
 #' @param psw database password
 #' @param con_str database connection string jdbc:mysql:location/database/table
-#' @import RMySQL RPostgreSQL MonetDB.R ROracle
+#' @import RMySQL RPostgreSQL MonetDB.R
 #' @export
 benchDBReport <- function(usr=NULL, pwd=NULL, con_str=NULL){
   
@@ -51,14 +51,14 @@ benchDBReport <- function(usr=NULL, pwd=NULL, con_str=NULL){
     CONNECTED <- TRUE
     cat("Connection to database established.\n")
     
-  } else if (con_type == "oracle"){
-    # Connect to Oracle
-    cat("Connecting to Oracle database.\n")
-    require(ROracle)
-    conn <- dbConnect(ROracle(), url=con_str, username=usr, password=pwd)
-    CONNECTED <- TRUE
-    cat("Connection to database established.\n")
-    
+#  } else if (con_type == "oracle"){
+#    # Connect to Oracle
+#    cat("Connecting to Oracle database.\n")
+#    require(ROracle)
+#    conn <- dbConnect(ROracle(), url=con_str, username=usr, password=pwd)
+#    CONNECTED <- TRUE
+#    cat("Connection to database established.\n")
+#    
   } else {
     
     cat(sprintf("Database of type %s is not yet supported", con_type))

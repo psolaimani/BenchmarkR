@@ -1,6 +1,8 @@
 # benchmarkR
 [![Build Status](https://travis-ci.org/psolaimani/BenchmarkR.svg?branch=master)](https://travis-ci.org/psolaimani/BenchmarkR)
 [![codecov.io](https://codecov.io/github/psolaimani/BenchmarkR/coverage.svg?branch=master)](https://codecov.io/github/psolaimani/BenchmarkR?branch=master)
+[![Gitter](https://badges.gitter.im/psolaimani/BenchmarkR.svg)](https://gitter.im/psolaimani/BenchmarkR?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 a simple benchmark/profiling tool for R scripts.
 
 **Usage:**

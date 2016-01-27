@@ -22,7 +22,7 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
   target = tolower(target)
 
   if (target == "id"){
-    cat("\nGenerating a unique ID...\n")
+    # Generates a unique ID
     exactTime <- format(Sys.time(), "%y%m%d%H%M%S")
     randomNum <- sample(100000:999999, 1)
     id <- as.character(paste0(exactTime,randomNum))
@@ -30,11 +30,11 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
   }
 
   if (target == "profiles"){
-    return(ExecEnvironment$PROFILES)
+    return(ExEnv$PROFILES)
   }
 
   if (target == "benchmarks"){
-    return(ExecEnvironment$BENCHMARKS)
+    return(ExEnv$BENCHMARKS)
   }
 
   if (target == "profile"){
@@ -42,7 +42,7 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
       cat("\nRowname, columnname, or condition for subsetting Profiling data.frame is not provided.\n")
       return(NULL)
     }
-    return(ExecEnvironment$PROFILES[ExecEnvironment$PROFILES[indexCol] == selectValue, returnCol])
+    return(ExEnv$PROFILES[ExEnv$PROFILES[indexCol] == selectValue, returnCol])
   }
 
   if(target == "profilerun"){
@@ -51,21 +51,21 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
       return(NULL)
     }
     
-    select_run <- ExecEnvironment$PROFILES[,grep('runId',colnames(ExecEnvironment$PROFILES))] == selectedRunId
-    run <- ExecEnvironment$PROFILES[select_run,]
+    select_run <- ExEnv$PROFILES[,grep('runId',colnames(ExEnv$PROFILES))] == selectedRunId
+    run <- ExEnv$PROFILES[select_run,]
     return(run)
   }
 
   if (target == "warnings"){
-    return(ExecEnvironment$WARNINGS)
+    return(ExEnv$WARNINGS)
   }
   
   if (target == "systemid"){
-    return(ExecEnvironment$systemId)
+    return(ExEnv$systemId)
   }
   
   if (target == "meta"){
-    return(ExecEnvironment$META)
+    return(ExEnv$META)
   }
 
   if (target == "usedpackages"){

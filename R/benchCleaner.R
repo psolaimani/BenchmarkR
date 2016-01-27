@@ -11,8 +11,8 @@ benchCleaner <- function(target){
   target <- tolower(target)
 
   if(target == "profiles"){
-    ExecEnvironment$PROFILES <- NULL
-    ExecEnvironment$PROFILES <- data.frame(
+    ExEnv$PROFILES <- NULL
+    ExEnv$PROFILES <- data.frame(
       runId = character(0),
       systemId = character(0),
       file = character(0),
@@ -25,8 +25,8 @@ benchCleaner <- function(target){
   }
 
   if(target == "benchmarks"){
-    ExecEnvironment$BENCHMARKS <- NULL
-    ExecEnvironment$BENCHMARKS <- data.frame(
+    ExEnv$BENCHMARKS <- NULL
+    ExEnv$BENCHMARKS <- data.frame(
       runId = character(0),
       systemId = character(0),
       file = character(0),
@@ -36,8 +36,8 @@ benchCleaner <- function(target){
   }
 
   if(target == "meta"){
-    ExecEnvironment$META <- NULL
-    ExecEnvironment$META <- data.frame(
+    ExEnv$META <- NULL
+    ExEnv$META <- data.frame(
       systemId = character(0),
       systemAttribute = character(0),
       attributeValue = character(0)
@@ -46,8 +46,8 @@ benchCleaner <- function(target){
   }
 
   if(target == "warnings"){
-    ExecEnvironment$WARNINGS <- NULL
-    ExecEnvironment$WARNINGS <- data.frame(
+    ExEnv$WARNINGS <- NULL
+    ExEnv$WARNINGS <- data.frame(
       runId = character(0),
       file = character(0),
       lineOfDirectCall = integer(0)

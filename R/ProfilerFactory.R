@@ -82,7 +82,7 @@ addProfiler <- function(timed_fun=NULL){
     assign(
       fun,
       ProfilerFactory(fun = fun, pkg = pkg, prc = prc, typ = typ),
-      envir = ExecEnvironment
+      envir = ExEnv
     )
   }
 }

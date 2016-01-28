@@ -14,7 +14,7 @@ setTiming(process, start, end)
 \item{end}{end time process}
 }
 \value{
-adds a record to ExecEnvironment$PROFILES data.frame
+adds a record to ExEnv$PROFILES data.frame
 }
 \description{
 updates PROFILES data.frame by addition of given proccess duration

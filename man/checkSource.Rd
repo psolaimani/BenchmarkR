@@ -4,13 +4,12 @@
 \alias{checkSource}
 \title{checkSource}
 \usage{
-checkSource(file = BenchmarkEnvironment$file,
-  runId = BenchmarkEnvironment$runId)
+checkSource(file = .BenchEnv$file, runId = .BenchEnv$runId)
 }
 \arguments{
-\item{file}{name of the file being benchmarked (BenchmarkEnvironment$file)}
+\item{file}{name of the file being benchmarked (.BenchEnv$file)}
 
-\item{runId}{runId of the current benchmark (BenchmarkEnvironment$runId)}
+\item{runId}{runId of the current benchmark (.BenchEnv$runId)}
 }
 \value{
 number of direct calls detected (invisble), warning with number of direct calls is printed to console

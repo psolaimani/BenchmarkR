@@ -4,7 +4,7 @@
 #' @param usr database usrname
 #' @param psw database password
 #' @param con_str database connection string jdbc:mysql:location/database/table
-#' @import RMySQL RPostgreSQL MonetDB.R
+#' @import RMySQL MonetDB.R
 #' @export
 benchDBReport <- function(usr=NULL, pwd=NULL, con_str=NULL){
   
@@ -44,7 +44,7 @@ benchDBReport <- function(usr=NULL, pwd=NULL, con_str=NULL){
 #    cat("Connection to database established.\n")
 #    
   } else if (con_type == "monetdb") {
-    # Connect to PostgreSQL
+    # Connect to MonetDB
     cat("Connecting to MonetDB database.\n")
     require(MonetDB.R)
     conn <- dbConnect(MonetDB.R(), con_str, usr, pwd)

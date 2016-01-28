@@ -41,10 +41,17 @@
     </distributionManagement>
 
     <dependencies>
+      
         <dependency>
             <groupId>org.renjin</groupId>
             <artifactId>hamcrest</artifactId>
             <version>0.8.1893</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.renjin</groupId>
+            <artifactId>parallel</artifactId>
+            <version>0.8.1894</version>
         </dependency>
 
         <dependency>
@@ -113,6 +120,7 @@
                           <dataDirectory>${basedir}/inst/extdata</dataDirectory>
                           <defaultPackages>
                             <package>utils</package>
+                            <package>parallel</package>
                             <package>hamcrest</package>
                             <pkg>RMySQL</pkg>
                             <pkg>RPostgreSQL</pkg>

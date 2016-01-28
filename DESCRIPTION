@@ -5,7 +5,7 @@ Version: 0.1
 Date: 2015-12-11
 Author: Parham Solaimani, Maarten-Jan Kallen, Alexander Bertram
 Maintainer: Parham Solaimani <parham@bedatadriven.com>
-Imports: utils, hamcrest
+Imports: utils, hamcrest, parallel
 Suggests: RMySQL, MonetDB.R
 Description: A simple benchmarking and profiling tool for R scripts.
 License: GPL-2

@@ -94,6 +94,7 @@ checkSource <- function(file = .BenchEnv$file, runId = .BenchEnv$runId ){
 #' @description Generats a unique ID for the system on which the benchmark  is runned ones
 #' on loading of package and stores system information with this ID.
 #' @return unique id as character vector and system information are added as record to ExecEnvironment$META data.frame
+#' @importFrom parallel detectCores
 #' @export
 setSystemID <- function(){
   
@@ -118,7 +119,8 @@ setSystemID <- function(){
     
     attributes <- c(
       R.Version()[ c( "arch", "os", "major", "minor", "language", "version.string" ) ],
-      Sys.info()[ c( "sysname", "release", "version" ) ]
+      Sys.info()[ c( "sysname", "release", "version" ) ],
+      nphyscores=parallel::detectCores(logical = FALSE), nlogcores=parallel::detectCores(logical = TRUE)
     )
     
     cat("Saving system information to .BenchEnv$META...\n")

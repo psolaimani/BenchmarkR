@@ -6,16 +6,18 @@
 #' @return adds a record to ExEnv$PROFILES data.frame
 #' @export
 setTiming <- function( process, start, end ) {
+  Profiles <- benchGetter( target = "profiles")
   systemId <- benchGetter( target = "systemid" )
+  runId <- benchGetter( target = "runid")
   duration <- end - start
-  endDF <- nrow( ExEnv$PROFILES ) + 1
-  ExEnv$PROFILES[ endDF, ] <- c(ExEnv$runId,
-                                          systemId,
-                                          ExEnv$file,
-                                          process,
-                                          start,
-                                          end,
-                                          duration
+  
+  .BenchEnv$PROFILES <- rbind(Profiles, data.frame(runId = .BenchEnv$runId,
+                                                     systemId = systemId,
+                                                     file = .BenchEnv$file,
+                                                     process = process,
+                                                     start = start,
+                                                     end = end,
+                                                     duration = duration)
   )
 }
 
@@ -42,13 +44,14 @@ calcComputeTime <- function( runId ){
 #' @export
 setBenchmark <- function(){
   # adds last benchmark to benchmark results
-  cat("\nWriting this benchmark results to ExEnv$BENCHMARKS...\n")
+  cat("\nWriting this benchmark results to .BenchEnv$BENCHMARKS...\n")
   cat("Get benchmark results using benchGetter('benchmarks')\n")
-  runId <- ExEnv$runId
-  systemId <- ExEnv$systemId
-  file <- ExEnv$file
+  runId <- .BenchEnv$runId
+  systemId <- .BenchEnv$systemId
+  file <- .BenchEnv$file
   time <- calcComputeTime( runId = runId )
-  ExEnv$BENCHMARKS <- rbind( ExEnv$BENCHMARKS,
+  
+  .BenchEnv$BENCHMARKS <- rbind( .BenchEnv$BENCHMARKS,
                                       data.frame(
                                         runId = runId,          # unique runId
                                         systemId = systemId,
@@ -63,18 +66,18 @@ setBenchmark <- function(){
 #' Direct calls used by input script (package::function) are not timed and won't be substracted from the total run time. 
 #' This function, therefore, checks if inside input script direct function calls are made using ::/::: notation. 
 #' If this is the case, this function will print warnings for each direct call.
-#' @param file name of the file being benchmarked (ExEnv$file)
-#' @param runId runId of the current benchmark (ExEnv$runId)
+#' @param file name of the file being benchmarked (.BenchEnv$file)
+#' @param runId runId of the current benchmark (.BenchEnv$runId)
 #' @return number of direct calls detected (invisble), warning with number of direct calls is printed to console
 #' @export
-checkSource <- function(file = ExEnv$file, runId = ExEnv$runId ){
+checkSource <- function(file = .BenchEnv$file, runId = .BenchEnv$runId ){
   cat("\nChecking for direct calls in code...\n")
   direct_calls_detected <- 0
   content <- readLines( file )
   lineOfDirectCalls <- grep( "(::|:::)", content )
   direct_calls_detected <- length( lineOfDirectCalls )
   for(call in lineOfDirectCalls ) {
-    ExEnv$WARNINGS <- rbind( ExEnv$WARNINGS,
+    .BenchEnv$WARNINGS <- rbind( .BenchEnv$WARNINGS,
                                       data.frame(
                                         runId = runId,          # unique runId
                                         file = file,    # full script name being benchmarked
@@ -96,37 +99,37 @@ setSystemID <- function(){
   
   systemId <- as.character( benchGetter( target = "id" ) )
   
-  if ( try( exists( 'systemId' , envir = ExEnv) ) == FALSE ) {
+  if ( try( exists( 'systemId' , envir = .BenchEnv) ) == FALSE ) {
     cat( sprintf("systemId doesn't exist. New systemId: %s\n", systemId) )
     needSysId <- TRUE
   } else {
-    if ( nchar( ExEnv$systemId ) != 18 | class( ExEnv$systemId ) != "character") {
+    if ( nchar( .BenchEnv$systemId ) != 18 | class( .BenchEnv$systemId ) != "character") {
       cat( sprintf("Your systemId has incorrect format.\n New systemId: %s\n", systemId) )
       needSysId <- TRUE
     } else {
-      cat( sprintf("systemId exists: %s\n", ExEnv$systemId) )
+      cat( sprintf("systemId exists: %s\n", .BenchEnv$systemId) )
       needSysId <- FALSE
     }
   }
   
   if (needSysId == TRUE) {
-    assign( "systemId", systemId, envir = ExEnv )
-    cat( sprintf("Generated and assigned system ID: %s\n", ExEnv$systemId) )
+    assign( "systemId", systemId, envir = .BenchEnv )
+    cat( sprintf("Generated and assigned system ID: %s\n", .BenchEnv$systemId) )
     
     attributes <- c(
       R.Version()[ c( "arch", "os", "major", "minor", "language", "version.string" ) ],
       Sys.info()[ c( "sysname", "release", "version" ) ]
     )
     
-    cat("Saving system information to ExEnv$META...\n")
+    cat("Saving system information to .BenchEnv$META...\n")
     for (i in 1:length( names( attributes ) ) ){
-      ExEnv$META[i,] <- c( ExEnv$systemId, names(attributes)[i], attributes[[i]] )
+      .BenchEnv$META[i,] <- c( .BenchEnv$systemId, names(attributes)[i], attributes[[i]] )
     }
     
-    return( invisible( ExEnv$systemId ) )
+    return( invisible( .BenchEnv$systemId ) )
     
   } else {
-    return( invisible( ExEnv$systemId ) )
+    return( invisible( .BenchEnv$systemId ) )
   }
   
 }

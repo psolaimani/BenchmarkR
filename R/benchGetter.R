@@ -30,11 +30,11 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
   }
 
   if (target == "profiles"){
-    return(ExEnv$PROFILES)
+    return(.BenchEnv$PROFILES)
   }
 
   if (target == "benchmarks"){
-    return(ExEnv$BENCHMARKS)
+    return(.BenchEnv$BENCHMARKS)
   }
 
   if (target == "profile"){
@@ -42,7 +42,7 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
       cat("\nRowname, columnname, or condition for subsetting Profiling data.frame is not provided.\n")
       return(NULL)
     }
-    return(ExEnv$PROFILES[ExEnv$PROFILES[indexCol] == selectValue, returnCol])
+    return(.BenchEnv$PROFILES[.BenchEnv$PROFILES[indexCol] == selectValue, returnCol])
   }
 
   if(target == "profilerun"){
@@ -51,21 +51,25 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
       return(NULL)
     }
     
-    select_run <- ExEnv$PROFILES[,grep('runId',colnames(ExEnv$PROFILES))] == selectedRunId
-    run <- ExEnv$PROFILES[select_run,]
+    select_run <- .BenchEnv$PROFILES[,grep('runId',colnames(.BenchEnv$PROFILES))] == selectedRunId
+    run <- .BenchEnv$PROFILES[select_run,]
     return(run)
   }
 
   if (target == "warnings"){
-    return(ExEnv$WARNINGS)
+    return(.BenchEnv$WARNINGS)
   }
   
   if (target == "systemid"){
-    return(ExEnv$systemId)
+    return(.BenchEnv$systemId)
+  }
+  
+  if (target == "runid"){
+    return(.BenchEnv$runId)
   }
   
   if (target == "meta"){
-    return(ExEnv$META)
+    return(.BenchEnv$META)
   }
 
   if (target == "usedpackages"){
@@ -73,7 +77,6 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
       cat("\nFile not provided, can't extract used packages.\n")
       return(NULL)
     }
-
     if(!file.exists(file)){
       cat(sprintf("\nProvided file '%s' does not exist!\n",file))
           return(NULL)
@@ -81,8 +84,6 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
 
     cat(sprintf("\nIdentifying used packages in: %s\n",file))
     scriptLines <- readLines(file)
-    # make a vector of lines with library( or require(
-    
     pkg_regexp <- "(library|require)\\({1}(\"|\')*([[:alnum:]]*)(\"|\')*\\){1}"
     parsed <- regexpr(pkg_regexp, scriptLines, perl = TRUE)
     
@@ -103,6 +104,7 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
     
     usedPackagesNames <- as.vector(na.omit(extr_pkg(scriptLines, parsed)))
     
+    # when usedPackagesNames contains only NAs
     if(class(usedPackagesNames) == "logical") {
       return(NULL)
       }

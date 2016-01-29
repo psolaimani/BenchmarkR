@@ -99,7 +99,7 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
                if(parsed_vector[line] == -1) return(NA)
                start_pos <- attr(parsed_vector, "capture.start")[line, 3]
                length_name <- attr(parsed_vector, "capture.length")[line, 3] - 1
-               end_pos <- start_name + length_name
+               end_pos <- start_pos + length_name
                substring(string_vector[line], start_pos, end_pos)
              }
       )

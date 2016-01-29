@@ -100,6 +100,7 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
                start_pos <- attr(parsed_vector, "capture.start")[line, 3]
                length_name <- attr(parsed_vector, "capture.length")[line, 3] - 1
                end_pos <- start_pos + length_name
+               cat(sprintf("line[%s] \"%s\" \nstart_pos: %s, length_name: %s, end_pos: %s\n",line,string_vector[line],start_pos,length_name,end_pos))
                substring(string_vector[line], start_pos, end_pos)
              }
       )
@@ -114,7 +115,7 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
     if(class(usedPackagesNames) == "logical") {
       return(NULL)
       }
-      
+    
     return(usedPackagesNames)
   }
   

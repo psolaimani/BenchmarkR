@@ -71,7 +71,8 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
   if (target == "meta"){
     return(.BenchEnv$META)
   }
-
+  
+  
   if (target == "usedpackages"){
     if(is.null(file)){
       cat("\nFile not provided, can't extract used packages.\n")
@@ -83,28 +84,33 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
     }
 
     cat(sprintf("\nIdentifying used packages in: %s\n",file))
-    scriptLines <- readLines(file)
-    pkg_regexp <- "(library|require)\\({1}(\"|\')*([[:alnum:]]*)(\"|\')*\\){1}"
-    parsed <- regexpr(pkg_regexp, scriptLines, perl = TRUE)
+    # read file
+    string_vector <- readLines(file)
+    # regexp to select pkg name
+    pkg_regexp <- "(library|require)\\({1}(\"|\')*([[:alnum:]]*)(\"|\')*\\){1}" 
+    # parse string_vector with regexp and record coordinates of occurences 
+    parsed_vector <- regexpr(pkg_regexp, string_vector, perl = TRUE)
     
-    extr_pkg <- function(res, result) {
-      pkgs <- do.call(
-        rbind, 
-        lapply(seq_along(res), 
-               function(i) {
-                 if(result[i] == -1) return(NA)
-                 str <- attr(result, "capture.start")[i, 3]
-                 end <- attr(result, "capture.length")[i, 3] - 1
-                 substring(res[i], str, str + end)
-               }
-        )
+    # extract names from string_vector using coordinates from parsed_vector
+    usedPackagesNames <- do.call( 
+      rbind, 
+      lapply(seq_along(string_vector), 
+             function(line) {
+               if(parsed_vector[line] == -1) return(NA)
+               start_pos <- attr(parsed_vector, "capture.start")[line, 3]
+               length_name <- attr(parsed_vector, "capture.length")[line, 3] - 1
+               end_pos <- start_name + length_name
+               substring(string_vector[line], start_pos, end_pos)
+             }
       )
-      pkgs
-    }
+    )
     
-    usedPackagesNames <- as.vector(na.omit(extr_pkg(scriptLines, parsed)))
+    usedPackagesNames <- na.omit(usedPackagesNames) # remove empty lines
+    usedPackagesNames <- as.vector(usedPackagesNames) # make vector of pkg names
+    filter <- duplicated(usedPackagesNames) # identify duplicated names
+    usedPackagesNames <- usedPackagesNames[!filter] # filter out duplicates
     
-    # when usedPackagesNames contains only NAs
+    # when only NAs, usedPackagesNames become logical(0) empty vector
     if(class(usedPackagesNames) == "logical") {
       return(NULL)
       }

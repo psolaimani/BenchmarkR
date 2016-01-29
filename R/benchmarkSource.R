@@ -22,7 +22,7 @@ benchmarkSource <- function(file,timed_fun = NULL) {
   setSystemID()
 
   # install all used packages not yet installed on the system
-  benchGetter(file = file, target = "UsedPackages")
+  #benchGetter(file = file, target = "UsedPackages")
 
   # load all timed functions in BenchmarkEnvironment
   addProfiler(timed_fun)

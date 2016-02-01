@@ -6,17 +6,13 @@
 #' @param con_str database connection string jdbc:mysql:location/database/table
 #' @import RMySQL MonetDB.R
 #' @export
-benchDBReport <- function(usr=NULL, pwd=NULL, con_str=NULL){
+benchDBReport <- function(usr=NULL, pwd=NULL, host_address=NULL, db_name=NULL, con_type=NULL){
   
   # check if con info is provided
-  if(is.null(usr) | is.null(pwd) | is.null(con_str)){
+  if(is.null(usr) | is.null(pwd) | is.null(host_address) | is.null(db_name) | is.null(con_type)){
     cat("Can't write results to database. Missing connection information.\n")
     return(NULL)
   }
-  
-  # extract database type from connection string
-  con_type <- unlist(strsplit(con_str, ":"))[2]
-  con_type <- tolower(con_type)
   
   # Get benchmarking/profiling data
   cur_bmrk <- benchGetter(target = "benchmarks" )
@@ -31,7 +27,7 @@ benchDBReport <- function(usr=NULL, pwd=NULL, con_str=NULL){
     # Connect to MySQL
     cat("Connecting to MySQL database.\n")
     require(RMySQL)
-    conn <- dbConnect(RMySQL(), con_str, usr, pwd)
+    conn <- dbConnect(dbDriver("MySQL"), username=usr, password=pwd, host=host_address, dbname=db_name)
     CONNECTED <- TRUE
     cat("Connection to database established.\n")
     
@@ -47,7 +43,7 @@ benchDBReport <- function(usr=NULL, pwd=NULL, con_str=NULL){
     # Connect to MonetDB
     cat("Connecting to MonetDB database.\n")
     require(MonetDB.R)
-    conn <- dbConnect(MonetDB.R(), con_str, usr, pwd)
+    conn <- dbConnect(MonetDB.R(), username=usr, password=pwd, host=host_address, dbname=db_name)
     CONNECTED <- TRUE
     cat("Connection to database established.\n")
     

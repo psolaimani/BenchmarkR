@@ -1,10 +1,12 @@
 #' benchDBReport
 #' @description Uploads benchmarking/profiling results tp database
-#' @usage benchDBReport(usr, pwd, con_str)
+#' @usage benchDBReport(usr, pwd, host_address, db_name, con_type)
 #' @param usr database usrname
 #' @param psw database password
-#' @param con_str database connection string jdbc:mysql:location/database/table
-#' @import RMySQL MonetDB.R
+#' @param host_address IP address of the MySQL server
+#' @param db_name database name
+#' @param con_type type of database (currently only mysql supported)
+#' @import RMySQL
 #' @export
 benchDBReport <- function(usr=NULL, pwd=NULL, host_address=NULL, db_name=NULL, con_type=NULL){
   
@@ -30,7 +32,7 @@ benchDBReport <- function(usr=NULL, pwd=NULL, host_address=NULL, db_name=NULL, c
     conn <- dbConnect(dbDriver("MySQL"), username=usr, password=pwd, host=host_address, dbname=db_name)
     CONNECTED <- TRUE
     cat("Connection to database established.\n")
-    
+#    
 #  } else if (con_type == "postgresql") {
 #    # Connect to PostgreSQL
 #    cat("Connecting to PostgreSQL database.\n")
@@ -39,14 +41,14 @@ benchDBReport <- function(usr=NULL, pwd=NULL, host_address=NULL, db_name=NULL, c
 #    CONNECTED <- TRUE
 #    cat("Connection to database established.\n")
 #    
-  } else if (con_type == "monetdb") {
-    # Connect to MonetDB
-    cat("Connecting to MonetDB database.\n")
-    require(MonetDB.R)
-    conn <- dbConnect(MonetDB.R(), username=usr, password=pwd, host=host_address, dbname=db_name)
-    CONNECTED <- TRUE
-    cat("Connection to database established.\n")
-    
+#  } else if (con_type == "monetdb") {
+#    # Connect to MonetDB
+#    cat("Connecting to MonetDB database.\n")
+#    require(MonetDB.R)
+#    conn <- dbConnect(MonetDB.R(), username=usr, password=pwd, host=host_address, dbname=db_name)
+#    CONNECTED <- TRUE
+#    cat("Connection to database established.\n")
+#    
 #  } else if (con_type == "oracle"){
 #    # Connect to Oracle
 #    cat("Connecting to Oracle database.\n")
@@ -67,7 +69,7 @@ benchDBReport <- function(usr=NULL, pwd=NULL, host_address=NULL, db_name=NULL, c
     cat("Start adding records to BENCHMARKS table\n")
     for (i in 1:nrow(cur_bmrk)){
       try(
-        dbSendUpdate(conn,
+        dbSendQuery(conn,
                      sprintf(
                        "INSERT INTO BENCHMARKS VALUES 
                        ( \'%s\', \'%s\', \'%s\', \'%s\' );",
@@ -81,7 +83,7 @@ benchDBReport <- function(usr=NULL, pwd=NULL, host_address=NULL, db_name=NULL, c
     cat("Start adding records to PROFILES table\n")
     for (i in 1:nrow(cur_prfl)){
       try(
-        dbSendUpdate(conn,
+        dbSendQuery(conn,
                      sprintf(
                        "INSERT INTO PROFILES VALUES 
                        ( \'%s\', \'%s\', \'%s\', \'%s\', 
@@ -97,7 +99,7 @@ benchDBReport <- function(usr=NULL, pwd=NULL, host_address=NULL, db_name=NULL, c
     cat("Start adding records to META table\n")
     for (i in 1:nrow(cur_meta)){
       try(
-        dbSendUpdate(conn,
+        dbSendQuery(conn,
                      sprintf(
                        "INSERT INTO META VALUES 
                        ( \'%s\', \'%s\', \'%s\' );",

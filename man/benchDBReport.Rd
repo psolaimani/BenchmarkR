@@ -4,12 +4,16 @@
 \alias{benchDBReport}
 \title{benchDBReport}
 \usage{
-benchDBReport(usr, pwd, con_str)
+benchDBReport(usr, pwd, host_address, db_name, con_type)
 }
 \arguments{
 \item{usr}{database usrname}
 
-\item{con_str}{database connection string jdbc:mysql:location/database/table}
+\item{host_address}{IP address of the MySQL server}
+
+\item{db_name}{database name}
+
+\item{con_type}{type of database (currently only mysql supported)}
 
 \item{psw}{database password}
 }

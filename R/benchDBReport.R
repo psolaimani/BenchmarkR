@@ -29,10 +29,11 @@ benchDBReport <- function(usr=NULL, pwd=NULL, host_address=NULL, db_name=NULL, c
     # Connect to MySQL
     cat("Connecting to MySQL database.\n")
     require(RMySQL)
-    conn <- dbConnect(dbDriver("MySQL"), username=usr, password=pwd, host=host_address, dbname=db_name)
+    try(conn <- dbConnect(RMySQL(), username="bench_user", password="bench_pass", "jdbc:mysql://localhost/benchmarkR"),TRUE)
+    if (!exists("conn")) try(conn <- dbConnect(MySQL(), username="bench_user", password="bench_pass", host="localhost/benchmarkR"),TRUE)
     CONNECTED <- TRUE
     cat("Connection to database established.\n")
-#    
+    
 #  } else if (con_type == "postgresql") {
 #    # Connect to PostgreSQL
 #    cat("Connecting to PostgreSQL database.\n")

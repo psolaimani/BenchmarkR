@@ -96,7 +96,11 @@ runBenchmark <- function(){
   bench_file <- list.files(path = ".", pattern = ".R$")[1]
   
   # Read profiling information if available
-  if (file.exists("FUNCTION.PROFILE")) timed_fun <- read.table("FUNCTION.PROFILE", stringsAsFactors = FALSE)
+  if (file.exists("FUNCTION.PROFILE")) {
+    timed_fun <- read.table("FUNCTION.PROFILE", stringsAsFactors = FALSE)
+  } else {
+    timed_fun <- NULL
+  }
   
   # benchmark R script with/without profiler
   benchmarkSource(bench_file, timed_fun, bench_name=Name)

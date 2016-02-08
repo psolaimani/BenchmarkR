@@ -6,7 +6,7 @@
 runBenchmark <- function(){
   
   isPresent <- function(Name,Hash,Source){
-    File <- file.path(Dir,Name)
+    File <- file.path(Name)
     cat(sprintf("processing: %s\n", File))
     if (file.exists(File) == FALSE) {
       warning(sprintf("%s doesn't exist.\n", Name ))

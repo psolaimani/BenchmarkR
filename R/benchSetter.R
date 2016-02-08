@@ -99,14 +99,12 @@ checkSource <- function(file = .BenchEnv$file, runId = .BenchEnv$runId ){
 #' @export
 setSystemID <- function(){
   
-  systemId <- as.character( benchGetter( target = "id" ) )
-  
   if ( try( exists( 'systemId' , envir = .BenchEnv) ) == FALSE ) {
-    cat( sprintf("systemId doesn't exist. New systemId: %s\n", systemId) )
+    warning("systemId doesn't exist.\n")
     needSysId <- TRUE
   } else {
-    if ( nchar( .BenchEnv$systemId ) != 18 | class( .BenchEnv$systemId ) != "character") {
-      warning( sprintf("Your systemId has incorrect format.\n New systemId: %s\n", systemId) )
+    if ( nchar( .BenchEnv$systemId ) != 32 | class( .BenchEnv$systemId ) != "character") {
+      warning("Your systemId has incorrect format.\n")
       needSysId <- TRUE
     } else {
       cat( sprintf("systemId exists: %s\n", .BenchEnv$systemId) )

@@ -44,32 +44,28 @@ ProfilerFactory <- function(fun, pkg, prc, typ) {
 #' @export
 addProfiler <- function(timed_fun=NULL){
   if(is.null(timed_fun)){
-    cat("\ndata.frame with function to be timed not provided.\n")
+    warning("\ndata.frame with function to be timed not provided.\n")
     return(NULL)
   } else if(class(timed_fun)!="data.frame" |
             nrow(timed_fun) == 0 |
             ncol(timed_fun) != 4){
-    cat("\nProvided functions to be timed are not in correct data.frame format!\n")
-    cat("No profiling will be performed.\n")
-    cat("To profile functions please provide a 4 column data.frame with:\n")
-    cat("COLUMN1: name of function\n")
-    cat("COLUMN2: package name\n")
-    cat("COLUMN3: process name to assign\n")
-    cat("COLUMN4: process type (only 'IO' is implemented)\n")
-    cat("structure provided data:\n\n")
-    str(timed_fun)
-    cat("\n\nclass provided data:\n\n")
-    print(class(timed_fun))
+    warning("\nProvided functions to be timed are not in correct data.frame format!\n")
+    warning("No profiling will be performed.\n")
+    warning("To profile functions please provide a 4 column data.frame with:\n")
+    warning("COLUMN1: name of function\n")
+    warning("COLUMN2: package name\n")
+    warning("COLUMN3: process name to assign\n")
+    warning("COLUMN4: process type (only 'IO' is implemented)\n")
     return(NULL)
   } else if (any(as.vector(sapply(timed_fun, function(x) class(x) )) != "character")){
-    cat("\nProvided data.frame with functions contains factors!\n")
-    cat("Trying to convert factor columns to character columns...\n\n")
+    warning("\nProvided data.frame with functions contains factors!\n")
+    warning("Trying to convert factor columns to character columns...\n\n")
     timed_fun <- factorsAsStrings(data_frame = timed_fun)
   }
   
   if (any(as.vector(sapply(timed_fun, function(x) class(x) )) != "character")){
-    cat("\nProvided data.frame with functions to profile contains non-character columns.\n")
-    cat("Please correct and retry.\n\n")
+    warning("\nProvided data.frame with functions to profile contains non-character columns.\n")
+    warning("Please correct and retry.\n\n")
     return(NULL)
   }
   

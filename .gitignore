@@ -3,3 +3,5 @@
 .RData
 *.Rproj
 .Rbuildignore
+packrat/lib*/
+packrat/src/

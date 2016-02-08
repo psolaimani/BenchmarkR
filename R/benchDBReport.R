@@ -12,12 +12,12 @@ benchDBReport <- function(usr=NULL, pwd=NULL, host_address=NULL, db_name=NULL, c
   
   # check if con info is provided
   if(is.null(usr) | is.null(pwd) | is.null(host_address) | is.null(db_name) | is.null(con_type)){
-    cat("Can't write results to database. Missing connection information.\n")
+    warning("Can't write results to database. Missing connection information.\n")
     return(NULL)
   }
   
   # Get benchmarking/profiling data
-  cur_bmrk <- benchGetter(target = "benchmarks" )
+  cur_bmrk <- benchGetter( target = "benchmarks" )
   cur_prfl <- benchGetter( target = "profiles" )
   cur_meta <- benchGetter( target = "meta" )
   
@@ -60,7 +60,7 @@ benchDBReport <- function(usr=NULL, pwd=NULL, host_address=NULL, db_name=NULL, c
 #    
   } else {
     
-    cat(sprintf("Database of type %s is not yet supported", con_type))
+    warning(sprintf("Database of type %s is not yet supported", con_type))
     CONNECTED <- FALSE
     return(NULL)
     

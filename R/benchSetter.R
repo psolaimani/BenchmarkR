@@ -105,7 +105,7 @@ setSystemID <- function(){
     needSysId <- TRUE
   } else {
     if ( nchar( .BenchEnv$systemId ) != 18 | class( .BenchEnv$systemId ) != "character") {
-      cat( sprintf("Your systemId has incorrect format.\n New systemId: %s\n", systemId) )
+      warning( sprintf("Your systemId has incorrect format.\n New systemId: %s\n", systemId) )
       needSysId <- TRUE
     } else {
       cat( sprintf("systemId exists: %s\n", .BenchEnv$systemId) )

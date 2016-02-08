@@ -1,11 +1,11 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^.*\.yml$
-^.*\.Rproj$
-^\.Rproj\.user$
 ^cran-comments\.md$
 ^NEWS\.md$
 ^.RData$
 ^.Rhistory$
 ^.*\.sh$
 pom.xml$
+^packrat/
+^\.Rprofile$

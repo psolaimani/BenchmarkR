@@ -9,6 +9,8 @@ benchmarkSource(file,timed_fun)
 \arguments{
 \item{file}{R script to benchmark}
 
+\item{bench_name}{Name (character) of the benchmark that is being runned}
+
 \item{timed_fun}{a data.frame whith 4 columns. Column 1: function; column 2: package; column 3: process category eg. READ/WRITE but never BENCHMARK; column 4: function type, currently only 'IO'.}
 }
 \value{

@@ -9,15 +9,13 @@ benchGetter(target, indexCol = NULL, returnCol = NULL, selectValue = NULL,
 }
 \arguments{
 \item{target}{which information to retrieve 
-\code{*id*}: generates a unique ID based on date/time and a random number. 
-\code{*profiles*}: returns all records of PROFILES table. 
-\code{*benchmarks*}: returns table with all recorded benchmarks. 
+\code{id}: generates a unique ID based on date/time and a random number. 
+\code{profiles}: returns all records of PROFILES table. 
+\code{benchmarks}: returns table with all recorded benchmarks. 
 \code{profile}: returns 'returnCol' from PROFILES where 'indexCol' == 'selectValue'. 
 \code{profilerun}: returns PROFILES table subsetted with \code{runId}. 
 \code{warnings}: returns ExecEnvironment$WARNINGS data.frame containing all warnings recorded. 
-\code{systemid}: returns the unique systemId that is used to identify this system. 
-\code{usedpackages}: returns names of all used/loaded packages within provided input file/script. 
-\code{allpackageversions}: returns a dataframe with packages names and version installed on current system.}
+\code{systemid}: returns the unique systemId that is used to identify this system.}
 
 \item{indexCol}{profiling records will be filtered based on content of this column}
 

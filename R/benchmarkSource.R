@@ -40,32 +40,14 @@ benchmarkSource <- function(file, bench_name, timed_fun = NULL) {
   # by package::function() annotation.
   checkSource( file = file, runId = runId )
   
-  # save and change workingdirectory
-  cat(sprintf("initial wd: %s\n", initial_wd))
-  initial_wd <- getwd()
-  cat(sprintf("set wd to: %s\n", dirname(file)))
-  setwd(dirname(file))
-  
   # initiate packrat package installation
   require("packrat")
-  #source( paste0(dirname(file), "/packrat/init.R") )
   packrat::restore()
   
   # start timing benchmark
   B_start <- as.numeric( Sys.time() )
   try( source( file, local = .ExEnv , chdir = TRUE) )
   B_end <- as.numeric( Sys.time() )
-  
-  # set of packrat
-  
-  
-  #restore workingdirectory
-  cat("disable packrat\n")
-  packrat::disable()
-  cat("detach packrat\n")
-  detach("package:packrat", unload=TRUE)
-  cat("restore wd\n")
-  setwd(initial_wd)
   
   # add BENCHMARK timing to timings of the script (and its components)
   setTiming(process ="BENCHMARK", start = B_start, end = B_end)

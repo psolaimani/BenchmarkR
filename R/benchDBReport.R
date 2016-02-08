@@ -8,10 +8,13 @@
 #' @param con_type type of database (currently only mysql supported)
 #' @import RMySQL
 #' @export
-benchDBReport <- function(usr=NULL, pwd=NULL, host_address=NULL, db_name=NULL, con_type=NULL){
+benchDBReport <- function(usr, pwd, 
+                          host_address=NULL, 
+                          conn_string=NULL, 
+                          db_name, con_type){
   
   # check if con info is provided
-  if(is.null(usr) | is.null(pwd) | is.null(host_address) | is.null(db_name) | is.null(con_type)){
+  if(is.null(host_address) & is.null(conn_string)){
     warning("Can't write results to database. Missing connection information.\n")
     return(NULL)
   }
@@ -29,8 +32,8 @@ benchDBReport <- function(usr=NULL, pwd=NULL, host_address=NULL, db_name=NULL, c
     # Connect to MySQL
     cat("Connecting to MySQL database.\n")
     require(RMySQL)
-    try(conn <- dbConnect(RMySQL(), username="bench_user", password="bench_pass", "jdbc:mysql://localhost/benchmarkR"),TRUE)
-    if (!exists("conn")) try(conn <- dbConnect(MySQL(), username="bench_user", password="bench_pass", host="localhost/benchmarkR"),TRUE)
+    try(conn <- dbConnect(RMySQL(), username=usr, password=pwd, conn_string),TRUE)
+    if (!exists("conn")) try(conn <- dbConnect(MySQL(), username=usr, password=pwd, host=host_address),TRUE)
     CONNECTED <- TRUE
     cat("Connection to database established.\n")
     

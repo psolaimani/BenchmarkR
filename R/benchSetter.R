@@ -95,6 +95,7 @@ checkSource <- function(file = .BenchEnv$file, runId = .BenchEnv$runId ){
 #' on loading of package and stores system information with this ID.
 #' @return unique id as character vector and system information are added as record to ExecEnvironment$META data.frame
 #' @importFrom parallel detectCores
+#' @import digest
 #' @export
 setSystemID <- function(){
   
@@ -114,19 +115,22 @@ setSystemID <- function(){
   }
   
   if (needSysId == TRUE) {
-    assign( "systemId", systemId, envir = .BenchEnv )
-    cat( sprintf("Generated and assigned system ID: %s\n", .BenchEnv$systemId) )
-    
     attributes <- c(
       R.Version()[ c( "arch", "os", "major", "minor", "language", "version.string" ) ],
       Sys.info()[ c( "sysname", "release", "version" ) ],
       nphyscores=parallel::detectCores(logical = FALSE), nlogcores=parallel::detectCores(logical = TRUE)
     )
     
+    all_attributes <- paste0(attributes, sep= "", collapse = "")
+    systemId <- digest::digest(all_attributes, serialize=FALSE)
+    
     cat("Saving system information to .BenchEnv$META...\n")
     for (i in 1:length( names( attributes ) ) ){
-      .BenchEnv$META[i,] <- c( .BenchEnv$systemId, names(attributes)[i], attributes[[i]] )
+      .BenchEnv$META[i,] <- c( systemId, names(attributes)[i], attributes[[i]] )
     }
+    
+    assign( "systemId", systemId, envir = .BenchEnv )
+    cat( sprintf("Generated and assigned system ID: %s\n", .BenchEnv$systemId) )
     
     return( invisible( .BenchEnv$systemId ) )
     

@@ -21,7 +21,6 @@ benchDBReport <- function(usr, pwd,
   
   # Get benchmarking/profiling data
   cur_bmrk <- benchGetter( target = "benchmarks" )
-  cur_prfl <- benchGetter( target = "profiles" )
   cur_meta <- benchGetter( target = "meta" )
   
   # No connection to database has been made
@@ -36,7 +35,7 @@ benchDBReport <- function(usr, pwd,
     if (!exists("conn")) try(conn <- dbConnect(MySQL(), username=usr, password=pwd, host=host_address),TRUE)
     CONNECTED <- TRUE
     cat("Connection to database established.\n")
-    
+#    
 #  } else if (con_type == "postgresql") {
 #    # Connect to PostgreSQL
 #    cat("Connecting to PostgreSQL database.\n")
@@ -76,25 +75,12 @@ benchDBReport <- function(usr, pwd,
         dbSendQuery(conn,
                      sprintf(
                        "INSERT INTO BENCHMARKS VALUES 
-                       ( \'%s\', \'%s\', \'%s\', \'%s\' );",
-                       cur_bmrk[i,1], cur_bmrk[i,2], 
-                       cur_bmrk[i,3], cur_bmrk[i,4]
-                     )
-        )
-        , TRUE)
-    }
-    
-    cat("Start adding records to PROFILES table\n")
-    for (i in 1:nrow(cur_prfl)){
-      try(
-        dbSendQuery(conn,
-                     sprintf(
-                       "INSERT INTO PROFILES VALUES 
                        ( \'%s\', \'%s\', \'%s\', \'%s\', 
-                       \'%s\', \'%s\', \'%s\' );",
-                       cur_prfl[i,1], cur_prfl[i,2], 
-                       cur_prfl[i,3], cur_prfl[i,4], 
-                       cur_prfl[i,5], cur_prfl[i,6], cur_prfl[i,7]
+                       \'%s\', \'%s\', \'%s\', \'%s\' );",
+                       cur_bmrk[i,1], cur_bmrk[i,2], 
+                       cur_bmrk[i,3], cur_bmrk[i,4], 
+                       cur_bmrk[i,5], cur_bmrk[i,6], 
+                       cur_bmrk[i,7], cur_bmrk[i,8]
                      )
         )
         , TRUE)

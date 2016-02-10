@@ -12,7 +12,7 @@
 #' @return returns a dubble with running time of last benchmark and prints all session benchmark records to console
 #' @import packrat
 #' @export 
-benchmarkSource <- function(file, timed_fun = NULL) {
+benchmarkSource <- function(file, timed_fun = NULL, runs) {
   
   # check if provided file exists
   if(!file.exists(file)){
@@ -56,8 +56,19 @@ benchmarkSource <- function(file, timed_fun = NULL) {
   cat( sprintf("\tLine[%i]: %s\n", lineOfDirectCalls, content[ lineOfDirectCalls ]) )
   ####################################################################################
   
+  # warmup runs
+  if (runs > 1){
+    runs <- runs - 1
+    run <- 0
+    while (run < runs){
+      try( source( file, local = .ExEnv , chdir = TRUE) )
+      run <- run + 1
+    }
+  }
+  
+  
   # start timing benchmark
-  B_start <- as.numeric( Sys.time() )
+    B_start <- as.numeric( Sys.time() )
   try( source( file, local = .ExEnv , chdir = TRUE) )
   B_end <- as.numeric( Sys.time() )
   

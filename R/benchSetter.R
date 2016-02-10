@@ -9,7 +9,8 @@ setTiming <- function( process, start, end, compute = TRUE ) {
   Profiles <- benchGetter( target = "benchmarks")
   systemId <- benchGetter( target = "systemid" )
   runId <- benchGetter( target = "runid")
-  bench_version <- benchGetter( target = "bench_version")
+  File <- benchGetter( target = "file")
+  bench_version <- benchGetter( target = "bench_version", file = File)
   
   if(compute == TRUE){
     duration <- benchGetter(target = "computetime", runId = runId)

@@ -105,8 +105,4 @@ runBenchmark <- function(runs = 1){
   # benchmark R script with/without profiler
   benchmarkSource(bench_file, timed_fun, runs)
   
-  # extract database information and write records to database
-  conn <- Sys.getenv(c("BENCH_USR", "BENCH_PWD", "BENCH_HOST", "BENCH_DB", "BENCH_TYPE"))
-  benchDBReport( usr = conn[[1]], pwd = conn[[2]], host_address = conn[[3]], db_name = conn[[4]], con_type = conn[[5]] )
-  
 }

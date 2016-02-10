@@ -7,8 +7,8 @@
 #' @description This script will benchmark the running time of the given input file. Time used by functions defined in timed_fun data.frame will be subtracted from total running time.
 #' @usage benchmarkSource(file,timed_fun)
 #' @param file R script to benchmark
-#' @param bench_name Name (character) of the benchmark that is being runned
 #' @param timed_fun a data.frame whith 4 columns. Column 1: function; column 2: package; column 3: process category eg. READ/WRITE but never BENCHMARK; column 4: function type, currently only 'IO'.
+#' @param runs (integer) number of preruns which are not timed but serve to measure warm running time of the last run.
 #' @return returns a dubble with running time of last benchmark and prints all session benchmark records to console
 #' @import packrat
 #' @export 

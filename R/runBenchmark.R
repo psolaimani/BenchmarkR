@@ -83,9 +83,9 @@ runBenchmark <- function(){
     Prepare_data <- mapply(isPresent, File, Hash, Source)
       
     if ( any(as.vector(Prepare_data) == "ERROR") ){
-      warning("\nDownload and or validation of data was not successful!\nBenchmark script might not run as expected\n")
+      warning("\nCheck data: datasets not correct/complete!\n")
     } else {
-      cat("\nCorrect datasets found.\n")
+      cat("\nCheck data: correct datasets available.\n")
     }
    
   } else {
@@ -103,7 +103,7 @@ runBenchmark <- function(){
   }
   
   # benchmark R script with/without profiler
-  benchmarkSource(bench_file, timed_fun, bench_name=Name)
+  benchmarkSource(bench_file, timed_fun)
   
   # extract database information and write records to database
   conn <- Sys.getenv(c("BENCH_USR", "BENCH_PWD", "BENCH_HOST", "BENCH_DB", "BENCH_TYPE"))

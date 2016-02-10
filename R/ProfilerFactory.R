@@ -49,23 +49,24 @@ addProfiler <- function(timed_fun=NULL){
   } else if(class(timed_fun)!="data.frame" |
             nrow(timed_fun) == 0 |
             ncol(timed_fun) != 4){
-    warning("\nProvided functions to be timed are not in correct data.frame format!\n")
-    warning("No profiling will be performed.\n")
-    warning("To profile functions please provide a 4 column data.frame with:\n")
-    warning("COLUMN1: name of function\n")
-    warning("COLUMN2: package name\n")
-    warning("COLUMN3: process name to assign\n")
-    warning("COLUMN4: process type (only 'IO' is implemented)\n")
+    warning("\nProvided functions to be timed are not in correct data.frame format!\n
+            No profiling will be performed.\n
+            To profile functions please provide a 4 column data.frame with:\n
+            COLUMN1: name of function\n
+            COLUMN2: package name\n
+            COLUMN3: process name to assign\n
+            COLUMN4: process type (only 'IO' is implemented)\n")
     return(NULL)
   } else if (any(as.vector(sapply(timed_fun, function(x) class(x) )) != "character")){
-    warning("\nProvided data.frame with functions contains factors!\n")
-    warning("Trying to convert factor columns to character columns...\n\n")
+    warning("\nProvided data.frame with functions contains factors!\n
+            Trying to convert factor columns to character columns...\n\n")
     timed_fun <- factorsAsStrings(data_frame = timed_fun)
   }
   
   if (any(as.vector(sapply(timed_fun, function(x) class(x) )) != "character")){
-    warning("\nProvided data.frame with functions to profile contains non-character columns.\n")
-    warning("Please correct and retry.\n\n")
+    warning("\nProvided data.frame with functions to 
+            profile contains non-character columns.\n
+            Please correct and retry.\n\n")
     return(NULL)
   }
   

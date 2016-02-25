@@ -4,12 +4,19 @@
 #' @author Maarten-Jan Kallen
 #' @author Alexander Bertram
 #' @keywords benchmark benchmarking profiling timing r script file
-#' @description This script will benchmark the running time of the given input file. Time used by functions defined in timed_fun data.frame will be subtracted from total running time.
+#' @description This script will benchmark the running time of the given input 
+#' file. Time used by functions defined in timed_fun data.frame will be 
+#' subtracted from total running time.
 #' @usage benchmarkSource(file,timed_fun)
 #' @param file R script to benchmark
-#' @param timed_fun a data.frame whith 4 columns. Column 1: function; column 2: package; column 3: process category eg. READ/WRITE but never BENCHMARK; column 4: function type, currently only 'IO'.
-#' @param runs (integer) number of preruns which are not timed but serve to measure warm running time of the last run.
-#' @return returns a dubble with running time of last benchmark and prints all session benchmark records to console
+#' @param timed_fun a data.frame whith 4 columns. Column 1: function; column 2: 
+#' package; column 3: process category eg. READ/WRITE but never BENCHMARK; 
+#' column 4: function type, currently only 'IO'.
+#' @param runs (integer) number of preruns which are not timed but serve to 
+#' measure warm running time of the last run.
+#' @param loc.src chracter vector containing location of CRAN like repository
+#' @return returns a dubble with running time of last benchmark and prints all 
+#' session benchmark records to console
 #' @import packrat
 #' @export 
 benchmarkSource <- function(file, timed_fun = NULL, runs = 0, loc.src = NULL) {
@@ -25,6 +32,17 @@ benchmarkSource <- function(file, timed_fun = NULL, runs = 0, loc.src = NULL) {
   
   # initiate packrat package installation
   require("packrat")
+  if(!is.null(loc.src) ) {
+    if(class(loc.src) == "character"){
+      if(exists(loc.src)){
+        options( repos = c(getOption("repos"), localRepo = loc.src ))
+      } else {
+        warning("Provided package source repository doesn't exist.")
+      }
+    } else {
+      warning("Provided package source repository location has incorrect class.")
+    }
+  }
   packrat::restore()
   
   # generate and set system id if its not generated 

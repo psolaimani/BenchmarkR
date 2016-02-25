@@ -1,8 +1,8 @@
 Package: benchmarkR
 Type: Package
 Title: Benchmark/Profiling for R Scripts
-Version: 1.01.1017
-Date: 2016-02-10
+Version: 1.01.1018
+Date: 2016-02-25
 Author: Parham Solaimani, Maarten-Jan Kallen, Alexander Bertram
 Maintainer: Parham Solaimani <parham@bedatadriven.com>
 Imports: utils, hamcrest, parallel

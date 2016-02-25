@@ -122,7 +122,7 @@ benchDBReport <- function(usr=NULL, pwd=NULL,
       }
       
       cat("Start adding records to BENCHMARKS table\n")
-      benchmark_sql <- "INSERT INTO BENCHMARKS VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+      benchmark_sql <- "INSERT INTO BENCHMARKS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
       try( bulk_insert(benchmark_sql, cur_bmrk), TRUE )
       
       cat("Start adding records to META table\n")
@@ -146,7 +146,8 @@ benchDBReport <- function(usr=NULL, pwd=NULL,
                         cur_bmrk[i,1], cur_bmrk[i,2], 
                         cur_bmrk[i,3], cur_bmrk[i,4], 
                         cur_bmrk[i,5], cur_bmrk[i,6], 
-                        cur_bmrk[i,7], cur_bmrk[i,8]
+                        cur_bmrk[i,7], cur_bmrk[i,8], 
+                        cur_bmrk[i,8]
                       )
           )
           , TRUE)

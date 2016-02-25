@@ -11,6 +11,7 @@ setTiming <- function( process, start, end, compute = TRUE ) {
   runId <- benchGetter( target = "runid")
   File <- benchGetter( target = "file")
   bench_version <- benchGetter( target = "bench_version", file = File)
+  runs <- benchGetter( target = "runs")
   
   if(compute == TRUE){
     duration <- benchGetter(target = "computetime", runId = runId)
@@ -26,6 +27,7 @@ setTiming <- function( process, start, end, compute = TRUE ) {
                                                    start = start,
                                                    end = end,
                                                    duration = duration,
+                                                   runs = runs,
                                                    stringsAsFactors = FALSE
                                                    )
   )

@@ -12,7 +12,7 @@
 #' @return returns a dubble with running time of last benchmark and prints all session benchmark records to console
 #' @import packrat
 #' @export 
-benchmarkSource <- function(file, timed_fun = NULL, runs) {
+benchmarkSource <- function(file, timed_fun = NULL, runs = 0, loc.src = NULL) {
   
   # check if provided file exists
   if(!file.exists(file)){
@@ -21,6 +21,7 @@ benchmarkSource <- function(file, timed_fun = NULL, runs) {
   }
   # save file name to .BenchEnv
   assign( "file", file, envir = .BenchEnv )
+  assign( "runs", runs, envir = .BenchEnv )
   
   # initiate packrat package installation
   require("packrat")
@@ -57,8 +58,7 @@ benchmarkSource <- function(file, timed_fun = NULL, runs) {
   ####################################################################################
   
   # warmup runs
-  if (runs > 1){
-    runs <- runs - 1
+  if (runs > 0){
     run <- 0
     while (run < runs){
       try( source( file, local = .ExEnv , chdir = TRUE) )

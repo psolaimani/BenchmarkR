@@ -61,6 +61,10 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
     return(.BenchEnv$file)
   }
   
+  if (target == "runs"){
+    return(.BenchEnv$runs)
+  }
+  
   if (target == "bench_version") {
     bench_version <- Sys.getenv("SHA1")[[1]]
     if(length(bench_version) == 0) {

@@ -3,7 +3,7 @@
 #' @param bench_loc location of directory with subdirectories containing benchmarks
 #' @param timed_fun data.frame with functions to be profiled
 #' @export
-runBenchmark <- function(runs = 1){
+runBenchmark <- function(runs = 0, loc.src=NULL){
   
   isPresent <- function(Name,Hash,Source){
     File <- file.path(Name)
@@ -103,6 +103,6 @@ runBenchmark <- function(runs = 1){
   }
   
   # benchmark R script with/without profiler
-  benchmarkSource(bench_file, timed_fun, runs)
+  benchmarkSource(file = bench_file, timed_fun = timed_fun, runs = runs, loc.src = loc.src)
   
 }

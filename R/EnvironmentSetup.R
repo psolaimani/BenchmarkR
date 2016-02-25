@@ -10,6 +10,7 @@
                              start = numeric(0), 
                              end = numeric(0), 
                              duration = numeric(0), 
+                             runs = numeric(0),
                              stringsAsFactors = F)
 
 .BenchEnv$META <- data.frame(systemId = character(0), 

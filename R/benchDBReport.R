@@ -11,10 +11,10 @@
 benchDBReport <- function(usr=NULL, pwd=NULL, 
                           host_address=NULL, 
                           conn_string=NULL, 
-                          db_name=NULL, con_type=NULL, dbname=NULL){
+                          db_name=NULL, con_type=NULL){
   
   # check if con info is provided
-  if(is.null(host_address) & is.null(conn_string) & is.null(dbname)){
+  if(is.null(host_address) & is.null(conn_string) & is.null(db_name)){
     warning("Can't write results to database. Missing connection information.\n")
     return(NULL)
   }
@@ -56,7 +56,7 @@ benchDBReport <- function(usr=NULL, pwd=NULL,
     cat("Connection to database established.\n")
     
   } else if (con_type == "sqlite") {
-    if (is.null(dbname)){
+    if (is.null(db_name)){
       warning("ERROR: SQLite db location not provided.")
       return(NULL)
     }
@@ -64,10 +64,10 @@ benchDBReport <- function(usr=NULL, pwd=NULL,
     cat("Connecting to SQLite database.\n")
     require(RSQLite)
     
-    try(conn <- dbConnect(RSQLite(), dbname = dbname),TRUE)
+    try(conn <- dbConnect(RSQLite(), dbname = db_name),TRUE)
     
     if (!exists("conn")) {
-      try(conn <- dbConnect(SQLite(), dbname = dbname),TRUE)
+      try(conn <- dbConnect(SQLite(), dbname = db_name),TRUE)
     }
     
     if (!exists("conn")) {

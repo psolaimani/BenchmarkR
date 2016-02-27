@@ -67,7 +67,7 @@ benchGetter <- function(target, indexCol = NULL, returnCol = NULL, selectValue =
   
   if (target == "bench_version") {
     bench_version <- Sys.getenv("SHA1")[[1]]
-    if(length(bench_version) == 0) {
+    if(bench_version == "") {
       if (is.null(file)){
         warning("Can't get version: no file or SHA1 env variable provided.\n")
         return(NULL)

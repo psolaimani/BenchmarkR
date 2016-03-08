@@ -93,7 +93,9 @@ runBenchmark <- function(runs = 0, loc.src=NULL){
   }
   
   # Get R script filename
-  bench_file <- list.files(path = ".", pattern = ".R$")[1]
+  wd <- normalizePath("./")
+  file_name <- paste0(tail(strsplit(wd,"/")[[1]],n=1),".R")
+  bench_file <- file.path(wd, file_name)
   
   # Read profiling information if available
   if (file.exists("FUNCTION.PROFILE")) {

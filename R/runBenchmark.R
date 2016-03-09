@@ -3,7 +3,7 @@
 #' @param bench_loc location of directory with subdirectories containing benchmarks
 #' @param timed_fun data.frame with functions to be profiled
 #' @export
-runBenchmark <- function(runs = 0, loc.src=NULL){
+runBenchmark <- function(runs = 0, loc.src=NULL, dcf = "BENCHMARK.dcf", timedFunFile = "FUNCTION.PROFILE"){
   
   isPresent <- function(Name,Hash,Source){
     File <- file.path(Name)
@@ -70,13 +70,12 @@ runBenchmark <- function(runs = 0, loc.src=NULL){
     }
   }
   
-  f <- "BENCHMARK.dcf"
-  Name <- na.omit( read.dcf( f , fields = c('Name') ) )[1]
-  Description <- na.omit( read.dcf( f , fields = c('Description') ) )[1]
-  File <- na.omit( read.dcf( f , fields = c('File') ) )
-  Source <- na.omit( read.dcf( f , fields = c('Source') ) )
-  Hash <- na.omit( read.dcf( f , fields = c('Hash') ) )
-    
+  Name        <- na.omit(read.dcf(dcf, fields = c('Name')))[1]
+  Description <- na.omit(read.dcf(dcf, fields = c('Description')))[1]
+  File        <- na.omit(read.dcf(dcf, fields = c('File')))
+  Source      <- na.omit(read.dcf(dcf, fields = c('Source')))
+  Hash        <- na.omit(read.dcf(dcf, fields = c('Hash')))
+  
     
   if ( length(File) > 0 ) {
     
@@ -98,8 +97,8 @@ runBenchmark <- function(runs = 0, loc.src=NULL){
   bench_file <- file.path(wd, file_name)
   
   # Read profiling information if available
-  if (file.exists("FUNCTION.PROFILE")) {
-    timed_fun <- read.table("FUNCTION.PROFILE", stringsAsFactors = FALSE)
+  if (file.exists(timedFunFile)) {
+    timed_fun <- read.table(timedFunFile, stringsAsFactors = FALSE)
   } else {
     timed_fun <- NULL
   }

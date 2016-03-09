@@ -25,7 +25,7 @@
 #' @return returns a dubble with running time of last benchmark
 #' @import packrat
 #' @export 
-benchmarkSource <- function(file, timed_fun = NULL, runs = 0, loc.src = NULL) {
+benchmarkSource <- function(file, timed_fun = NULL, runs = 0, loc.src = NULL, uses_packrat = TRUE) {
   
   # check if provided file exists
   stopifnot(file.exists(file))
@@ -47,7 +47,7 @@ benchmarkSource <- function(file, timed_fun = NULL, runs = 0, loc.src = NULL) {
       warning("Provided package source repository location has incorrect class.")
     }
   }
-  packrat::restore()
+  if(uses_packrat) packrat::restore()
   
   # generate and set system id if its not generated 
   setSystemID()

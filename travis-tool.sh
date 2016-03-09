@@ -11,9 +11,9 @@ BIOC=${BIOC:-"http://bioconductor.org/biocLite.R"}
 BIOC_USE_DEVEL=${BIOC_USE_DEVEL:-"TRUE"}
 OS=$(uname -s)
 
-R_BUILD_ARGS=${R_BUILD_ARGS-"--no-build-vignettes --no-manual"}
+R_BUILD_ARGS=${R_BUILD_ARGS-"--no-build-vignettes --no-manual --no-examples --no-tests --no-vignettes"}
 #R_CHECK_ARGS=${R_CHECK_ARGS-"--no-build-vignettes --no-manual --as-cran"}
-R_CHECK_ARGS=${R_CHECK_ARGS-"--no-build-vignettes --no-manual"}
+R_CHECK_ARGS=${R_CHECK_ARGS-"--no-build-vignettes --no-manual --no-examples --no-tests --no-vignettes"}
 
 R_USE_BIOC_CMDS="source('${BIOC}');"\
 " tryCatch(useDevel(${BIOC_USE_DEVEL}),"\

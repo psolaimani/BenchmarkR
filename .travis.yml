@@ -18,7 +18,6 @@ env:
  global:
    - CRAN: http://cran.rstudio.com
    - R_BUILD_ARGS=--no-manual
-   - R_CHECK_ARGS=--no-manual 
    - R_CHECK_ARGS=--no-examples 
    - R_CHECK_ARGS=--no-tests 
    - R_CHECK_ARGS=--no-vignettes 

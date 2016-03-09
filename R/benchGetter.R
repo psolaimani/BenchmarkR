@@ -15,7 +15,7 @@
 #' @return depending on target choice, either a vector or data frame
 #' @export
 benchGetter <- function(target=c("id","benchmarks","profile","profilerun",
-                                  "systemid","runid","file","runs", "timed_fun"
+                                  "systemid","runid","file","runs", "timed_fun",
                                   "bench_version","meta","computetime"), 
                          idxCol = NULL, retCol = NULL, 
                          fltVal = NULL, fltRunId = NULL, 
@@ -70,7 +70,10 @@ benchGetter <- function(target=c("id","benchmarks","profile","profilerun",
     },
     
     "timed_fun" = {
-      get( "timed_fun", envir = .BenchEnv, mode = "list", inherits = FALSE )
+      e <- try(
+        get("timed_fun", envir = .BenchEnv, mode = "list", inherits = FALSE )
+        , TRUE)
+      if(inherits(e, "try-error")) warning("timed_fun not provided.")
     },
     
     "file" = {
@@ -99,19 +102,18 @@ benchGetter <- function(target=c("id","benchmarks","profile","profilerun",
     },
     
     "computetime" = {
-      if(is.null(runId)){
-        warning("\nNo or empty runId provided for calculating the running time.\n")
-        runTime <- NULL
-      } else {
-        # returns running time script minus running time reading/writing data for a given runId
-        Profile <- benchGetter( target = "profilerun", fltRunId = runId )
-        incl <- Profile[, grep("process", colnames(Profile) ) ] == "BENCHMARK"
-        excl <- Profile[, grep("process", colnames(Profile) ) ] != "BENCHMARK"
-        time_include <- sum( as.numeric(Profile[ incl,]$duration ) )
-        time_exclude <- sum( as.numeric( Profile [ excl,]$duration ) )
-        runTime <- time_include - time_exclude
-      }
+      if(is.null(runId)) runId <- benchGetter(target = "runid")
+      warning("\nNo or empty runId provided for calculating the running time.\n")
+      # returns running time script minus running time reading/writing data for a given runId
+      Profile <- benchGetter(target = "profilerun", fltRunId = runId)
+      incl <- Profile[, grep("process", colnames(Profile) ) ] == "BENCHMARK"
+      excl <- Profile[, grep("process", colnames(Profile) ) ] != "BENCHMARK"
+      time_include <- sum( as.numeric(Profile[ incl,]$duration ) )
+      time_exclude <- sum( as.numeric( Profile [ excl,]$duration ) )
+      runTime <- time_include - time_exclude
       runTime
     }
   )
+  
+  result
 }

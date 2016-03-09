@@ -34,12 +34,12 @@
 #' @param con_type type of database (currently only mysql and sqlite supported)
 #' @import RMySQL RSQLite
 #' @export
-benchDBReport <- function(         usr = NULL, 
-                                   pwd = NULL, 
-                          host_address = NULL, 
-                           conn_string = NULL, 
-                               db_name = NULL, 
-                              con_type = c("mysql","sqlite")) {
+benchDBReport <- function(     usr = NULL, 
+                               pwd = NULL, 
+                          host_loc = NULL, 
+                          conn_str = NULL, 
+                           db_name = NULL, 
+                          con_type = c("mysql","sqlite")) {
   # Get benchmarking/profiling data
   cur_bmrk <- benchGetter(target = "benchmarks")
   cur_meta <- benchGetter(target = "meta")
@@ -55,7 +55,8 @@ benchDBReport <- function(         usr = NULL,
       # Connect to MySQL
       if (is.null(usr) | is.null(pwd) | is.null(db_name)) {
         warning("Missing username, password, or db_name.")
-      } if (is.null(c(host_address, conn_string, db_name))) {
+      } 
+      if (is.null(c(host_loc, conn_str, db_name))) {
         warning("Missing connection information.")
       }
       
@@ -63,11 +64,14 @@ benchDBReport <- function(         usr = NULL,
       require(RMySQL)
       
       cat("Connecting to MySQL database.\n")
-      db <- try(conn <- dbConnect(RMySQL(), username = usr, password = pwd, conn_string), TRUE)
+      db <- try(conn <- dbConnect(RMySQL(), username = usr, password = pwd, 
+                                  conn_str), TRUE)
       if (inherits(db, "try-error")) {
-        db <- try(conn <- dbConnect(MySQL(), username = usr, password = pwd, host = host_address), TRUE)
+        db <- try(conn <- dbConnect(MySQL(), username = usr, password = pwd, 
+                                    host = host_loc), TRUE)
         if (inherits( db, "try-error")) {
-          warning("MySQL() and RMySQL() resulted in error!")
+          warning(c("Could not connect to database.\n",
+                    "MySQL() and RMySQL() resulted in error!"))
         }
       }
       
@@ -94,7 +98,7 @@ benchDBReport <- function(         usr = NULL,
       
       conn
     }
-    )
+  )
   
   cat("Checking database connection\n")
   if (!exists("conn")) {
@@ -118,8 +122,8 @@ benchDBReport <- function(         usr = NULL,
       }
       
       cat("Start adding records to BENCHMARKS table\n")
-      benchmark_sql <- "INSERT INTO BENCHMARKS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
-      updated <- try(bulk_insert( benchmark_sql, cur_bmrk ), TRUE)
+      bench_sql <- "INSERT INTO BENCHMARKS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+      updated <- try(bulk_insert(bench_sql, cur_bmrk), TRUE)
       if (inherits(updated, "try-error")){
         warning("Error occured during writing benchmarks to SQLite database!")
       } else {
@@ -138,37 +142,28 @@ benchDBReport <- function(         usr = NULL,
     } else {
       
       cat("Start adding records to BENCHMARKS table\n")
-      for (i in 1:nrow(cur_bmrk)) {
-        updated <- try(
-          dbSendQuery(conn,
-                      sprintf(
-                        "INSERT INTO BENCHMARKS VALUES 
-                       ( \'%s\', \'%s\', \'%s\', \'%s\', 
-                       \'%s\', \'%s\', \'%s\', \'%s\' );",
-                        cur_bmrk[i,1], cur_bmrk[i,2], 
-                        cur_bmrk[i,3], cur_bmrk[i,4], 
-                        cur_bmrk[i,5], cur_bmrk[i,6], 
-                        cur_bmrk[i,7], cur_bmrk[i,8], 
-                        cur_bmrk[i,8]
-                      )
-          ), TRUE)
-        if (inherits(updated, "try-error" )){
-          warning("Error occured during writing benchmarks to database!")
-        } else {
-          cat("Database benchmarks table updated!")
+      bench_sql <- 
+        for (i in 1:nrow(cur_bmrk)) {
+          updated <- try(
+            dbSendQuery(conn,
+                        paste0("INSERT INTO BENCHMARKS VALUES ('",
+                               paste(cur_bmrk[i,], collapse = "','"), "');")
+            ), TRUE)
+          if (inherits(updated, "try-error")){
+            warning("Error occured during writing benchmarks to database!")
+          } else {
+            cat("Database benchmarks table updated!")
+          }
         }
-      }
       
       cat("Start adding records to META table\n")
       for (i in 1:nrow(cur_meta)){
-        try(
-          updated <- dbSendQuery(conn,
-                      sprintf(
-                        "INSERT INTO META VALUES 
-                       ( \'%s\', \'%s\', \'%s\' );",
-                        cur_meta[i,1], cur_meta[i,2], cur_meta[i,3]
-                      )
-          ), TRUE)
+        try(updated <- dbSendQuery(conn,
+                                   sprintf(
+                                     "INSERT INTO META VALUES 
+                                      ( \'%s\', \'%s\', \'%s\' );",
+                                     cur_meta[i,1], cur_meta[i,2], cur_meta[i,3]
+                                   )), TRUE)
         if (inherits(updated, "try-error")){
           warning("Error occured during writing meta to database!")
         } else {

@@ -77,23 +77,20 @@ runBenchmark <- function(runs = 0, loc.src=NULL, dcf = "BENCHMARK.dcf", timedFun
   Hash        <- na.omit(read.dcf(dcf, fields = c('Hash')))
   
     
-  if ( length(File) > 0 ) {
-    
+  if (length(File) > 0) {
     Prepare_data <- mapply(isPresent, File, Hash, Source)
-      
-    if ( any(as.vector(Prepare_data) == "ERROR") ){
+    if (any(as.vector(Prepare_data) == "ERROR")){
       warning("\nCheck data: datasets not correct/complete!\n")
     } else {
       cat("\nCheck data: correct datasets available.\n")
     }
-   
   } else {
     cat("\nBenchmark doesn't contain datasets.\n")
   }
   
   # Get R script filename
-  wd <- normalizePath("./")
-  file_name <- paste0(tail(strsplit(wd,"/")[[1]],n=1),".R")
+  wd         <- normalizePath("./")
+  file_name  <- paste0(tail(strsplit(wd,"/")[[1]],n=1),".R")
   bench_file <- file.path(wd, file_name)
   
   # Read profiling information if available

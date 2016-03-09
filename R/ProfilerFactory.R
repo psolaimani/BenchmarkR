@@ -47,44 +47,46 @@ ProfilerFactory <- function(fun, pkg, prc, typ = c("IO")) {
 #' @usage addProfiler(timed_fun)
 #' @return override input functions in environment(ExecEnvironment)
 #' @export
-addProfiler <- function(timed_fun=NULL){
-  if(is.null(timed_fun)){
-    warning("\ndata.frame with function to be timed not provided.\n")
-    return(NULL)
-  } else if(class(timed_fun)!="data.frame" |
-            nrow(timed_fun) == 0 |
-            ncol(timed_fun) != 4){
-    warning("\nProvided functions to be timed are not in correct data.frame format!\n
-            No profiling will be performed.\n
-            To profile functions please provide a 4 column data.frame with:\n
-            COLUMN1: name of function\n
-            COLUMN2: package name\n
-            COLUMN3: process name to assign\n
-            COLUMN4: process type (only 'IO' is implemented)\n")
-    return(NULL)
-  } else if (any(as.vector(sapply(timed_fun, function(x) class(x) )) != "character")){
-    warning("\nProvided data.frame with functions contains factors!\n
-            Trying to convert factor columns to character columns...\n\n")
-    timed_fun <- factorsAsStrings(data_frame = timed_fun)
-  }
-  
-  if (any(as.vector(sapply(timed_fun, function(x) class(x) )) != "character")){
-    warning("\nProvided data.frame with functions to 
-            profile contains non-character columns.\n
-            Please correct and retry.\n\n")
-    return(NULL)
-  }
-  
-  for (i in 1:nrow(timed_fun)){
-    fun <- timed_fun[i,1]
-    pkg <- timed_fun[i,2]
-    prc <- timed_fun[i,3]
-    typ <- timed_fun[i,4]
-    
-    assign(
-      fun,
-      ProfilerFactory(fun = fun, pkg = pkg, prc = prc, typ = typ),
-      envir = .BenchEnv
+addProfiler <- function(timed_fun = NULL){
+  if(is.null(timed_fun)) {
+    warning("data.frame with function to be timed not provided.")
+  } else if (class(timed_fun)!="data.frame" |
+             nrow(timed_fun) == 0 |
+             ncol(timed_fun) < 4) {
+    warning(
+      c("Profiler input has incorrect data frame format!\n",
+        "Required a 4 column data frame:\n",
+        "COLUMN1: name of function\n",
+        "COLUMN2: package name\n",
+        "COLUMN3: process name to assign\n",
+        "COLUMN4: process type (only 'IO' is implemented)\n",
+        "No profiling will be performed.\n")
     )
+    
+  } else if (any(as.vector(sapply(timed_fun, function(x) class(x) )) != "character")){
+    warning("\nData frame with timed functions contains non character columns!\n
+            Trying to convert factor columns to character columns...\n\n")
+    timed_fun <- factorsAsStrings( timed_fun )
+    
+    if (any(as.vector(sapply(timed_fun, function(x) class(x) )) != "character")){
+      warning(c("Columns could not be coerced to character\n",
+                "Please correct and retry."))
+      timed_fun <- NULL
+    }
+  }
+  
+  if (!is.null(timed_fun)){
+    for ( i in 1:nrow(timed_fun) ){
+      fun <- timed_fun[i,1]
+      pkg <- timed_fun[i,2]
+      prc <- timed_fun[i,3]
+      typ <- timed_fun[i,4]
+      
+      assign(
+        fun,
+        ProfilerFactory(fun = fun, pkg = pkg, prc = prc, typ = typ),
+        envir = .BenchEnv
+      )
+    }
   }
 }

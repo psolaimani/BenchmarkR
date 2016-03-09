@@ -22,20 +22,18 @@
 benchmarkSource <- function(file, timed_fun = NULL, runs = 0, loc.src = NULL) {
   
   # check if provided file exists
-  if(!file.exists(file)){
-    warning(sprintf("\nDoesn't exists: %s\n", file))
-    return(NULL)
-  }
+  stopifnot(file.exists(file))
   # save file name to .BenchEnv
-  assign( "file", file, envir = .BenchEnv )
-  assign( "runs", runs, envir = .BenchEnv )
+  assign("file", file, envir = .BenchEnv)
+  assign("runs", runs, envir = .BenchEnv)
+  assign("timed_fun", timed_fun, envir = .BenchEnv)
   
   # initiate packrat package installation
   require("packrat")
-  if(!is.null(loc.src) ) {
-    if(class(loc.src) == "character"){
-      if(exists(loc.src)){
-        options( repos = c(getOption("repos"), localRepo = loc.src ))
+  if (!is.null(loc.src)) {
+    if (class(loc.src) == "character") {
+      if (exists(loc.src)) {
+        options( repos = c(getOption("repos"), localRepo = loc.src))
       } else {
         warning("Provided package source repository doesn't exist.")
       }
@@ -51,8 +49,7 @@ benchmarkSource <- function(file, timed_fun = NULL, runs = 0, loc.src = NULL) {
   # get a unique ID to identify this benchmark save runId  to .BenchEnv for
   # use by setter/getter/etc functions
   runId <- benchGetter(target = "Id")
-  assign( "runId", runId, envir = .BenchEnv )
-  
+  assign("runId", runId, envir = .BenchEnv)
   
   # get version, (file md5 or git commit hash SHA1)
   bench_version <- benchGetter(target = "bench_version")
@@ -61,34 +58,38 @@ benchmarkSource <- function(file, timed_fun = NULL, runs = 0, loc.src = NULL) {
   # load all timed functions in BenchmarkEnvironment
   addProfiler(timed_fun)
   
-  cat(sprintf("runId:  \t%s\nsystemId:\t%s\n",benchGetter(target = "runid"),benchGetter(target = "systemid")))
+  cat(
+    sprintf("runId:  \t%s\nsystemId:\t%s\n", 
+            benchGetter(target = "runid"), 
+            benchGetter(target = "systemid")
+    )
+  )
   
   ####################################################################################
   ######## check source for direct (::) function calls ###############################
   ####################################################################################
   cat("\nChecking for direct calls in code...\n")
   direct_calls_detected <- 0
-  content <- readLines( file )
-  lineOfDirectCalls <- grep( "(::|:::)", content )
-  direct_calls_detected <- length( lineOfDirectCalls )
-  cat( sprintf("Number of direct calls detected: %i\n", direct_calls_detected) )
-  cat( sprintf("\tLine[%i]: %s\n", lineOfDirectCalls, content[ lineOfDirectCalls ]) )
+  content <- readLines(file)
+  lineOfDirectCalls <- grep("(::|:::)", content)
+  direct_calls_detected <- length(lineOfDirectCalls)
+  cat(sprintf("Number of direct calls detected: %i\n", direct_calls_detected))
+  cat(sprintf("\tLine[%i]: %s\n", lineOfDirectCalls, content[lineOfDirectCalls]))
   ####################################################################################
   
   # warmup runs
-  if (runs > 0){
+  if (runs > 0) {
     run <- 0
-    while (run < runs){
-      try( source( file, local = .ExEnv , chdir = TRUE) )
+    while (run < runs) {
+      source(file, local = .ExEnv, chdir = TRUE)
       run <- run + 1
     }
   }
   
-  
   # start timing benchmark
-    B_start <- as.numeric( Sys.time() )
-  try( source( file, local = .ExEnv , chdir = TRUE) )
-  B_end <- as.numeric( Sys.time() )
+  B_start <- as.numeric(Sys.time())
+  source(file, local = .ExEnv , chdir = TRUE)
+  B_end <- as.numeric(Sys.time())
   
   # add BENCHMARK timing to timings of the script (and its components)
   setTiming(process ="BENCHMARK", start = B_start, end = B_end, compute = FALSE)
@@ -99,6 +100,7 @@ benchmarkSource <- function(file, timed_fun = NULL, runs = 0, loc.src = NULL) {
   }
   
   # get all recorded benchmarks & return the last benchmark result
-  benchmark <- benchGetter( target = "benchmarks" )
-  return( benchmark$time[ nrow(benchmark) ] )
+  benchmark <- benchGetter(target = "benchmarks")
+  
+  benchmark$time[nrow(benchmark)]
 }

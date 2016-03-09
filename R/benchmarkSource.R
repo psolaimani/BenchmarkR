@@ -54,7 +54,7 @@ benchmarkSource <- function(file, timed_fun = NULL, runs = 0, loc.src = NULL, us
   
   # get a unique ID to identify this benchmark save runId  to .BenchEnv for
   # use by setter/getter/etc functions
-  runId <- benchGetter(target = "Id")
+  runId <- benchGetter(target = "id")
   assign("runId", runId, envir = .BenchEnv)
   
   # get version, (file md5 or git commit hash SHA1)
@@ -108,5 +108,5 @@ benchmarkSource <- function(file, timed_fun = NULL, runs = 0, loc.src = NULL, us
   # get all recorded benchmarks & return the last benchmark result
   benchmark <- benchGetter(target = "benchmarks")
   
-  benchmark$time[nrow(benchmark)]
+  benchmark$duration[nrow(benchmark)]
 }

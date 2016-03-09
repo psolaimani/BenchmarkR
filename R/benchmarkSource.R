@@ -1,22 +1,28 @@
 #' benchmarkSource
 #' @title Simple Benchmark/Profiling Tool For R Scripts
-#' @author Parham Solaimani
+#' @author Parham Solaimani (Maintainer)
 #' @author Maarten-Jan Kallen
 #' @author Alexander Bertram
 #' @keywords benchmark benchmarking profiling timing r script file
 #' @description This script will benchmark the running time of the given input 
-#' file. Time used by functions defined in timed_fun data.frame will be 
-#' subtracted from total running time.
-#' @usage benchmarkSource(file,timed_fun)
+#' file. Time used by functions defined in timed_fun data frame will be 
+#' subtracted from total running time. This benchmarking tools differs to
+#' other benchmarking tools in that it times the running time of longer
+#' R scripts in a defined environment by allowing (version)control over input
+#' data, used packages and scriptfile.
+#' @usage benchmarkSource(file, timed_fun, runs, loc.src, uses_packrat)
 #' @param file R script to benchmark
-#' @param timed_fun a data.frame whith 4 columns. Column 1: function; column 2: 
+#' @param timed_fun a data frame whith 4 columns. Column 1: function; column 2: 
 #' package; column 3: process category eg. READ/WRITE but never BENCHMARK; 
 #' column 4: function type, currently only 'IO'.
-#' @param runs (integer) number of preruns which are not timed but serve to 
+#' @param runs (integer) number of pre-runs which are not timed but serve to 
 #' measure warm running time of the last run.
 #' @param loc.src chracter vector containing location of CRAN like repository
-#' @return returns a dubble with running time of last benchmark and prints all 
-#' session benchmark records to console
+#' which contains the source code (package_version.tar.gz) of 
+#' used package versions
+#' @param uses_packrat use if you have packified your script using packrat.
+#' Default is TRUE
+#' @return returns a dubble with running time of last benchmark
 #' @import packrat
 #' @export 
 benchmarkSource <- function(file, timed_fun = NULL, runs = 0, loc.src = NULL) {

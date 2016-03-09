@@ -1,11 +1,37 @@
 #' benchDBReport
-#' @description Uploads benchmarking/profiling results tp database
+#' @description Uploads benchmarking/profiling results to a database. 
+#' This function tries to connect to a MySQL or SQLite database using 
+#' provided information. If connection is sucessfull, data frames BM 
+#' and META from .BenchEnv environment to the database tables
+#' BENCHMARKS and META. These tables should exist in the provided database.
+#' The BENCHMARKS table can be created by using:
+#' \code{CREATE TABLE "BENCHMARKS" (}
+#' \code{`runId`	VARCHAR(18) NOT NULL,}
+#' \code{`systemId`	VARCHAR(32) NOT NULL,}
+#' \code{`file`	VARCHAR(64) NOT NULL,}
+#' \code{`version`	VARCHAR(32) NOT NULL,}
+#' \code{`process`	VARCHAR(16) NOT NULL,}
+#' \code{`start_time`	DECIMAL NOT NULL,}
+#' \code{`end_time`	DECIMAL NOT NULL,}
+#' \code{`duration`	DECIMAL NOT NULL,}
+#' \code{`runs`	INTEGER NOT NULL,}
+#' \code{PRIMARY KEY(runId,process,end_time)}
+#' \code{)}
+#' 
+#' and for META table use:
+#' \code{CREATE TABLE META (}
+#' \code{systemId VARCHAR(32), }
+#' \code{variable VARCHAR(32), }
+#' \code{value VARCHAR(32),}
+#' \code{PRIMARY KEY(systemId,variable))}
+#' 
 #' @usage benchDBReport(usr, pwd, host_address, db_name, con_type)
 #' @param usr database usrname
 #' @param psw database password
-#' @param host_address IP address of the MySQL server
+#' @param host_loc IP address of the MySQL server
+#' @param con_str a complete connection string (eg jdbc:mysql:127.0.0.1:36/myDatabase)
 #' @param db_name database name
-#' @param con_type type of database (currently only mysql supported)
+#' @param con_type type of database (currently only mysql and sqlite supported)
 #' @import RMySQL RSQLite
 #' @export
 benchDBReport <- function(         usr = NULL, 
@@ -82,7 +108,9 @@ benchDBReport <- function(         usr = NULL,
   if (CONNECTED) {
     
     if (con_type == "sqlite") { 
-      # adapted from http://www.inside-r.org/packages/cran/RSQLite/docs/dbSendPreparedQuery
+      # adapted from:
+      # http://www.inside-r.org/packages/cran/RSQLite/docs/dbSendPreparedQuery
+      #
       bulk_insert <- function(sql, key_counts) { 
         dbBegin(conn)
         dbSendPreparedQuery(conn, sql, bind.data = key_counts)

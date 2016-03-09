@@ -4,13 +4,13 @@
 \alias{factorsAsStrings}
 \title{factorsAsStrings}
 \usage{
-factorsAsStrings(data_frame)
+factorsAsStrings(df)
 }
 \arguments{
-\item{data_frame}{input data.frame}
+\item{df}{input object}
 }
 \value{
-data.frame with all factor columns converted to character columns
+Replaces factor columns in list or data frame, otherwise returns input object as is.
 }
 \description{
 converts all Factor columns within input data.frame to Character columns

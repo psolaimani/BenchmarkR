@@ -4,14 +4,23 @@
 \alias{runBenchmark}
 \title{runBenchmark}
 \usage{
-runBenchmark(bench_loc, timed_fun = NULL)
+runBenchmark(runs, loc.src, dcf, timedFunFile)
 }
 \arguments{
-\item{bench_loc}{location of directory with subdirectories containing benchmarks}
+\item{runs}{number of runs for warming up. After warmup runs the workflow
+will be runned one more time for timing perpose. Default is 0.}
 
-\item{timed_fun}{data.frame with functions to be profiled}
+\item{loc.src}{location of CRAN like repository containing the source code
+of used package versions. Default is NULL.}
+
+\item{dcf}{information about workflows name and description and 
+datafile name, download location, md5hash in Debian Control Format. Default
+is BENCHMARK.dcf}
+
+\item{timedFunFile}{file with functions to be profiled. Default is
+FUNCTION.PROFILE}
 }
 \description{
-This function extracts benchmark information, and downloads the necessary data/packages
+This function extracts benchmark information, and downloads the necessary data/packages.
 }
 

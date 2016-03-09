@@ -9,15 +9,41 @@ benchDBReport(usr, pwd, host_address, db_name, con_type)
 \arguments{
 \item{usr}{database usrname}
 
-\item{host_address}{IP address of the MySQL server}
+\item{host_loc}{IP address of the MySQL server}
 
 \item{db_name}{database name}
 
-\item{con_type}{type of database (currently only mysql supported)}
+\item{con_type}{type of database (currently only mysql and sqlite supported)}
 
 \item{psw}{database password}
+
+\item{con_str}{a complete connection string (eg jdbc:mysql:127.0.0.1:36/myDatabase)}
 }
 \description{
-Uploads benchmarking/profiling results tp database
+Uploads benchmarking/profiling results to a database. 
+This function tries to connect to a MySQL or SQLite database using 
+provided information. If connection is sucessfull, data frames BM 
+and META from .BenchEnv environment to the database tables
+BENCHMARKS and META. These tables should exist in the provided database.
+The BENCHMARKS table can be created by using:
+\code{CREATE TABLE "BENCHMARKS" (}
+\code{`runId`	VARCHAR(18) NOT NULL,}
+\code{`systemId`	VARCHAR(32) NOT NULL,}
+\code{`file`	VARCHAR(64) NOT NULL,}
+\code{`version`	VARCHAR(32) NOT NULL,}
+\code{`process`	VARCHAR(16) NOT NULL,}
+\code{`start_time`	DECIMAL NOT NULL,}
+\code{`end_time`	DECIMAL NOT NULL,}
+\code{`duration`	DECIMAL NOT NULL,}
+\code{`runs`	INTEGER NOT NULL,}
+\code{PRIMARY KEY(runId,process,end_time)}
+\code{)}
+
+and for META table use:
+\code{CREATE TABLE META (}
+\code{systemId VARCHAR(32), }
+\code{variable VARCHAR(32), }
+\code{value VARCHAR(32),}
+\code{PRIMARY KEY(systemId,variable))}
 }
 

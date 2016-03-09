@@ -1,10 +1,11 @@
 #' setTiming
-#' @description updates PROFILES data.frame by addition of given proccess duration
+#' @description updates .BenchEnv$BM data.frame by addition of given proccess duration
 #' @param process name for the type of function (eg. READ, WRITE). 
 #' @param start start time process
 #' @param end end time process
-#' @return adds a record to ExEnv$PROFILES data.frame
-#' @export
+#' @param compute whether to substract timedFunctions from total time.
+#' Default is TRUE.
+#' @return adds a record to .BenchEnv$BM data.frame
 setTiming <- function(process, start, end, compute = TRUE) {
   benchmarks <- benchGetter(target = "benchmarks")
   systemId   <- benchGetter(target = "systemid")
@@ -37,12 +38,13 @@ setTiming <- function(process, start, end, compute = TRUE) {
 }
 
 #' setSystemID
-#' @description Generats a unique ID for the system on which the benchmark  is runned ones
-#' on loading of package and stores system information with this ID.
-#' @return unique id as character vector and system information are added as record to ExecEnvironment$META data.frame
+#' @description Generats a unique ID for the system on which the benchmark
+#' is runned ones on loading of package and stores system information with 
+#' this ID.
+#' @return unique id as character vector and system information are added 
+#' as record to .BenchEnv$META data.frame
 #' @importFrom parallel detectCores
 #' @import digest
-#' @export
 setSystemID <- function() {
   
   if (exists('systemId', envir = .BenchEnv) == FALSE ) {

@@ -4,30 +4,33 @@
 \alias{benchGetter}
 \title{benchGetter}
 \usage{
-benchGetter(target, indexCol = NULL, returnCol = NULL, selectValue = NULL,
-  selectedRunId = NULL, file = NULL)
+benchGetter(target = c("id", "benchmarks", "profile", "profilerun",
+  "systemid", "runid", "file", "runs", "timed_fun", "bench_version", "meta",
+  "computetime"), idxCol = NULL, retCol = NULL, fltVal = NULL,
+  fltRunId = NULL, file = NULL, runId = NULL)
 }
 \arguments{
 \item{target}{which information to retrieve 
-\code{id}: generates a unique ID based on date/time and a random number. 
-\code{profiles}: returns all records of PROFILES table. 
+\code{target}: 
 \code{benchmarks}: returns table with all recorded benchmarks. 
 \code{profile}: returns 'returnCol' from PROFILES where 'indexCol' == 'selectValue'. 
-\code{profilerun}: returns PROFILES table subsetted with \code{runId}. 
+\code{profilerun}: returns PROFILES table subsetted with runId. 
 \code{warnings}: returns ExecEnvironment$WARNINGS data.frame containing all warnings recorded. 
 \code{systemid}: returns the unique systemId that is used to identify this system.}
 
+\item{retCol}{content of this column will be returned after filtering}
+
+\item{fltVal}{this value will be compared to indexCol to filter profiling records}
+
+\item{fltRunId}{which runId to use for filtering profiling records}
+
 \item{indexCol}{profiling records will be filtered based on content of this column}
-
-\item{returnCol}{content of this column will be returned after filtering}
-
-\item{selectValue}{this value will be compared to \code{indexCol} to filter profiling records}
-
-\item{selectedRunId}{which \code{runId} to use for filtering profiling records}
-
-\item{file}{packages used in this file will be extracted and installed}
+}
+\value{
+depending on target choice, either a vector or data frame
 }
 \description{
-Retrieve different saved records or benchmark information
+Retrieves information stored in package environment, such as
+benchmark or profiling records, systemId, runId, meta information.
 }
 

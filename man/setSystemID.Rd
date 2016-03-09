@@ -7,10 +7,12 @@
 setSystemID()
 }
 \value{
-unique id as character vector and system information are added as record to ExecEnvironment$META data.frame
+unique id as character vector and system information are added 
+as record to .BenchEnv$META data.frame
 }
 \description{
-Generats a unique ID for the system on which the benchmark  is runned ones
-on loading of package and stores system information with this ID.
+Generats a unique ID for the system on which the benchmark
+is runned ones on loading of package and stores system information with 
+this ID.
 }
 

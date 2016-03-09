@@ -1,7 +1,8 @@
 #' benchGetter
-#' @description Retrieve different saved records or benchmark information
+#' @description Retrieves information stored in package environment, such as
+#' benchmark or profiling records, systemId, runId, meta information.
 #' @param target which information to retrieve 
-#'    \code{id}: generates a unique ID based on date/time and a random number. 
+#'    \code{target}: 
 #'    \code{benchmarks}: returns table with all recorded benchmarks. 
 #'    \code{profile}: returns 'returnCol' from PROFILES where 'indexCol' == 'selectValue'. 
 #'    \code{profilerun}: returns PROFILES table subsetted with runId. 
@@ -11,8 +12,7 @@
 #' @param retCol content of this column will be returned after filtering
 #' @param fltVal this value will be compared to indexCol to filter profiling records
 #' @param fltRunId which runId to use for filtering profiling records
-#' @param file packages used in this file will be extracted and installed
-#' @importFrom utils installed.packages
+#' @return depending on target choice, either a vector or data frame
 #' @export
 benchGetter <- function(target=c("id","benchmarks","profile","profilerun",
                                   "systemid","runid","file","runs", "timed_fun"

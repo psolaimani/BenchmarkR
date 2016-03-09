@@ -3,7 +3,6 @@
 #' @param df input object
 #' @return Replaces factor columns in list or data frame, otherwise returns input object as is.
 #' @usage factorsAsStrings(df)
-#' @export
 factorsAsStrings <- function(df) {
   if (is.list(df)) {
     df[] <- lapply(df, function(col) {

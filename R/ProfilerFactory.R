@@ -20,20 +20,25 @@ factorsAsStrings <- function(df) {
 #' @param prc name for process category that should be used in profile eg. READ or WRITE.
 #' @param typ type of function eg. IO, DB, or GRAPH. Only IO is currently implemented
 #' @return new timed function based on input function
-#' @export
 #' @usage ProfilerFactory(fun, pkg, prc, typ)
-ProfilerFactory <- function(fun, pkg, prc, typ) {
-  if (typ == "IO"){
-    function(...) {
-      start_p <- as.numeric(Sys.time())
-      res <- withVisible(do.call(getExportedValue(pkg, fun), list(...)))
-      end_p <- as.numeric(Sys.time())
-      duration <- end_p - start_p
-      setTiming(process = prc, start = start_p, end = end_p)
-      if(res$visible) res$value else invisible(res$value)
-    }
-  }
+ProfilerFactory <- function(fun, pkg, prc, typ = c("IO")) {
   
+  typ = match.arg(typ)
+  
+  res <- switch(
+    typ,
+    "IO" = {
+      function(...) {
+        start_p <- as.numeric(Sys.time())
+        res <- withVisible(do.call(getExportedValue(pkg, fun), list(...)))
+        end_p <- as.numeric(Sys.time())
+        duration <- end_p - start_p
+        setTiming(process = prc, start = start_p, end = end_p)
+        if(res$visible) res$value else invisible(res$value)
+      }
+      res
+    }
+  )
 }
 
 #' addProfiler

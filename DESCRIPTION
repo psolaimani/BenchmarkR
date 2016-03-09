@@ -1,11 +1,11 @@
 Package: benchmarkR
 Type: Package
 Title: Benchmark/Profiling for R Scripts
-Version: 1.01.1019
-Date: 2016-02-26
+Version: 1.01.1020
+Date: 2016-03-09
 Author: Parham Solaimani, Maarten-Jan Kallen, Alexander Bertram
 Maintainer: Parham Solaimani <parham@bedatadriven.com>
-Imports: utils, hamcrest, parallel
+Imports: digest, packrat, hamcrest, parallel
 Suggests: RMySQL, RSQLite
 Description: A simple benchmarking and profiling tool for R scripts.
 License: GPL-2

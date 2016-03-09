@@ -1,16 +1,16 @@
 #' factorsAsStrings
 #' @description converts all Factor columns within input data.frame to Character columns
-#' @param data_frame input data.frame
-#' @return data.frame with all factor columns converted to character columns
-#' @usage factorsAsStrings(data_frame)
+#' @param df input object
+#' @return Replaces factor columns in list or data frame, otherwise returns input object as is.
+#' @usage factorsAsStrings(df)
 #' @export
-factorsAsStrings <- function(data_frame){
-  for (i in 1:ncol(data_frame)){
-    if (class(data_frame[,i]) == "factor"){
-      data_frame[,i] <- as.character(data_frame[,i])
-    }
+factorsAsStrings <- function(df) {
+  if (is.list(df)) {
+    df[] <- lapply(df, function(col) {
+      if (is.factor(col)) as.character(col) else col
+    })
   }
-  data_frame
+  df
 }
 
 #' ProfilerFactory

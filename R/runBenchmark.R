@@ -22,12 +22,12 @@ runBenchmark <- function(        runs = 0,
     message(sprintf("processing: %s", File))
     if (file.exists(File) == FALSE) {
       warning(sprintf("%s doesn't exist.\n", Name ))
-      n=1
-      Try=TRUE
-      while ( n < 4 & Try == TRUE){
-        cat( sprintf("Downloading file. Try %i out of 3...\n", n) )
-        try( download.file(Source, File), TRUE )
-        n <- n+1
+      n = 1
+      Try = TRUE
+      while (n < 4 & Try == TRUE){
+        message(sprintf("Downloading file. Try %i out of 3...", n))
+        try(download.file(Source, File), TRUE)
+        n <- n + 1
         if (file.exists(File) == TRUE){ 
           fHash <- tools::md5sum(File)
           if(fHash == Hash) { 

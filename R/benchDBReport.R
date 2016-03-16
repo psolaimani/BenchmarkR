@@ -5,6 +5,7 @@
 #' and META from .BenchEnv environment to the database tables
 #' BENCHMARKS and META. These tables should exist in the provided database.
 #' The BENCHMARKS table can be created by using:
+#' 
 #' \code{CREATE TABLE "BENCHMARKS" (}
 #' \code{`runId`	VARCHAR(18) NOT NULL,}
 #' \code{`systemId`	VARCHAR(32) NOT NULL,}
@@ -19,6 +20,7 @@
 #' \code{)}
 #' 
 #' and for META table use:
+#' 
 #' \code{CREATE TABLE META (}
 #' \code{systemId VARCHAR(32), }
 #' \code{variable VARCHAR(32), }

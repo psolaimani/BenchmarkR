@@ -55,7 +55,7 @@ setSystemID <- function() {
       warning("Your systemId has incorrect format.\n")
       needSysId <- TRUE
     } else {
-      cat(sprintf("systemId exists: %s\n", .BenchEnv$systemId))
+      message(sprintf("systemId exists: %s", .BenchEnv$systemId))
       needSysId <- FALSE
     }
   }
@@ -71,13 +71,13 @@ setSystemID <- function() {
     all_attributes <- paste(attributes, sep= "", collapse = "")
     systemId <- digest::digest(all_attributes, serialize = FALSE) 
     
-    cat("Saving system information to .BenchEnv$META...\n")
+    message("Saving system information to .BenchEnv$META...")
     for (i in 1:length(names(attributes))){
       .BenchEnv$META[i, ] <- c(systemId, names(attributes)[i], attributes[[i]] )
     }
     
     assign("systemId", systemId, envir = .BenchEnv)
-    cat(sprintf("Generated and assigned system ID: %s\n", .BenchEnv$systemId))
+    message(sprintf("Generated and assigned system ID: %s", .BenchEnv$systemId))
     
     return(invisible(.BenchEnv$systemId))
     

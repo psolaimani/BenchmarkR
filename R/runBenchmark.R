@@ -12,11 +12,14 @@
 #' @param timedFunFile file with functions to be profiled. Default is
 #' FUNCTION.PROFILE
 #' @export
-runBenchmark <- function(runs = 0, loc.src=NULL, dcf = "BENCHMARK.dcf", timedFunFile = "FUNCTION.PROFILE"){
-  
-  isPresent <- function(Name,Hash,Source){
+runBenchmark <- function(        runs = 0, 
+                              loc.src = NULL, 
+                                  dcf = "BENCHMARK.dcf", 
+                         timedFunFile = "FUNCTION.PROFILE"){
+
+  isPresent <- function(Name, Hash, Source){
     File <- file.path(Name)
-    cat(sprintf("processing: %s\n", File))
+    message(sprintf("processing: %s", File))
     if (file.exists(File) == FALSE) {
       warning(sprintf("%s doesn't exist.\n", Name ))
       n=1
@@ -34,7 +37,7 @@ runBenchmark <- function(runs = 0, loc.src=NULL, dcf = "BENCHMARK.dcf", timedFun
       }
       
       if (file.exists(File) == FALSE) {
-        warning(sprintf("Couldn't download %s.\n",Name))
+        warning(sprintf("Couldn't download %s.\n", Name))
         return("ERROR")
       }
       
@@ -53,27 +56,27 @@ runBenchmark <- function(runs = 0, loc.src=NULL, dcf = "BENCHMARK.dcf", timedFun
         try(file.remove(File),TRUE)
         n=1
         Try=TRUE
-        while ( n < 4 & Try == TRUE){
-          cat( sprintf("Downloading and overwriting file. Try %i out of 3...\n", n) )
-          try( download.file(Source, File), TRUE )
-          n <- n+1
+        while (n < 4 & Try == TRUE){
+          message( sprintf("Downloading and overwriting file. Try %i out of 3...", n) )
+          try(download.file(Source, File), TRUE)
+          n <- n + 1
           if (file.exists(File) == TRUE){ 
             fHash <- tools::md5sum(File)
             if(fHash == Hash) { 
               Try <- FALSE 
-              cat(sprintf("Download %s completed.\n", Name))
+              message(sprintf("Download %s completed.", Name))
             }
           }
         }
         fHash <- tools::md5sum(File)
-        if ( fHash != Hash ){
+        if (fHash != Hash){
           warning(sprintf("%s md5sum is still incorrect\nPlease correct dcf info.\n", Name))
           return("ERROR")
         } else {
           return("READY")
         }
       } else {
-        cat(sprintf("md5sum data file is correct.\n", Name))
+        message(sprintf("md5sum data file is correct.", Name))
         return("READY")
       }
     }
@@ -91,10 +94,10 @@ runBenchmark <- function(runs = 0, loc.src=NULL, dcf = "BENCHMARK.dcf", timedFun
     if (any(as.vector(Prepare_data) == "ERROR")){
       warning("\nCheck data: datasets not correct/complete!\n")
     } else {
-      cat("\nCheck data: correct datasets available.\n")
+      message("\nCheck data: correct datasets available.")
     }
   } else {
-    cat("\nBenchmark doesn't contain datasets.\n")
+    message("\nBenchmark doesn't contain datasets.")
   }
   
   # Get R script filename

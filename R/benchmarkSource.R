@@ -64,8 +64,8 @@ benchmarkSource <- function(file, timed_fun = NULL, runs = 0, loc.src = NULL, us
   # load all timed functions in BenchmarkEnvironment
   addProfiler(timed_fun)
   
-  cat(
-    sprintf("runId:  \t%s\nsystemId:\t%s\n", 
+  message(
+    sprintf("runId:  \t%s\nsystemId:\t%s", 
             benchGetter(target = "runid"), 
             benchGetter(target = "systemid")
     )
@@ -74,13 +74,13 @@ benchmarkSource <- function(file, timed_fun = NULL, runs = 0, loc.src = NULL, us
   ####################################################################################
   ######## check source for direct (::) function calls ###############################
   ####################################################################################
-  cat("\nChecking for direct calls in code...\n")
+  message("Checking for direct calls in code...")
   direct_calls_detected <- 0
   content <- readLines(file)
   lineOfDirectCalls <- grep("(::|:::)", content)
   direct_calls_detected <- length(lineOfDirectCalls)
-  cat(sprintf("Number of direct calls detected: %i\n", direct_calls_detected))
-  cat(sprintf("\tLine[%i]: %s\n", lineOfDirectCalls, content[lineOfDirectCalls]))
+  message(sprintf("Number of direct calls detected: %i", direct_calls_detected))
+  message(sprintf("\tLine[%i]: %s", lineOfDirectCalls, content[lineOfDirectCalls]))
   ####################################################################################
   
   # warmup runs

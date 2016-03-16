@@ -60,10 +60,10 @@ benchDBReport <- function(     usr = NULL,
         warning("Missing connection information.")
       }
       
-      cat("Loading RMySQL package.\n")
+      message("Loading RMySQL package.")
       require(RMySQL)
       
-      cat("Connecting to MySQL database.\n")
+      message("Connecting to MySQL database.")
       db <- try(conn <- dbConnect(RMySQL(), username = usr, password = pwd, 
                                   conn_str), TRUE)
       if (inherits(db, "try-error")) {
@@ -84,10 +84,10 @@ benchDBReport <- function(     usr = NULL,
         warning("SQLite database location not provided.")
       }
       
-      cat("Loading RSQLite package.\n")
+      message("Loading RSQLite package.")
       require(RSQLite)
       
-      cat("Connecting to SQLite database.\n")
+      message("Connecting to SQLite database.")
       db <- try(conn <- dbConnect(RSQLite(), dbname = db_name), TRUE)
       if (inherits(db, "try-error")) {
         db <- try(conn <- dbConnect(SQLite(), dbname = db_name), TRUE)
@@ -100,13 +100,13 @@ benchDBReport <- function(     usr = NULL,
     }
   )
   
-  cat("Checking database connection\n")
+  message("Checking database connection")
   if (!exists("conn")) {
     warning("ERROR: Could not connect to database!")
     CONNECTED <- FALSE
   } else {
     CONNECTED <- TRUE
-    cat("Connection to database established!\n") 
+    message("Connection to database established!") 
   }
   
   if (CONNECTED) {
@@ -121,27 +121,27 @@ benchDBReport <- function(     usr = NULL,
         dbCommit(conn)
       }
       
-      cat("Start adding records to BENCHMARKS table\n")
+      message("Start adding records to BENCHMARKS table")
       bench_sql <- "INSERT INTO BENCHMARKS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
       updated <- try(bulk_insert(bench_sql, cur_bmrk), TRUE)
       if (inherits(updated, "try-error")){
         warning("Error occured during writing benchmarks to SQLite database!")
       } else {
-        cat("Database benchmarks table updated!")
+        message("Database benchmarks table updated!")
       }
       
-      cat("Start adding records to META table\n")
+      message("Start adding records to META table")
       meta_sql <- "INSERT INTO META VALUES (?, ?, ?)"
       updated <- try(bulk_insert(meta_sql, cur_meta), TRUE)
       if (inherits(updated, "try-error")){
         warning("Error occured during writing meta to SQLite database!")
       } else {
-        cat("Database meta table updated!")
+        message("Database meta table updated!")
       }
       
     } else {
       
-      cat("Start adding records to BENCHMARKS table\n")
+      message("Start adding records to BENCHMARKS table")
       bench_sql <- 
         for (i in 1:nrow(cur_bmrk)) {
           updated <- try(
@@ -152,11 +152,11 @@ benchDBReport <- function(     usr = NULL,
           if (inherits(updated, "try-error")){
             warning("Error occured during writing benchmarks to database!")
           } else {
-            cat("Database benchmarks table updated!")
+            message("Database benchmarks table updated!")
           }
         }
       
-      cat("Start adding records to META table\n")
+      message("Start adding records to META table")
       for (i in 1:nrow(cur_meta)){
         try(updated <- dbSendQuery(conn,
                                    sprintf(
@@ -167,13 +167,13 @@ benchDBReport <- function(     usr = NULL,
         if (inherits(updated, "try-error")){
           warning("Error occured during writing meta to database!")
         } else {
-          cat("Database meta table updated!")
+          message("Database meta table updated!")
         }
       }
     }
   }
   
-  cat("Closing SQLite database connection\n")
+  message("Closing SQLite database connection")
   dbDisconnect(conn)
   return(invisible("DB_UPDATED"))
 }

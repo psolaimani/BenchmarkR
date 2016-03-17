@@ -125,13 +125,11 @@ benchDBReport <- function( usr = NULL,
     }
     
     message("Start adding records to META table")
-    for (i in 1:nrow(cur_meta)){
-      try(updated <- dbWriteTable(conn, "META", cur_meta), TRUE)
-      if (inherits(updated, "try-error")){
-        warning("Error occured during writing meta to database!")
-      } else {
-        message("Database meta table updated!")
-      }
+    updated <- try( dbWriteTable(conn, "META", cur_meta), TRUE)
+    if (inherits(updated, "try-error")){
+      warning("Error occured during writing meta to database!")
+    } else {
+      message("Database meta table updated!")
     }
   }
   

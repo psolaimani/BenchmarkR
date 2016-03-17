@@ -17,17 +17,18 @@ timed_functions <- data.frame(
   stringsAsFactors=FALSE
 )
 
-benchmarkSource(file = "./test.R", timed_fun = timed_functions)
-benchmarkSource(file = "./test3.R", timed_fun = timed_functions)
+benchmarkSource(file = "./test.R", timed_fun = timed_functions, uses_packrat = FALSE)
+benchmarkSource(file = "./test3.R", timed_fun = timed_functions, uses_packrat = FALSE)
 
-benchmarkSource(file = "./test.R")
+benchmarkSource(file = "./test.R", uses_packrat = FALSE)
 
-benchmarkSource(file = "./test_kshjhgdhsagjh.R")
+run <- try(benchmarkSource(file = "./test_kshjhgdhsagjh.R", uses_packrat = FALSE))
+assertTrue(inherits(run, "try-error"))
 
-benchGetter("benchmarks")
+benchmarkR:::benchGetter("benchmarks")
 
-nrow_benchmarks <- nrow(benchGetter("benchmarks")) == 0
+nrow_benchmarks <- nrow(benchmarkR:::benchGetter("benchmarks")) == 0
 assertFalse(nrow_benchmarks)
 
-nrow_meta <- nrow(benchGetter("meta")) == 0
+nrow_meta <- nrow(benchmarkR:::benchGetter("meta")) == 0
 assertFalse(nrow_meta)

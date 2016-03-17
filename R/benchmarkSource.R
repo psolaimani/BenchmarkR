@@ -10,7 +10,7 @@
 #' other benchmarking tools in that it times the running time of longer
 #' R scripts in a defined environment by allowing (version)control over input
 #' data, used packages and scriptfile.
-#' @usage benchmarkSource(file, timed_fun, runs, loc.src, uses_packrat)
+#' @usage benchmarkSource(file, timed_fun, runs, loc.src, uses_packrat, bench_log, warn_log)
 #' @param file R script to benchmark
 #' @param timed_fun a data frame whith 4 columns. Column 1: function; column 2: 
 #' package; column 3: process category eg. READ/WRITE but never BENCHMARK; 
@@ -22,6 +22,10 @@
 #' used package versions
 #' @param uses_packrat use if you have packified your script using packrat.
 #' Default is TRUE
+#' @param bench_log filename to use to store message/warning/errors.
+#' Default is "benchmark.log"
+#' @param warn_log level of logging to use (choose from -1, "INFO", "WARN", 
+#' "STOP". Default value is -1.
 #' @return returns a dubble with running time of last benchmark
 #' @import packrat
 #' @export 
@@ -29,12 +33,11 @@ benchmarkSource <- function(        file,
                                timed_fun = NULL,
                                     runs = 0,
                                  loc.src = NULL,
-                               bench_log = "benchmark.log"
-                                warn_log = c(-1,"INFO","WARN","STOP"),
-                            uses_packrat = TRUE) {
+                            uses_packrat = TRUE,
+                               bench_log = "benchmark.log",
+                                warn_log = c(-1,"INFO","WARN","STOP")) {
   
   # configure logging of the benchmark progress
-  require("rlogging")
   SetLogFile(bench_log)
   log_arg <- match.arg(warn_log)
   switch(log_arg,
@@ -53,7 +56,6 @@ benchmarkSource <- function(        file,
   assign("timed_fun", timed_fun, envir = .BenchEnv)
   
   # initiate packrat package installation
-  require("packrat")
   if (!is.null(loc.src)) {
     if (class(loc.src) == "character") {
       if (exists(loc.src)) {

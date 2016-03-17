@@ -1,6 +1,6 @@
 #' runBenchmark
 #' @description This function extracts benchmark information, and downloads the necessary data/packages. 
-#' @usage runBenchmark(runs, loc.src, dcf, timedFunFile)
+#' @usage runBenchmark(runs, loc.src, dcf, timedFunFile, bench_log, warn_log)
 #' @usage runBenchmark()
 #' @param runs number of runs for warming up. After warmup runs the workflow
 #' will be runned one more time for timing perpose. Default is 0.
@@ -11,18 +11,22 @@
 #' is BENCHMARK.dcf
 #' @param timedFunFile file with functions to be profiled. Default is
 #' FUNCTION.PROFILE
+#' @param bench_log filename to use to store message/warning/errors.
+#' Default is "benchmark.log"
+#' @param warn_log level of logging to use (choose from -1, "INFO", "WARN", 
+#' "STOP". Default value is -1.
 #' @import rlogging
 #' @export
 runBenchmark <- function(        runs = 0, 
                               loc.src = NULL, 
-                                  dcf = "BENCHMARK.dcf", 
+                                  dcf = "BENCHMARK.dcf",
+                         timedFunFile = "FUNCTION.PROFILE", 
                             bench_log = "benchmark.log",
-                             warn_log = c(-1,"INFO","WARN","STOP"),
-                         timedFunFile = "FUNCTION.PROFILE"){
+                             warn_log = c(-1,"INFO","WARN","STOP")){
   
   # configure logging of the benchmark progress
-  require("rlogging")
-  SetLogFile(bench_log)
+  wd <- normalizePath("./")
+  SetLogFile(base.file = bench_log, folder = wd)
   log_arg <- match.arg(warn_log)
   switch(log_arg,
          "-1" = options(warn = -1),
@@ -117,7 +121,6 @@ runBenchmark <- function(        runs = 0,
   }
   
   # Get R script filename
-  wd         <- normalizePath("./")
   file_name  <- paste0(tail(strsplit(wd,"/")[[1]],n=1),".R")
   bench_file <- file.path(wd, file_name)
   

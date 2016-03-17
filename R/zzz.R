@@ -1,3 +1,3 @@
-.onLoad <- function(libname, benchmarkR) {
+.onLoad <- function(lib, pkg) {
   setSystemID()
 }

@@ -72,7 +72,7 @@ setSystemID <- function() {
     )
     
     all_attributes <- paste(attributes, sep= "", collapse = "")
-    systemId <- digest::digest(all_attributes, serialize = FALSE) 
+    systemId <- digest::digest(all_attributes, serialize = FALSE, algo="md5")
     
     message("Saving system information to .BenchEnv$META...")
     for (i in 1:length(names(attributes))){

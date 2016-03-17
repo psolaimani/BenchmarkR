@@ -11,12 +11,28 @@
 #' is BENCHMARK.dcf
 #' @param timedFunFile file with functions to be profiled. Default is
 #' FUNCTION.PROFILE
+#' @import rlogging
 #' @export
 runBenchmark <- function(        runs = 0, 
                               loc.src = NULL, 
                                   dcf = "BENCHMARK.dcf", 
+                            bench_log = "benchmark.log",
+                             warn_log = c(-1,"INFO","WARN","STOP"),
                          timedFunFile = "FUNCTION.PROFILE"){
-
+  
+  # configure logging of the benchmark progress
+  require("rlogging")
+  SetLogFile(bench_log)
+  log_arg <- match.arg(warn_log)
+  switch(log_arg,
+         "-1" = options(warn = -1),
+         "INFO" = options(warn = "INFO"),
+         "WARN" = options(warn = "WARN"),
+         "STOP" = options(warn = "STOP"),
+         options(warn = -1)
+         )
+  
+  # check if correct datasets are present and otherwise download
   isPresent <- function(Name, Hash, Source){
     File <- file.path(Name)
     message(sprintf("processing: %s", File))

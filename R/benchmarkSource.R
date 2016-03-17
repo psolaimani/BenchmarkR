@@ -25,7 +25,25 @@
 #' @return returns a dubble with running time of last benchmark
 #' @import packrat
 #' @export 
-benchmarkSource <- function(file, timed_fun = NULL, runs = 0, loc.src = NULL, uses_packrat = TRUE) {
+benchmarkSource <- function(        file, 
+                               timed_fun = NULL,
+                                    runs = 0,
+                                 loc.src = NULL,
+                               bench_log = "benchmark.log"
+                                warn_log = c(-1,"INFO","WARN","STOP"),
+                            uses_packrat = TRUE) {
+  
+  # configure logging of the benchmark progress
+  require("rlogging")
+  SetLogFile(bench_log)
+  log_arg <- match.arg(warn_log)
+  switch(log_arg,
+         "-1" = options(warn = -1),
+         "INFO" = options(warn = "INFO"),
+         "WARN" = options(warn = "WARN"),
+         "STOP" = options(warn = "STOP"),
+         options(warn = -1)
+  )
   
   # check if provided file exists
   stopifnot(file.exists(file))

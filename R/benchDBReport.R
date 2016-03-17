@@ -41,7 +41,22 @@ benchDBReport <- function(     usr = NULL,
                           host_loc = NULL, 
                           conn_str = NULL, 
                            db_name = NULL, 
+                         bench_log = "benchmark.log",
+                          warn_log = c(-1,"INFO","WARN","STOP"),
                           con_type = c("mysql","sqlite")) {
+  
+  # configure logging of the benchmark progress
+  require("rlogging")
+  SetLogFile(bench_log)
+  log_arg <- match.arg(warn_log)
+  switch(log_arg,
+         "-1" = options(warn = -1),
+         "INFO" = options(warn = "INFO"),
+         "WARN" = options(warn = "WARN"),
+         "STOP" = options(warn = "STOP"),
+         options(warn = -1)
+  )
+  
   # Get benchmarking/profiling data
   cur_bmrk <- benchGetter(target = "benchmarks")
   cur_meta <- benchGetter(target = "meta")

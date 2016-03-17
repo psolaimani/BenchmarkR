@@ -13,7 +13,6 @@
 #' @param fltVal this value will be compared to indexCol to filter profiling records
 #' @param fltRunId which runId to use for filtering profiling records
 #' @return depending on target choice, either a vector or data frame
-#' @export
 benchGetter <- function(target=c("id","benchmarks","profile","profilerun",
                                   "systemid","runid","file","runs", "timed_fun",
                                   "bench_version","meta","computetime"), 

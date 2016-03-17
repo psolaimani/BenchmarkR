@@ -45,7 +45,6 @@ ProfilerFactory <- function(fun, pkg, prc, typ = c("IO")) {
 #' @param timed_fun a data.frame containing all functions that should be timed. If empty returns NULL
 #' @usage addProfiler(timed_fun)
 #' @return override input functions in environment(ExecEnvironment)
-#' @export
 addProfiler <- function(timed_fun = NULL){
   if(is.null(timed_fun)) {
     warning("data.frame with function to be timed not provided.")

@@ -60,6 +60,7 @@ benchDBReport <- function( usr = NULL,
   
   # Get benchmarking/profiling data
   cur_bmrk <- benchGetter(target = "benchmarks")
+  UPDATE <- nrow(cur_bmrk) > 0
   cur_meta <- benchGetter(target = "meta")
   
   # Initiation database choice and connection state
@@ -114,7 +115,7 @@ benchDBReport <- function( usr = NULL,
     message("Connection to database established!") 
   }
   
-  if (CONNECTED) {
+  if (CONNECTED & UPDATE) {
     
     if (con_type == "sqlite") { 
       # adapted from:

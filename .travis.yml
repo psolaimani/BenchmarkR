@@ -28,6 +28,8 @@ env:
 # Support codecov
 r_github_packages:
   - mjkallen/rlogging
+  - bedatadriven/hamcrest
+  - rstudio/packrat
   - psolaimani/benchmarkR
 
 after_success:

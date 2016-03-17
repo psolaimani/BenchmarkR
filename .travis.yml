@@ -9,6 +9,7 @@ install:
   - ./travis-tool.sh install_github jimhester/covr
   - ./travis-tool.sh install_github rstudio/packrat
   - ./travis-tool.sh install_github bedatadriven/hamcrest
+  - ./travis-tool.sh install_github mjkallen/rlogging
   - ./travis-tool.sh install_r RSQLite
   - ./travis-tool.sh install_r RMySQL
   - ./travis-tool.sh install_r digest
@@ -26,6 +27,7 @@ env:
    
 # Support codecov
 r_github_packages:
+  - mjkallen/rlogging
   - psolaimani/benchmarkR
 
 after_success:

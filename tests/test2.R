@@ -49,4 +49,3 @@ assertTrue(inherits(update, "try-error"))
 update <- benchDBReport(db_name = system.file("extdata", "benchmarkR.db", package = "benchmarkR"), con_type = "sqlite")
 isSame <- update == "DB_UPDATED"
 assertTrue(isSame)
-assertFalse(is.null(update))

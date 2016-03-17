@@ -4,14 +4,16 @@
 #' @param target which information to retrieve 
 #'    \code{target}: 
 #'    \code{benchmarks}: returns table with all recorded benchmarks. 
-#'    \code{profile}: returns 'returnCol' from PROFILES where 'indexCol' == 'selectValue'. 
+#'    \code{profile}: returns 'retCol' from PROFILES where 'idxCol' == 'fltVal'. 
 #'    \code{profilerun}: returns PROFILES table subsetted with runId. 
 #'    \code{warnings}: returns ExecEnvironment$WARNINGS data.frame containing all warnings recorded. 
 #'    \code{systemid}: returns the unique systemId that is used to identify this system. 
-#' @param indexCol profiling records will be filtered based on content of this column
+#' @param idxCol profiling records will be filtered based on content of this column
 #' @param retCol content of this column will be returned after filtering
 #' @param fltVal this value will be compared to indexCol to filter profiling records
 #' @param fltRunId which runId to use for filtering profiling records
+#' @param file input R script to benchmark.
+#' @param runId character(18) long Id generated for this run.
 #' @return depending on target choice, either a vector or data frame
 benchGetter <- function(target=c("id","benchmarks","profile","profilerun",
                                   "systemid","runid","file","runs", "run_ok", "timed_fun",

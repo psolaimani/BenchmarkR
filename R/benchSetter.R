@@ -1,8 +1,8 @@
 #' setTiming
-#' @description updates .BenchEnv$BM data.frame by addition of given proccess duration
+#' @description updates .BenchEnv$BM data.frame by addition of given proccess duration.
 #' @param process name for the type of function (eg. READ, WRITE). 
-#' @param start start time process
-#' @param end end time process
+#' @param start start time process.
+#' @param end end time process.
 #' @param compute whether to substract timedFunctions from total time.
 #' @param run_ok did the process run without errors.
 #' Default is TRUE.

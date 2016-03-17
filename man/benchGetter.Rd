@@ -5,18 +5,20 @@
 \title{benchGetter}
 \usage{
 benchGetter(target = c("id", "benchmarks", "profile", "profilerun",
-  "systemid", "runid", "file", "runs", "timed_fun", "bench_version", "meta",
-  "computetime"), idxCol = NULL, retCol = NULL, fltVal = NULL,
+  "systemid", "runid", "file", "runs", "run_ok", "timed_fun", "bench_version",
+  "meta", "computetime"), idxCol = NULL, retCol = NULL, fltVal = NULL,
   fltRunId = NULL, file = NULL, runId = NULL)
 }
 \arguments{
 \item{target}{which information to retrieve 
 \code{target}: 
 \code{benchmarks}: returns table with all recorded benchmarks. 
-\code{profile}: returns 'returnCol' from PROFILES where 'indexCol' == 'selectValue'. 
+\code{profile}: returns 'retCol' from PROFILES where 'idxCol' == 'fltVal'. 
 \code{profilerun}: returns PROFILES table subsetted with runId. 
 \code{warnings}: returns ExecEnvironment$WARNINGS data.frame containing all warnings recorded. 
 \code{systemid}: returns the unique systemId that is used to identify this system.}
+
+\item{idxCol}{profiling records will be filtered based on content of this column}
 
 \item{retCol}{content of this column will be returned after filtering}
 
@@ -24,7 +26,9 @@ benchGetter(target = c("id", "benchmarks", "profile", "profilerun",
 
 \item{fltRunId}{which runId to use for filtering profiling records}
 
-\item{indexCol}{profiling records will be filtered based on content of this column}
+\item{file}{input R script to benchmark.}
+
+\item{runId}{character(18) long Id generated for this run.}
 }
 \value{
 depending on target choice, either a vector or data frame

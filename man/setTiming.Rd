@@ -4,22 +4,24 @@
 \alias{setTiming}
 \title{setTiming}
 \usage{
-setTiming(process, start, end, compute = TRUE)
+setTiming(process, start, end, compute = TRUE, run_ok = NULL)
 }
 \arguments{
 \item{process}{name for the type of function (eg. READ, WRITE).}
 
-\item{start}{start time process}
+\item{start}{start time process.}
 
-\item{end}{end time process}
+\item{end}{end time process.}
 
-\item{compute}{whether to substract timedFunctions from total time.
+\item{compute}{whether to substract timedFunctions from total time.}
+
+\item{run_ok}{did the process run without errors.
 Default is TRUE.}
 }
 \value{
 adds a record to .BenchEnv$BM data.frame
 }
 \description{
-updates .BenchEnv$BM data.frame by addition of given proccess duration
+updates .BenchEnv$BM data.frame by addition of given proccess duration.
 }
 

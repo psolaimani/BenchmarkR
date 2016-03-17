@@ -4,20 +4,24 @@
 \alias{benchDBReport}
 \title{benchDBReport}
 \usage{
-benchDBReport(usr, pwd, host_address, db_name, con_type)
+benchDBReport(usr, pwd, host_loc, conn_str, db_name, con_type, bench_log, warn_log)
 }
 \arguments{
-\item{usr}{database usrname}
+\item{usr}{database usrname. Default is \code{NULL}.}
 
-\item{host_loc}{IP address of the MySQL server}
+\item{pwd}{database password. Default is \code{NULL}.}
 
-\item{db_name}{database name}
+\item{host_loc}{IP address of the MySQL server. Default is \code{NULL}.}
+
+\item{conn_str}{a complete connection string (eg jdbc:mysql:127.0.0.1:36/myDatabase). Default is \code{NULL}.}
+
+\item{db_name}{database name. Default is \code{NULL}.}
 
 \item{con_type}{type of database (currently only mysql and sqlite supported)}
 
-\item{psw}{database password}
+\item{bench_log}{filename to use to store message/warning/errors. Default is "benchmark.log"}
 
-\item{con_str}{a complete connection string (eg jdbc:mysql:127.0.0.1:36/myDatabase)}
+\item{warn_log}{level of logging to use (choose from -1, "INFO", "WARN", "STOP". Default value is -1.}
 }
 \description{
 Uploads benchmarking/profiling results to a database. 

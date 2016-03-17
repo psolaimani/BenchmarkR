@@ -4,7 +4,7 @@
 \alias{runBenchmark}
 \title{runBenchmark}
 \usage{
-runBenchmark(runs, loc.src, dcf, timedFunFile)
+runBenchmark(runs, loc.src, dcf, timedFunFile, bench_log, warn_log)
 }
 \arguments{
 \item{runs}{number of runs for warming up. After warmup runs the workflow
@@ -19,6 +19,12 @@ is BENCHMARK.dcf}
 
 \item{timedFunFile}{file with functions to be profiled. Default is
 FUNCTION.PROFILE}
+
+\item{bench_log}{filename to use to store message/warning/errors.
+Default is "benchmark.log"}
+
+\item{warn_log}{level of logging to use (choose from -1, "INFO", "WARN", 
+"STOP". Default value is -1.}
 }
 \description{
 This function extracts benchmark information, and downloads the necessary data/packages.

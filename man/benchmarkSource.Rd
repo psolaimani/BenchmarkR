@@ -4,7 +4,7 @@
 \alias{benchmarkSource}
 \title{Simple Benchmark/Profiling Tool For R Scripts}
 \usage{
-benchmarkSource(file, timed_fun, runs, loc.src, uses_packrat)
+benchmarkSource(file, timed_fun, runs, loc.src, uses_packrat, bench_log, warn_log)
 }
 \arguments{
 \item{file}{R script to benchmark}
@@ -22,6 +22,12 @@ used package versions}
 
 \item{uses_packrat}{use if you have packified your script using packrat.
 Default is TRUE}
+
+\item{bench_log}{filename to use to store message/warning/errors.
+Default is "benchmark.log"}
+
+\item{warn_log}{level of logging to use (choose from -1, "INFO", "WARN", 
+"STOP". Default value is -1.}
 }
 \value{
 returns a dubble with running time of last benchmark

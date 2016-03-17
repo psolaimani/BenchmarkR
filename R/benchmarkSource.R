@@ -105,15 +105,17 @@ benchmarkSource <- function(        file,
   if (runs > 0) {
     run <- 0
     while (run < runs) {
-      source(file, local = .ExEnv, chdir = TRUE)
+      try ( source(file, local = .ExEnv, chdir = TRUE) )
       run <- run + 1
     }
   }
   
   # start timing benchmark
   B_start <- as.numeric(Sys.time())
-  source(file, local = .ExEnv , chdir = TRUE)
+  run_ok <- try ( source(file, local = .ExEnv , chdir = TRUE) )
   B_end <- as.numeric(Sys.time())
+  run_ok <- if(inherits(run_ok, "try-error")) "ERROR" else "OK"
+  assign("run_ok", run_ok, envir = .BenchEnv)
   
   # add BENCHMARK timing to timings of the script (and its components)
   setTiming(process ="BENCHMARK", start = B_start, end = B_end, compute = FALSE)

@@ -14,7 +14,7 @@
 #' @param fltRunId which runId to use for filtering profiling records
 #' @return depending on target choice, either a vector or data frame
 benchGetter <- function(target=c("id","benchmarks","profile","profilerun",
-                                  "systemid","runid","file","runs", "timed_fun",
+                                  "systemid","runid","file","runs", "run_ok", "timed_fun",
                                   "bench_version","meta","computetime"), 
                          idxCol = NULL, retCol = NULL, 
                          fltVal = NULL, fltRunId = NULL, 
@@ -81,6 +81,10 @@ benchGetter <- function(target=c("id","benchmarks","profile","profilerun",
     
     "runs" = {
       get( "runs", envir = .BenchEnv, mode = "numeric", inherits = FALSE )
+    },
+    
+    "run_ok" = {
+      get( "run_ok", envir = .BenchEnv, mode = "character", inherits = FALSE )
     },
     
     "bench_version" = {

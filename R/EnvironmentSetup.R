@@ -12,6 +12,7 @@
   end = numeric(0), 
   duration = numeric(0), 
   runs = numeric(0),
+  run_ok = character(0),
   stringsAsFactors = FALSE
 )
 

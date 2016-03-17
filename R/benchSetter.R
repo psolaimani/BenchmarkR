@@ -4,14 +4,16 @@
 #' @param start start time process
 #' @param end end time process
 #' @param compute whether to substract timedFunctions from total time.
+#' @param run_ok did the process run without errors.
 #' Default is TRUE.
 #' @return adds a record to .BenchEnv$BM data.frame
-setTiming <- function(process, start, end, compute = TRUE) {
+setTiming <- function(process, start, end, compute = TRUE, run_ok = NULL) {
   benchmarks <- benchGetter(target = "benchmarks")
   systemId   <- benchGetter(target = "systemid")
   runId      <- benchGetter(target = "runid")
   File       <- benchGetter(target = "file")
   bench_v    <- benchGetter(target = "bench_version", file = File)
+  if(is.null(run_ok)) run_ok <- benchGetter(target = "run_ok")
   runs       <- benchGetter(target = "runs")
   
   if (compute) {
@@ -32,6 +34,7 @@ setTiming <- function(process, start, end, compute = TRUE) {
       end = end,
       duration = duration,
       runs = runs,
+      run_ok = run_ok,
       stringsAsFactors = FALSE
     )
   )

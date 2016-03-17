@@ -27,26 +27,27 @@
 #' \code{value VARCHAR(32),}
 #' \code{PRIMARY KEY(systemId,variable))}
 #' 
-#' @usage benchDBReport(usr, pwd, host_address, db_name, con_type)
-#' @param usr database usrname
-#' @param psw database password
-#' @param host_loc IP address of the MySQL server
-#' @param con_str a complete connection string (eg jdbc:mysql:127.0.0.1:36/myDatabase)
-#' @param db_name database name
+#' @usage benchDBReport(usr, pwd, host_loc, conn_str, db_name, con_type, bench_log, warn_log)
+#' @param usr database usrname. Default is \code{NULL}.
+#' @param pwd database password. Default is \code{NULL}.
+#' @param host_loc IP address of the MySQL server. Default is \code{NULL}.
+#' @param conn_str a complete connection string (eg jdbc:mysql:127.0.0.1:36/myDatabase). Default is \code{NULL}.
+#' @param db_name database name. Default is \code{NULL}.
 #' @param con_type type of database (currently only mysql and sqlite supported)
+#' @param bench_log filename to use to store message/warning/errors. Default is "benchmark.log"
+#' @param warn_log level of logging to use (choose from -1, "INFO", "WARN", "STOP". Default value is -1.
 #' @import RMySQL RSQLite
 #' @export
-benchDBReport <- function(     usr = NULL, 
-                               pwd = NULL, 
-                          host_loc = NULL, 
-                          conn_str = NULL, 
-                           db_name = NULL, 
-                         bench_log = "benchmark.log",
-                          warn_log = c(-1,"INFO","WARN","STOP"),
-                          con_type = c("mysql","sqlite")) {
+benchDBReport <- function( usr = NULL, 
+                           pwd = NULL, 
+                           host_loc = NULL, 
+                           conn_str = NULL, 
+                           db_name = NULL,
+                           con_type = c("mysql","sqlite"), 
+                           bench_log = "benchmark.log",
+                           warn_log = c(-1,"INFO","WARN","STOP")) {
   
   # configure logging of the benchmark progress
-  require("rlogging")
   SetLogFile(bench_log)
   log_arg <- match.arg(warn_log)
   switch(log_arg,
@@ -77,19 +78,12 @@ benchDBReport <- function(     usr = NULL,
         warning("Missing connection information.")
       }
       
-      message("Loading RMySQL package.")
-      require(RMySQL)
-      
       message("Connecting to MySQL database.")
-      db <- try(conn <- dbConnect(RMySQL(), username = usr, password = pwd, 
-                                  conn_str), TRUE)
+      db <- try(conn <- dbConnect(MySQL(), username = usr, 
+                                  password = pwd, conn_str), TRUE)
       if (inherits(db, "try-error")) {
-        db <- try(conn <- dbConnect(MySQL(), username = usr, password = pwd, 
-                                    host = host_loc), TRUE)
-        if (inherits( db, "try-error")) {
-          warning(c("Could not connect to database.\n",
-                    "MySQL() and RMySQL() resulted in error!"))
-        }
+        warning(c("Could not connect to database.\n",
+                  "MySQL() and RMySQL() resulted in error!"))
       }
       
       conn
@@ -101,16 +95,10 @@ benchDBReport <- function(     usr = NULL,
         warning("SQLite database location not provided.")
       }
       
-      message("Loading RSQLite package.")
-      require(RSQLite)
-      
       message("Connecting to SQLite database.")
-      db <- try(conn <- dbConnect(RSQLite(), dbname = db_name), TRUE)
+      db <- try(conn <- dbConnect(SQLite(), dbname = db_name), TRUE)
       if (inherits(db, "try-error")) {
-        db <- try(conn <- dbConnect(SQLite(), dbname = db_name), TRUE)
-        if (inherits(db, "try-error")) {
-          warning("MySQL() and RMySQL() resulted in error!")
-        }
+        warning("MySQL() and RMySQL() resulted in error!")
       }
       
       conn
@@ -139,7 +127,7 @@ benchDBReport <- function(     usr = NULL,
       }
       
       message("Start adding records to BENCHMARKS table")
-      bench_sql <- "INSERT INTO BENCHMARKS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+      bench_sql <- "INSERT INTO BENCHMARKS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
       updated <- try(bulk_insert(bench_sql, cur_bmrk), TRUE)
       if (inherits(updated, "try-error")){
         warning("Error occured during writing benchmarks to SQLite database!")
@@ -159,28 +147,16 @@ benchDBReport <- function(     usr = NULL,
     } else {
       
       message("Start adding records to BENCHMARKS table")
-      bench_sql <- 
-        for (i in 1:nrow(cur_bmrk)) {
-          updated <- try(
-            dbSendQuery(conn,
-                        paste0("INSERT INTO BENCHMARKS VALUES ('",
-                               paste(cur_bmrk[i,], collapse = "','"), "');")
-            ), TRUE)
+          updated <- try( dbWriteTable(conn, "BENCHMARKS", cur_bmrk), TRUE)
           if (inherits(updated, "try-error")){
             warning("Error occured during writing benchmarks to database!")
           } else {
             message("Database benchmarks table updated!")
           }
-        }
       
       message("Start adding records to META table")
       for (i in 1:nrow(cur_meta)){
-        try(updated <- dbSendQuery(conn,
-                                   sprintf(
-                                     "INSERT INTO META VALUES 
-                                      ( \'%s\', \'%s\', \'%s\' );",
-                                     cur_meta[i,1], cur_meta[i,2], cur_meta[i,3]
-                                   )), TRUE)
+        try(updated <- dbWriteTable(conn, "META", cur_meta), TRUE)
         if (inherits(updated, "try-error")){
           warning("Error occured during writing meta to database!")
         } else {

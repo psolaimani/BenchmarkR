@@ -116,52 +116,21 @@ benchDBReport <- function( usr = NULL,
   
   if (CONNECTED) {
     
-    if (con_type == "sqlite") { 
-      # adapted from:
-      # http://www.inside-r.org/packages/cran/RSQLite/docs/dbSendPreparedQuery
-      #
-      bulk_insert <- function(sql, key_counts) { 
-        dbBegin(conn)
-        dbSendPreparedQuery(conn, sql, bind.data = key_counts)
-        dbCommit(conn)
-      }
-      
-      message("Start adding records to BENCHMARKS table")
-      bench_sql <- "INSERT INTO BENCHMARKS VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-      updated <- try(bulk_insert(bench_sql, cur_bmrk), TRUE)
+    message("Start adding records to BENCHMARKS table")
+    updated <- try( dbWriteTable(conn, "BENCHMARKS", cur_bmrk), TRUE)
+    if (inherits(updated, "try-error")){
+      warning("Error occured during writing benchmarks to database!")
+    } else {
+      message("Database benchmarks table updated!")
+    }
+    
+    message("Start adding records to META table")
+    for (i in 1:nrow(cur_meta)){
+      try(updated <- dbWriteTable(conn, "META", cur_meta), TRUE)
       if (inherits(updated, "try-error")){
-        warning("Error occured during writing benchmarks to SQLite database!")
-      } else {
-        message("Database benchmarks table updated!")
-      }
-      
-      message("Start adding records to META table")
-      meta_sql <- "INSERT INTO META VALUES (?, ?, ?)"
-      updated <- try(bulk_insert(meta_sql, cur_meta), TRUE)
-      if (inherits(updated, "try-error")){
-        warning("Error occured during writing meta to SQLite database!")
+        warning("Error occured during writing meta to database!")
       } else {
         message("Database meta table updated!")
-      }
-      
-    } else {
-      
-      message("Start adding records to BENCHMARKS table")
-          updated <- try( dbWriteTable(conn, "BENCHMARKS", cur_bmrk), TRUE)
-          if (inherits(updated, "try-error")){
-            warning("Error occured during writing benchmarks to database!")
-          } else {
-            message("Database benchmarks table updated!")
-          }
-      
-      message("Start adding records to META table")
-      for (i in 1:nrow(cur_meta)){
-        try(updated <- dbWriteTable(conn, "META", cur_meta), TRUE)
-        if (inherits(updated, "try-error")){
-          warning("Error occured during writing meta to database!")
-        } else {
-          message("Database meta table updated!")
-        }
       }
     }
   }

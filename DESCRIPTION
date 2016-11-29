@@ -5,7 +5,8 @@ Version: 1.01.1021
 Date: 2016-03-17
 Author: Parham Solaimani, Maarten-Jan Kallen, Alexander Bertram
 Maintainer: Parham Solaimani <parham@bedatadriven.com>
-Imports: packrat, digest, parallel, rlogging
+Imports: packrat, digest, parallel, RSQLite
+Suggests: rlogging
 Description: A simple benchmarking and profiling tool for R scripts.
 License: GPL-2
 LazyData: TRUE
